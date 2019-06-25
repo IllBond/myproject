@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Bird</title>
+</head>
+<body>
+	<h2>Управление - Нажмите пробел</h2>
+	<canvas id="canvas" width="288" height="512"></canvas>
+
+	<script>
+		var cvs = document.getElementById('canvas')
+		var ctx = cvs.getContext('2d')
+		var height = cvs.height
+		var width = cvs.width
+
+		var bird = new Image()
+		var bg = new Image()
+		var fg = new Image()
+		var pipeUp = new Image()
+		var pipeBottom = new Image()
+
+		var gap = 100;
+
+		document.addEventListener('keydown', function(event){
+			moveUp(event)
+		})
+		var xPos = 10;
+		var yPos = height/2;
+		var grav = 1.5;
+		var score = 0;
+
+		bird.src = 'flappy_bird_bird.png';
+		bg.src = 'flappy_bird_bg.png';
+		fg.src = 'flappy_bird_fg.png';
+		pipeUp.src = 'flappy_bird_pipeUp.png';
+		pipeBottom.src = 'flappy_bird_pipeBottom.png';
+
+		var fly = new Audio()
+		var scorech = new Audio()
+
+		fly.src = 'fly.mp3'
+		scorech.src = 'score.mp3'
+
+		function moveUp (event) {
+			if (event.keyCode == 32) {
+			// grav=-grav
+			yPos = yPos - 25
+			fly.pause();
+			fly.currentTime = 0.0;
+			fly.play()
+			}
+		}
+
+		var pipe = []
+
+		pipe[0] = {
+			x: width-50,
+			y:0
+		}
+
+		var draw = function() {
+			ctx.drawImage(bg,0,0, width, height)
+			for(var i = 0; i < pipe.length; i++){
+				ctx.drawImage(pipeUp, pipe[i].x, pipe[i].y)
+				ctx.drawImage(pipeBottom, pipe[i].x, pipe[i].y + pipeUp.height + gap)
+
+				pipe[i].x--
+
+				if (pipe[i].x == 100) {
+					pipe.push({
+						x: width,
+						y: Math.floor(Math.random()*pipeUp.height)-pipeUp.height
+					}) 
+				}
+
+				if (xPos + bird.width >= pipe[i].x 
+					&& xPos <= pipe[i].x  + bird.width 
+					&& (yPos <= pipe[i].y + pipeUp.height 
+						|| yPos + bird.height >= pipe[i].y + pipeUp.height + gap)) {
+					location.reload()
+				}
+
+				if (yPos + bird.height >= canvas.height - fg.height || yPos < 0) {
+					location.reload()
+				}
+
+				if (pipe[i].x == 10) {
+					score++
+					scorech.play()
+				}
+			}
+			
+			ctx.drawImage(fg, 0, height - fg.height)
+			ctx.drawImage(bird,xPos,yPos)
+			yPos = yPos + grav
+
+			ctx.fillStyle = 'White'
+			ctx.font = 'bold 30px inpact';
+			ctx.fillText('Ваш счет - '+score, 10, height-30) 
+			requestAnimationFrame(draw)
+
+		}
+		
+		// pipeBottom.onload = 
+
+		window.addEventListener('load', function(){
+	draw()
+})
+
+
+
+		
+
+	</script>
+</body>
+</html>

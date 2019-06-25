@@ -1,0 +1,13 @@
+body {
+	background: brown;
+	margin:0;
+	padding:0;
+}
+
+.wrapper {
+	margin: 0 auto;
+}
+
+canvas {
+	cursor: none;
+}
