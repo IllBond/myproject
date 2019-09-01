@@ -95,22 +95,26 @@
 					document.getElementById('game').innerHTML = 'Вы выбрали персонажа по имени: ' + img.nikita.name + `<div><img class='gamePers' src="${ img.nikita.img}" alt=""></div>`;
 					img.nikita.key = 'net';img.natasha.key = 'net';img.ilya.key = 'net';img.vitalik.key = 'net';
 					pers=img.nikita.img;
+					document.getElementById("delete").remove();
 
 			} else if (e.keyCode===img.natasha.key) {
 					document.getElementById('game').innerHTML = 'Вы выбрали персонажа по имени: ' + img.natasha.name + `<div><img class='gamePers' src="${ img.natasha.img}" alt=""></div>`;
 					img.nikita.key = 'net';img.natasha.key = 'net';img.ilya.key = 'net';img.vitalik.key = 'net';
-					pers=img.nikita.img
+					pers=img.nikita.img;
+					document.getElementById("delete").remove();
 			} else if (e.keyCode===img.ilya.key) {
 					document.getElementById('game').innerHTML = 'Вы выбрали персонажа по имени: ' + img.ilya.name + `<div><img class='gamePers' src="${ img.ilya.img}" alt=""></div>`;
 					img.nikita.key = 'net';img.natasha.key = 'net';img.ilya.key = 'net';img.vitalik.key = 'net';
-					pers=img.nikita.img
+					pers=img.nikita.img;
+					document.getElementById("delete").remove();
 			} else if (e.keyCode===img.vitalik.key) {
 					document.getElementById('game').innerHTML = 'Вы выбрали персонажа по имени: ' + img.vitalik.name + `<div><img class='gamePers' src="${ img.vitalik.img}" alt=""></div>`;
 					img.nikita.key = 'net';img.natasha.key = 'net';img.ilya.key = 'net';img.vitalik.key = 'net';
-					pers=img.nikita.img
+					pers=img.nikita.img;
+					document.getElementById("delete").remove();
 			}
 
-			document.getElementById("delete").remove();
+			
 
 		}
 
