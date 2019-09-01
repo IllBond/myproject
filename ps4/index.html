@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Для Никиты тест ps 4</title>
+</head>
+<body>
+	Внимание Никита. Надми кнопки в такой последовательности :
+	<h3>1. Крестик</h3>
+	<h3>2. Нолик</h3>
+	<h3>3. Треугольник</h3>
+	<h3>4. Квадратик</h3>
+	<h2>
+		<div id="add" style="color: red">
+		</div>
+	</h2>
+	<script>
+		document.addEventListener("keydown", (e)=>{
+			 getKey(e)
+		});
+
+		let arr = []
+
+		function getKey(e){
+			arr.push(e.keyCode)
+			document.getElementById('add').innerHTML = arr
+		}
+	</script>
+</body>
+</html>
