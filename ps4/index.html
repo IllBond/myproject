@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Для Никиты тест ps 4</title>
+	<style>
+		body {
+			overflow-y: hidden;
+		}
+		.field {
+			width: 900px;
+			height: 900px;
+			background-color: grey;
+			box-sizing: border-box;
+		}
+		.field div {
+			width: 300px;
+			height: 300px;
+			float: left;
+		}
+		#ni{
+			background: url(img/ni.jpg);
+			background-size: 100%;
+		}
+		#na{
+			background: url(img/na.jpg);
+			background-size: 100%;
+		}
+		#i{
+			background: url(img/i.jpg);
+			background-size: 100%;
+		}
+		#vi{
+			background: url(img/vit.jpg);
+			background-size: 100%;
+		}
+		#center{
+			background: url(img/arrow.png);
+			background-size: 100%;
+		}
+
+		.main {
+			box-sizing: border-box;
+		}
+
+		.f1 {
+			width: 1000px;
+			float: left;
+		}
+
+		.f2 {
+			width: 400px;
+			float: left;
+		}
+
+		.gamePers{
+			width: 200px;
+		}
+	</style>
+</head>
+<body>
+	<div style="text-align: center;" class="main" id="main">
+		<div class="field f1" id="delete">
+			<div class="black"></div><div id="ni"></div><div></div>
+			<div id="na"></div><div id='center'></div><div id="vi"></div>
+			<div></div><div id="i"></div><div></div>
+		</div>
+		<div class="f2">
+		<!-- 	<button>
+			Рекомендую нажать если не работает
+			</button> -->
+			<div id="game">
+				
+			</div>
+		</div>
+	</div>
+
+	<script>
+
+		let img = {
+			nikita: {key:38,img:'img/ni.jpg', name:"Никита"},
+			natasha: {key:37,img:'img/na.jpg', name:"Наташа"},
+			ilya: {key:40,img:'img/i.jpg', name:"Илья"},
+			vitalik: {key:39,img:'img/vit.jpg', name:"Виталик"},
+			center: 'img/arrow.png'
+		}
+
+		document.addEventListener("keydown", (e)=>{
+			 getKey(e)
+		});
+
+		let pers;
+		function getKey(e){
+			if (e.keyCode===img.nikita.key) {
+					document.getElementById('game').innerHTML = 'Вы выбрали персонажа по имени: ' + img.nikita.name + `<div><img class='gamePers' src="${ img.nikita.img}" alt=""></div>`;
+					img.nikita.key = 'net';img.natasha.key = 'net';img.ilya.key = 'net';img.vitalik.key = 'net';
+					pers=img.nikita.img;
+					document.getElementById("delete").remove();
+
+			} else if (e.keyCode===img.natasha.key) {
+					document.getElementById('game').innerHTML = 'Вы выбрали персонажа по имени: ' + img.natasha.name + `<div><img class='gamePers' src="${ img.natasha.img}" alt=""></div>`;
+					img.nikita.key = 'net';img.natasha.key = 'net';img.ilya.key = 'net';img.vitalik.key = 'net';
+					pers=img.nikita.img;
+					document.getElementById("delete").remove();
+			} else if (e.keyCode===img.ilya.key) {
+					document.getElementById('game').innerHTML = 'Вы выбрали персонажа по имени: ' + img.ilya.name + `<div><img class='gamePers' src="${ img.ilya.img}" alt=""></div>`;
+					img.nikita.key = 'net';img.natasha.key = 'net';img.ilya.key = 'net';img.vitalik.key = 'net';
+					pers=img.nikita.img;
+					document.getElementById("delete").remove();
+			} else if (e.keyCode===img.vitalik.key) {
+					document.getElementById('game').innerHTML = 'Вы выбрали персонажа по имени: ' + img.vitalik.name + `<div><img class='gamePers' src="${ img.vitalik.img}" alt=""></div>`;
+					img.nikita.key = 'net';img.natasha.key = 'net';img.ilya.key = 'net';img.vitalik.key = 'net';
+					pers=img.nikita.img;
+					document.getElementById("delete").remove();
+			}
+
+			
+
+		}
+
+	</script>
+</body>
+</html>
