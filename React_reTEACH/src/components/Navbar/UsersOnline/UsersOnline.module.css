@@ -1,0 +1,22 @@
+.all {
+    padding-top: 20px;
+ box-sizing: border-box;
+}
+.all div {
+    float: left;
+    width: 33%;
+
+}
+
+.all div div{
+    padding: 1px;
+}
+
+.all img{
+    width: 200%;
+
+}
+
+div span {
+    font-size: 10px;
+}

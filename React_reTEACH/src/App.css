@@ -1,0 +1,36 @@
+.app_grid {
+  display: grid;
+  grid-template-areas:
+          "header_grid header_grid"
+          "nav_grid content_grid";
+  grid-template-rows: 60px 1fr;
+  grid-template-columns: 150px 1fr;
+
+
+}
+.header_grid {
+  grid-area: header_grid;
+  background-color: #d4ffcb;
+}
+
+.nav_grid {
+  grid-area: nav_grid;
+  background-color: azure;
+}
+
+.content_grid {
+  grid-area: content_grid;
+  background-color: #fffcb4;
+}
+
+div #reduxInfo {
+  text-align: center;
+}
+
+#reduxInfo {
+  position: absolute;
+  display: inline-block;
+  z-index: 9999999;
+  width: 1000px;
+  min-height: 1000px;
+}

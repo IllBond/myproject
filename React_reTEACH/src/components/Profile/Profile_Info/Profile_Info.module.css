@@ -1,0 +1,12 @@
+.item {
+    margin-bottom: 20px;
+}
+
+.item > img {
+    width: 50px;
+}
+
+.citata {
+    max-width: 900px;
+    margin-left: 15px;
+}

@@ -1,0 +1,59 @@
+.dialogs {
+    box-sizing: border-box;
+    display: block;
+    padding: 10px;
+    width: 500px;
+}
+
+.dialogs_item {
+    display: block;
+    float: left;
+    width: 30%;
+
+}
+
+.messages_item {
+    display: block;
+    float: left;
+    width: 70%;
+
+}
+
+.dialog {
+    height: 100px;
+}
+
+.dialog a {
+    color: black;
+}
+
+.message {
+    box-sizing: border-box;
+    height: 100px;
+    padding: 15px;
+}
+
+.mne {
+    background-color: rgba(0, 172, 101, 0.36);
+    text-align: left;
+
+}
+
+.otMenya {
+    background-color: rgba(108, 10, 10, 0.72);
+    text-align: right;
+
+}
+
+.dialog .active {
+    color: gold;
+}
+
+.ava {
+    width: 50px;
+}
+
+.newMessage {
+    float: left;
+    margin-top: 15px;
+}

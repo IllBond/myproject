@@ -1,0 +1,12 @@
+.navbar_menu {
+    padding: 15px;
+}
+
+.items {
+    color: grey;
+    text-decoration: none;
+}
+
+.active {
+    color: gold
+}

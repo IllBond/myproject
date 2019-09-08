@@ -1,0 +1,19 @@
+.item {
+    margin-bottom: 20px;
+}
+
+.item > div > img {
+    width: 50px;
+}
+
+.likes {
+    width: 30px;
+}
+
+.post {
+    padding-bottom: 10px;
+}
+
+.likes {
+    width: 15px;
+}
