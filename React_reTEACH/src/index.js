@@ -3,23 +3,18 @@ import store from './redux/redux'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import StoreContext from './StoreContext'
 import {BrowserRouter} from "react-router-dom";
-
 import App from './App';
+import {Provider} from "react-redux";
 
-let renderThree = () => {
+
     ReactDOM.render(
         <BrowserRouter>
-            <StoreContext.Provider value={store}>
-                <App />
-            </StoreContext.Provider>
+            <Provider store={store}>
+                <App dialogsData={store.getState().dialogReducer.dialogsData}/>
+            </Provider>
         </BrowserRouter>, document.getElementById('root'));
-}
 
-renderThree()
-
-store.subscribe(renderThree)
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA

@@ -7,26 +7,36 @@ export const updateNewPostText = (text) => ({type: CHANGE_POST_FIELD, post: text
 
 let initialState = {
     postsData: [
-        {message: 'Кислотный дождь, берегитесь', dislikes: '1', likes: '23', id: '0'},
-        {message: 'Кислотный берегитесьдождь, ', dislikes: '7', likes: '3', id: '1'},
+        {message: 'Список покупок', dislikes: '1', likes: '23', id: '0'},
+        {message: 'Купить мороженко, ', dislikes: '7', likes: '3', id: '1'},
         {message: 'Купить килограмм отверток', dislikes: '2', likes: '2', id: '2'},
     ],
-    newPostField: '1'
+    newPostField: ''
 
 }
 
-const profileReducer = (state=initialState, action) => {
+const profileReducer = (state = initialState, action) => {
 
     switch (action.type) {
-        case ADD_POST:
-            let newPostField = state.newPostField;
-            let newPost = {message: newPostField, dislikes: '0', likes: '0', id: '3'};
-            state.postsData.push(newPost);
-            state.newPostField = '';
-            return state;
-        case CHANGE_POST_FIELD:
-            state.newPostField = action.post;
-            return state;
+        case ADD_POST: {
+            let message = state.newPostField;
+            let stateCopy = {
+                ...state,
+                newPostField: '',
+                postsData: [
+                    ...state.postsData,
+                    {message: message, dislikes: '0', likes: '0', id: '3'}],
+
+            };
+            return stateCopy;
+        }
+        case CHANGE_POST_FIELD: {
+            let stateCopy = {
+                ...state,
+                newPostField: action.post
+            };
+            return stateCopy;
+        }
         default:
             return state;
     }

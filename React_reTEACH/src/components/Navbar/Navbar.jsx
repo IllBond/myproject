@@ -2,15 +2,10 @@ import React from 'react';
 import s from './Navbar.module.css'
 import {NavLink} from "react-router-dom";
 import UsersOnline from "./UsersOnline/UsersOnline";
-import StoreContext from './../../StoreContext'
 
-let Navbar = () => {
-    return (
-        <StoreContext.Consumer>
-            {
-                (store) => {
-                    console.log(store.getState())
-                    return <nav className='nav_grid'>
+
+let Navbar = (props) => {
+    return <nav className='nav_grid'>
                         <div className={s.navbar_menu}>
 
                             <NavLink to="/profile" activeClassName={s.active} className={s.items}>
@@ -30,13 +25,12 @@ let Navbar = () => {
                             </NavLink>
 
                             <div>
-                                <UsersOnline dialogsData={store.getState().dialogReducer.dialogsData}/>
+                                <UsersOnline dialogsData={props.dialogsData}/>
                             </div>
                         </div>
                     </nav>
-                }
-            }
-        </StoreContext.Consumer>)
+
+
 }
 
 export default Navbar;

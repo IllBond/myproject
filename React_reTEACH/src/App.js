@@ -6,13 +6,13 @@ import Profile from "./components/Profile/Profile";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import {Route} from "react-router-dom";
 
-function App() {
+function App(props) {
     return (
 
             <div className='app_grid'>
 
                 <Header/>
-                <Navbar/>
+                <Navbar dialogsData={props.dialogsData}/>
                 <div className='content_grid'>
                     <Route path='/profile' component={() => <Profile />}/>
                     <Route path='/messages' component={() => <DialogsContainer />}/>

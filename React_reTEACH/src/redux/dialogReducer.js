@@ -7,7 +7,7 @@ export const addMessageActionCreator = () => ({type: ADD_MESSAGE});
 export const updateNewMessageText = (text) => ({type: CHANGE_MESSAGE_FIELD, post: text});
 export const updateNewMessageNameText = (text) => ({type: CHANGE_NAME_MESSAGE_FIELD, post: text});
 
-let initialState= {
+let initialState = {
     dialogsData: [
         {id: '1', name: 'Илья', img: 'http://www.raskraska.com/catalog0001/9182.gif'},
         {id: '2', name: 'Вася', img: 'http://www.raskraska.com/catalog0001/9182.gif'},
@@ -28,29 +28,41 @@ let initialState= {
     newMessageNameField: '2f',
 }
 
-const dialogReducer = (state=initialState, action) => {
+const dialogReducer = (state = initialState, action) => {
 
     switch (action.type) {
-        case ADD_MESSAGE:
+        case ADD_MESSAGE: {
             let newMessageFieldName = state.newMessageNameField;
             let newMessageField = state.newMessageField;
-            let newMessageName = {
-                id: '1',
-                name: newMessageFieldName,
-                img: 'http://www.raskraska.com/catalog0001/9182.gif'
-            };
-            let newMessage = {id: 6, message: newMessageField, sost: false};
-            state.dialogsData.push(newMessageName);
-            state.messageData.push(newMessage);
-            state.newMessageField = '';
-            state.newMessageNameField = '';
-            return state;
-        case CHANGE_MESSAGE_FIELD:
-            state.newMessageField = action.post;
-            return state;
-        case CHANGE_NAME_MESSAGE_FIELD:
-            state.newMessageNameField = action.post;
-            return state;
+            return {
+                ...state,
+                dialogsData: [...state.dialogsData, {
+                    id: '1',
+                    name: newMessageFieldName,
+                    img: 'http://www.raskraska.com/catalog0001/9182.gif'
+                }],
+                messageData: [...state.messageData, {
+                    id: 6,
+                    message: newMessageField,
+                    sost: false
+                }],
+                newMessageField: '',
+                newMessageNameField: ''
+            }
+        }
+        case CHANGE_MESSAGE_FIELD: {
+            return {
+                ...state,
+                newMessageField: action.post
+            }
+
+        }
+        case CHANGE_NAME_MESSAGE_FIELD: {
+            return {
+                ...state,
+                newMessageNameField: action.post
+            }
+        }
         default:
             return state
     }

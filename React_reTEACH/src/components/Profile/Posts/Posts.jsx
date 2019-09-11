@@ -10,12 +10,11 @@ let Posts = (props) => {
     }
 
     let ChangePostFiel = (e) => {
-
-        props.ChangePostFiel(e.target.value)
+        props.ChangePostField(e.target.value)
     }
 
     let new_postData = props.postsDate.map((element)=>{
-        return <MyPosts id={element.id} dislikes={element.dislikes}  likes={element.likes} message={element.message}/>
+        return <MyPosts id={element.id} dislikes={element.dislikes} key={element.id} likes={element.likes} message={element.message}/>
     })
 
     return <div className={s.posts}>
@@ -23,7 +22,8 @@ let Posts = (props) => {
         <div className={s.form}>
             <h4>А тут можно написать пост</h4>
             <div>
-                <textarea onChange={ChangePostFiel}  cols="30" rows="2">{props.newPostField}</textarea>
+                <div>{props.newPostField}</div>
+                <textarea onChange={ChangePostFiel}  cols="30" rows="2" value={props.newPostField}/>
             </div>
             <div>
                 <button onClick={showValTextArea}>Отправить</button>
