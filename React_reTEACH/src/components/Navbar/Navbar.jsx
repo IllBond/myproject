@@ -23,6 +23,9 @@ let Navbar = (props) => {
                             <NavLink to="/settings" activeClassName={s.active} className={s.items}>
                                 <div>Настройки</div>
                             </NavLink>
+                            <NavLink to="/users" activeClassName={s.active} className={s.items}>
+                                <div>Пользователи</div>
+                            </NavLink>
 
                             <div>
                                 <UsersOnline dialogsData={props.dialogsData}/>
