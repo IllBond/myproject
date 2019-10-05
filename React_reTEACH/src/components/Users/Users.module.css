@@ -1,0 +1,25 @@
+.page {
+    width: 100%;
+}
+
+.page span {
+     font-size: 16px;
+     margin-right: 5px;
+     float: left;
+ }
+
+.page span:last-child {
+    float: none;
+}
+
+.page_select {
+    color: brown;
+    font-weight: 800;
+}
+
+.user {
+    padding-bottom: 50px;
+}
+.user img {
+    width: 100px;
+}

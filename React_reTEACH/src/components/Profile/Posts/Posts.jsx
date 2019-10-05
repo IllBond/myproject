@@ -5,6 +5,8 @@ import MyPosts from "./MyPosts/MyPosts";
 
 let Posts = (props) => {
 
+    
+
     let showValTextArea = () => {
         props.showValTextArea()
     }
