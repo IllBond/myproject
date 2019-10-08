@@ -3,13 +3,15 @@ const UNFOLLOW = 'UNFOLLOW';
 const SETUSERS = 'SETUSERS';
 const SETCURRENTPAGE = 'SETCURRENTPAGE';
 const SETUSERCOUNT= 'SETUSERCOUNT';
+const TOGLEPRELOADER= 'TOGLEPRELOADER';
 
 
 export const follow = (id) => ({type: FOLLOW, id: id});
 export const unfollow = (id) => ({type: UNFOLLOW, id: id});
-export const setusers = (obj) => ({type: SETUSERS, obj: obj});
+export const setUsers = (obj) => ({type: SETUSERS, obj: obj});
 export const setCurentPage = (page) => ({type: SETCURRENTPAGE, page});
 export const setUserCount = (users) => ({type: SETUSERCOUNT, users});
+export const ToglePreloader = (boolean) => ({type: TOGLEPRELOADER, boolean});
 
 
 let initialState = {
@@ -17,6 +19,7 @@ let initialState = {
     PageSize: 5,
     TotalUserSize: 0,
     CurrentPage: 1,
+    ToglePreloader: true
 };
 
 const usersReducer = (state = initialState, action) => {
@@ -26,7 +29,7 @@ const usersReducer = (state = initialState, action) => {
             return {
                 ...state,
                 UsersDate: state.UsersDate.map((e) => {
-                    if (e.id == action.id) {
+                    if (e.id === action.id) {
                         return {...e, folowed: true}
                     } else {
                        return e
@@ -63,6 +66,12 @@ const usersReducer = (state = initialState, action) => {
             return {
                 ...state,
                 TotalUserSize:  action.users
+            }
+        }
+        case TOGLEPRELOADER: {
+            return {
+                ...state,
+                ToglePreloader:  action.boolean
             }
         }
         default:

@@ -24,7 +24,7 @@ let Posts = (props) => {
         <div className={s.form}>
             <h4>А тут можно написать пост</h4>
             <div>
-                <div>{props.newPostField}</div>
+
                 <textarea onChange={ChangePostFiel}  cols="30" rows="2" value={props.newPostField}/>
             </div>
             <div>

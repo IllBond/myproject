@@ -1,9 +1,12 @@
 const ADD_POST = 'ADD_POST';
 const CHANGE_POST_FIELD = 'CHANGE_POST_FIELD';
-
+const SETUSERPROFILE =  'SETUSERPROFILE'
+const TOGLEPRELOADER= 'TOGLEPRELOADER';
 
 export const addPostActionCreator = () => ({type: ADD_POST});
 export const updateNewPostText = (text) => ({type: CHANGE_POST_FIELD, post: text});
+export const setProfile = (data) => ({type: SETUSERPROFILE, post: data});
+export const ToglePreloader = (boolean) => ({type: TOGLEPRELOADER, boolean});
 
 let initialState = {
     postsData: [
@@ -11,7 +14,10 @@ let initialState = {
         {message: 'Купить мороженко, ', dislikes: '7', likes: '3', id: '1'},
         {message: 'Купить килограмм отверток', dislikes: '2', likes: '2', id: '2'},
     ],
-    newPostField: ''
+    newPostField: '',
+    data: null,
+    ToglePreloader: true
+
 
 }
 
@@ -20,7 +26,7 @@ const profileReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_POST: {
             let message = state.newPostField;
-            let stateCopy = {
+            return {
                 ...state,
                 newPostField: '',
                 postsData: [
@@ -28,14 +34,23 @@ const profileReducer = (state = initialState, action) => {
                     {message: message, dislikes: '0', likes: '0', id: '3'}],
 
             };
-            return stateCopy;
         }
         case CHANGE_POST_FIELD: {
-            let stateCopy = {
+            return  {
                 ...state,
                 newPostField: action.post
-            };
-            return stateCopy;
+            }
+        }
+        case SETUSERPROFILE: {
+            return {...state,
+                data: action.post
+            }
+        }
+        case TOGLEPRELOADER: {
+            return {
+                ...state,
+                ToglePreloader:  action.boolean
+            }
         }
         default:
             return state;
