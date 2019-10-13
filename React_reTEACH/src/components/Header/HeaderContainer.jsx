@@ -19,8 +19,6 @@ class HeaderContainerApi extends React.Component {
         )
     }
     render () {
-        console.log(this.props.isTogle);
-
         return <Header isAuth={this.props.isAuth} login={this.props.login} ToglePreloader={this.props.isTogle} />
     }
 }

@@ -2,20 +2,27 @@ import React from 'react';
 
 import {connect} from "react-redux";
 import Users from "./Users";
-import {follow, unfollow, setUsers, setCurentPage, setUserCount, ToglePreloader} from "../../redux/UsersReducer";
-import axios from "axios/index";
+import {
+    follow,
+    unfollow,
+    setUsers,
+    setCurentPage,
+    setUserCount,
+    ToglePreloader,
+    ButtonDisableAC
+} from "../../redux/UsersReducer";
+import {getUserApi} from "../../API/API";
 
 
 class UsersApiContainer extends React.Component {
 
     componentDidMount() {
         this.props.ToglePreloader(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.usersReducer.CurrentPage}&count=${this.props.usersReducer.PageSize}`).then(
+        getUserApi.getUsers(this.props.usersReducer.CurrentPage, this.props.usersReducer.PageSize).then(
             response => {
-
                 this.props.ToglePreloader(false);
-                this.props.setUsers(response.data.items);
-                this.props.setUserCount(response.data.totalCount)
+                this.props.setUsers(response.items);
+                this.props.setUserCount(response.totalCount)
             }
         )
     }
@@ -23,10 +30,10 @@ class UsersApiContainer extends React.Component {
     setNewPage = (pageNumber) => {
         this.props.ToglePreloader(true);
         this.props.setCurentPage(pageNumber);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.usersReducer.PageSize}`).then(
+        getUserApi.getUsers(pageNumber, this.props.usersReducer.PageSize).then(
             response => {
                 this.props.ToglePreloader(false);
-                this.props.setUsers(response.data.items);
+                this.props.setUsers(response.items);
             }
         )
     }
@@ -40,12 +47,14 @@ class UsersApiContainer extends React.Component {
             page.push(i)
         }
 
-                return <Users unfollow={this.props.unfollow}
+        return <Users unfollow={this.props.unfollow}
                       follow={this.props.follow}
+                      ButtonDisableAC={this.props.ButtonDisableAC}
                       CurrentPage={this.props.usersReducer.CurrentPage}
                       UsersDate={this.props.usersReducer.UsersDate}
                       setNewPage={this.setNewPage}
                       ToglePreloader={this.props.usersReducer.ToglePreloader}
+                      ButtonDisable={this.props.usersReducer.ButtonDisable}
                       page={page}
         />
     }
@@ -58,14 +67,14 @@ let mapStateToProps = (state) => {
 }
 
 
-
 let UsersContainer = connect(mapStateToProps, {
     follow,
     unfollow,
     setUsers,
     setCurentPage,
     setUserCount,
-    ToglePreloader
+    ToglePreloader,
+    ButtonDisableAC
 })(UsersApiContainer)
 
 export default UsersContainer
