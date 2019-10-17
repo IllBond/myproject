@@ -1,8 +1,24 @@
+import {getUserApi} from "../API/API";
+
 const SETAUTH = 'SETAUTH';
 const TOGLEPRELOADER= 'TOGLEPRELOADER';
 
 export const setAuth = (data) => ({type: SETAUTH, data: data});
 export const ToglePreloader = (boolean) => ({type: TOGLEPRELOADER, boolean});
+
+export const authThunk = () =>{
+    return (dispatch)=>{
+        dispatch(ToglePreloader(true))
+        getUserApi.authAPI().then(
+            response => {
+                dispatch(ToglePreloader(false))
+                if (response.resultCode === 0) {
+                    dispatch(setAuth(response.data))
+                }
+            }
+        )
+    }
+}
 
 let initialState = {
     id: null,

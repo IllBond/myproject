@@ -9,33 +9,19 @@ import {
     setCurentPage,
     setUserCount,
     ToglePreloader,
-    ButtonDisableAC
+    ButtonDisableAC, getUsers, getUsersThunk, setNewPageThunk, unfollowThunk, followThunk
 } from "../../redux/UsersReducer";
-import {getUserApi} from "../../API/API";
+
 
 
 class UsersApiContainer extends React.Component {
 
     componentDidMount() {
-        this.props.ToglePreloader(true);
-        getUserApi.getUsers(this.props.usersReducer.CurrentPage, this.props.usersReducer.PageSize).then(
-            response => {
-                this.props.ToglePreloader(false);
-                this.props.setUsers(response.items);
-                this.props.setUserCount(response.totalCount)
-            }
-        )
+        this.props.getUsersThunk(this.props.usersReducer.CurrentPage, this.props.usersReducer.PageSize)
     }
 
     setNewPage = (pageNumber) => {
-        this.props.ToglePreloader(true);
-        this.props.setCurentPage(pageNumber);
-        getUserApi.getUsers(pageNumber, this.props.usersReducer.PageSize).then(
-            response => {
-                this.props.ToglePreloader(false);
-                this.props.setUsers(response.items);
-            }
-        )
+        this.props.setNewPageThunk(pageNumber, this.props.usersReducer.PageSize)
     }
 
 
@@ -47,6 +33,7 @@ class UsersApiContainer extends React.Component {
             page.push(i)
         }
 
+
         return <Users unfollow={this.props.unfollow}
                       follow={this.props.follow}
                       ButtonDisableAC={this.props.ButtonDisableAC}
@@ -56,6 +43,8 @@ class UsersApiContainer extends React.Component {
                       ToglePreloader={this.props.usersReducer.ToglePreloader}
                       ButtonDisable={this.props.usersReducer.ButtonDisable}
                       page={page}
+                      followThunk={this.props.followThunk}
+                      unfollowThunk={this.props.unfollowThunk}
         />
     }
 }
@@ -74,7 +63,11 @@ let UsersContainer = connect(mapStateToProps, {
     setCurentPage,
     setUserCount,
     ToglePreloader,
-    ButtonDisableAC
+    ButtonDisableAC,
+    getUsersThunk,
+    setNewPageThunk,
+    unfollowThunk,
+    followThunk
 })(UsersApiContainer)
 
 export default UsersContainer
