@@ -9,9 +9,14 @@ import {
     setCurentPage,
     setUserCount,
     ToglePreloader,
-    ButtonDisableAC, getUsers, getUsersThunk, setNewPageThunk, unfollowThunk, followThunk
+    ButtonDisableAC,
+    getUsersThunk,
+    setNewPageThunk,
+    unfollowThunk,
+    followThunk
 } from "../../redux/UsersReducer";
-
+import {withAuthRedirect} from "../HOC/withAuthReirect";
+import {compose} from "redux";
 
 
 class UsersApiContainer extends React.Component {
@@ -22,17 +27,14 @@ class UsersApiContainer extends React.Component {
 
     setNewPage = (pageNumber) => {
         this.props.setNewPageThunk(pageNumber, this.props.usersReducer.PageSize)
-    }
-
+    };
 
     render() {
         let pageCount = Math.ceil(this.props.usersReducer.TotalUserSize / this.props.usersReducer.PageSize);
-
         let page = [];
         for (let i = 1; i <= pageCount; i++) {
             page.push(i)
         }
-
 
         return <Users unfollow={this.props.unfollow}
                       follow={this.props.follow}
@@ -56,18 +58,11 @@ let mapStateToProps = (state) => {
 }
 
 
-let UsersContainer = connect(mapStateToProps, {
-    follow,
-    unfollow,
-    setUsers,
-    setCurentPage,
-    setUserCount,
-    ToglePreloader,
-    ButtonDisableAC,
-    getUsersThunk,
-    setNewPageThunk,
-    unfollowThunk,
-    followThunk
-})(UsersApiContainer)
-
-export default UsersContainer
+export default compose(connect(mapStateToProps, {
+        follow, unfollow, setUsers,
+        setCurentPage, setUserCount, ToglePreloader,
+        ButtonDisableAC, getUsersThunk, setNewPageThunk,
+        unfollowThunk, followThunk
+    }),
+    withAuthRedirect
+)(UsersApiContainer)

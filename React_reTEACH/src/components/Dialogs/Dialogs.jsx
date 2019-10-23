@@ -2,10 +2,14 @@ import React from 'react';
 import s from './Dialogs.module.css'
 import Message from "./MessageItem/MessageItem";
 import Dialog from "./DialogItem/DialogItem";
+import Redirect from "react-router-dom/es/Redirect";
 
 
 
 let Dialogs = (props) => {
+
+
+
 
     let new_dialogsData = props.state.dialogsData.map((element) => {
         return <Dialog name={element.name} id={element.id} key={element.id} img={element.img}/>

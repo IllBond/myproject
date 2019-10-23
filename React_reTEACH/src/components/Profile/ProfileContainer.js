@@ -2,37 +2,40 @@ import React from 'react';
 import {connect} from "react-redux";
 import axios from "axios/index";
 import Profile from "./Profile";
-import {setProfile, ToglePreloader} from "../../redux/profileReducer";
+import {
+    getProfileDataThunk,
+    setProfile,
+    setStatusThunk,
+    ToglePreloader,
+    updateStatusThunk
+} from "../../redux/profileReducer";
 import {withRouter} from "react-router-dom";
+import {withAuthRedirect} from "../HOC/withAuthReirect";
+import {compose} from "redux";
 
 
 class ProfileAPI extends React.Component {
 
     componentDidMount() {
-        let userID = this.props.match.params.profileID
-        if (!userID) userID = 2;
-        this.props.ToglePreloader(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${userID}`).then(
-            response => {
-                this.props.ToglePreloader(false);
-                this.props.setProfile(response.data);
-            }
-        )
+        let userID = this.props.match.params.profileID;
+        if (!userID) userID = 1456;
+        this.props.getProfileDataThunk(userID);
+        this.props.setStatusThunk(userID);
     }
 
+
+
     render() {
-        console.log(this.props)
-        return <Profile {...this.props.data} />
+        return <Profile {...this.props.data} updateStatusThunk={this.props.updateStatusThunk} />
     }
 }
 
 let mapStateToProps = (state) => ({
-    data: state.profileReducer,
-});
+    data: state.profileReducer
+})
 
-
-
-
-let ProfileContainer = connect(mapStateToProps, {setProfile, ToglePreloader})(withRouter(ProfileAPI));
-
-export default ProfileContainer
+export default compose(
+    connect(mapStateToProps, {setProfile, ToglePreloader, getProfileDataThunk, setStatusThunk, updateStatusThunk}),
+    withAuthRedirect,
+    withRouter
+)(ProfileAPI)

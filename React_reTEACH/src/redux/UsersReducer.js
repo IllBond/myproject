@@ -116,6 +116,7 @@ export const setNewPageThunk = (pageNumber, PageSize) => {
             response => {
                 dispatch(ToglePreloader(false))
                 dispatch(setUsers(response.items))
+
             }
         )
     }
@@ -123,7 +124,7 @@ export const setNewPageThunk = (pageNumber, PageSize) => {
 
 export const followThunk = (id) => {
     return (dispatch) => {
-        dispatch(ButtonDisableAC(true, id))
+        dispatch(ButtonDisableAC(true, id));
         getUserApi.postUsers(id)
             .then(response => {
                 if (response.resultCode === 0) {
@@ -136,7 +137,7 @@ export const followThunk = (id) => {
 
 export const unfollowThunk = (id) => {
     return (dispatch) => {
-        dispatch(ButtonDisableAC(true, id))
+        dispatch(ButtonDisableAC(true, id));
         getUserApi.deleteUsers(id)
             .then(response => {
                 if (response.resultCode === 0) {

@@ -2,7 +2,7 @@ import React from 'react';
 import s from './Users.module.css'
 import Prelaoder from "../Preloader/Preloader";
 import {NavLink} from "react-router-dom";
-import {getUserApi} from "../../API/API";
+
 
 let Users = (props) => {
 

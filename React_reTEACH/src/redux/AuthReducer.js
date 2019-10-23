@@ -1,4 +1,4 @@
-import {getUserApi} from "../API/API";
+import {authAPI, getUserApi} from "../API/API";
 
 const SETAUTH = 'SETAUTH';
 const TOGLEPRELOADER= 'TOGLEPRELOADER';
@@ -9,7 +9,7 @@ export const ToglePreloader = (boolean) => ({type: TOGLEPRELOADER, boolean});
 export const authThunk = () =>{
     return (dispatch)=>{
         dispatch(ToglePreloader(true))
-        getUserApi.authAPI().then(
+        authAPI.authAPI().then(
             response => {
                 dispatch(ToglePreloader(false))
                 if (response.resultCode === 0) {

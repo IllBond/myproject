@@ -16,7 +16,7 @@ export const getUserApi = {
                 return response.data
             })
     },
-    postUsers(id){
+    postUsers(id) {
         return instance.post(`follow/${id}`)
             .then(response => {
                 return response.data
@@ -28,15 +28,38 @@ export const getUserApi = {
                 return response.data
             })
     },
-    authAPI(){
+
+}
+
+export const authAPI = {
+    authAPI() {
         return instance.get(`auth/me`)
             .then(
-            response => {
-                return response.data
-            }
-        )
+                response => {
+                    return response.data
+                }
+            )
     }
 }
+
+export const profileAPI = {
+    setProfileData(userID) {
+        return instance.get(`profile/${userID}`)
+            .then(response => {
+                return response
+            })
+    },
+    getStatus(userID) {
+        return instance.get(`profile/status/${userID}`)
+            .then(response => {
+                return response
+            })
+    },
+    updateStatus(status) {
+        return instance.put(`profile/status`, {status: status})
+    }
+}
+
 
 
 

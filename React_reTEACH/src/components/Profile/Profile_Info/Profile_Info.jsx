@@ -1,20 +1,26 @@
 import React from 'react';
 import s from './Profile_Info.module.css'
 import Prelaoder from "../../Preloader/Preloader";
+import ProfileStatus from "./../ProfileStatus";
+import {updateStatusThunk} from "../../../redux/profileReducer";
+
 
 let Profile_Info = (props) => {
 
-    if (props.data === null) {
+    if (props.data === null || props.data === undefined) {
         return <Prelaoder ToglePreloader={props.ToglePreloader}/>
     } else {
         return <div className={s.item}>
             <div>
-                <img src={props.data.photos.large ? props.data.photos.large : 'https://www.dhresource.com/260x260s/f2-albu-g6-M00-6A-38-rBVaSFtUfcmAaGFBAAL1sa0Ucss770.jpg/hot-sall-wonder-woman-shield-logo-iron-on.jpg'} alt=""/>
+                <img
+                    src={props.data.photos.large ? props.data.photos.large : 'https://www.dhresource.com/260x260s/f2-albu-g6-M00-6A-38-rBVaSFtUfcmAaGFBAAL1sa0Ucss770.jpg/hot-sall-wonder-woman-shield-logo-iron-on.jpg'}
+                    alt=""/>
             </div>
             <div className={s.citata}>
-                {<div><strong>Вы говорите</strong>, <div>{props.data.aboutMe}</div></div>}
+                <div><strong>Вы говорите</strong>, <div>{props.data.aboutMe ? props.data.aboutMe : 'Ничего вы не говорите...'}</div></div>
+                    <ProfileStatus status={props.status} updateStatusThunk={props.updateStatusThunk}/>
             </div>
-            <Prelaoder ToglePreloader={props.ToglePreloader} />
+            <Prelaoder ToglePreloader={props.ToglePreloader}/>
         </div>
     }
 

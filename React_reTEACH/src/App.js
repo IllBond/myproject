@@ -6,8 +6,10 @@ import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import UsersContainer from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
+import Login from "./components/Login/login";
 
 function App(props) {
+
     return (
 
             <div className='app_grid'>
@@ -17,6 +19,7 @@ function App(props) {
                     <Route path='/profile/:profileID?' component={() => <ProfileContainer />}/>
                     <Route path='/messages' component={() => <DialogsContainer />}/>
                     <Route path='/users' component={() => <UsersContainer />}/>
+                    <Route path='/login' component={() => <Login />}/>
                 </div>
             </div>
 

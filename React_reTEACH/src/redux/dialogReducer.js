@@ -24,8 +24,8 @@ let initialState = {
         {id: '5', message: 'Ну и ладно до свидос!', sost: false},
         {id: '6', message: '...', sost: true},
     ],
-    newMessageField: '1',
-    newMessageNameField: '2f',
+    newMessageField: '',
+    newMessageNameField: '',
 }
 
 const dialogReducer = (state = initialState, action) => {
