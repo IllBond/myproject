@@ -2,7 +2,6 @@ import React from 'react';
 import s from './Profile_Info.module.css'
 import Prelaoder from "../../Preloader/Preloader";
 import ProfileStatus from "./../ProfileStatus";
-import {updateStatusThunk} from "../../../redux/profileReducer";
 
 
 let Profile_Info = (props) => {

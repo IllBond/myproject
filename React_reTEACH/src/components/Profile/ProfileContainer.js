@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from "react-redux";
-import axios from "axios/index";
 import Profile from "./Profile";
 import {
     getProfileDataThunk,
@@ -12,30 +11,37 @@ import {
 import {withRouter} from "react-router-dom";
 import {withAuthRedirect} from "../HOC/withAuthReirect";
 import {compose} from "redux";
+import {AuthReducerSelector, profileReducerSelector} from "../../redux/profile-selector";
 
 
 class ProfileAPI extends React.Component {
 
     componentDidMount() {
         let userID = this.props.match.params.profileID;
-        if (!userID) userID = 1456;
+
+        if (!userID) {
+            userID = this.props.AuthReducerID
+            if (!userID) {
+                this.props.history.push('/users') //редирект на юсерс
+            };
+        };
         this.props.getProfileDataThunk(userID);
         this.props.setStatusThunk(userID);
     }
 
 
-
     render() {
         return <Profile {...this.props.data} updateStatusThunk={this.props.updateStatusThunk} />
-    }
+    } 
 }
 
-let mapStateToProps = (state) => ({
-    data: state.profileReducer
-})
+let mapStateToProps = (state) => {return {
+    data: profileReducerSelector(state),
+    AuthReducerID: AuthReducerSelector(state)
+}};
 
 export default compose(
     connect(mapStateToProps, {setProfile, ToglePreloader, getProfileDataThunk, setStatusThunk, updateStatusThunk}),
-    withAuthRedirect,
+    //withAuthRedirect,    // withAuthRedirect // Наш хок который редиректит на страницу логина
     withRouter
 )(ProfileAPI)

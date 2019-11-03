@@ -64,5 +64,5 @@ export default compose(connect(mapStateToProps, {
         ButtonDisableAC, getUsersThunk, setNewPageThunk,
         unfollowThunk, followThunk
     }),
-    withAuthRedirect
+   // withAuthRedirect // Наш хок который редиректит на страницу логина
 )(UsersApiContainer)

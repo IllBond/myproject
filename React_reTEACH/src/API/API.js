@@ -28,8 +28,7 @@ export const getUserApi = {
                 return response.data
             })
     },
-
-}
+};
 
 export const authAPI = {
     authAPI() {
@@ -39,6 +38,25 @@ export const authAPI = {
                     return response.data
                 }
             )
+    },
+    auth(data) {
+        return instance.post(`/auth/login/`, {
+            email: data.email,
+            password: data.password,
+            rememberMe: data.rememberMe,
+            captcha: data.captcha
+        }).then(
+            response => {
+                return response.data
+            }
+        )
+    },
+    logOut() {
+        return instance.delete(`/auth/login/`).then(
+            response => {
+                return response.data
+            }
+        )
     }
 }
 

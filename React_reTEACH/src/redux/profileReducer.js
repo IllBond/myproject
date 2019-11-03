@@ -1,13 +1,12 @@
 import {profileAPI} from "../API/API";
 
+
 const ADD_POST = 'ADD_POST';
-const CHANGE_POST_FIELD = 'CHANGE_POST_FIELD';
 const SETUSERPROFILE =  'SETUSERPROFILE'
 const TOGLEPRELOADER = 'TOGLEPRELOADER';
 const SET_STATUS = 'SET_STATUS'
 
-export const addPostActionCreator = () => ({type: ADD_POST});
-export const updateNewPostText = (text) => ({type: CHANGE_POST_FIELD, post: text});
+export const addPostActionCreator = (text) => ({type: ADD_POST,text: text});
 export const setProfile = (data) => ({type: SETUSERPROFILE, post: data});
 export const ToglePreloader = (boolean) => ({type: TOGLEPRELOADER, boolean});
 export const setStatus = (status) => ({type: SET_STATUS, status});
@@ -50,7 +49,6 @@ let initialState = {
     postsData: [
         {message: '', dislikes: '', likes: '', id: ''}
     ],
-    newPostField: '',
     data: null,
     ToglePreloader: true,
     status: ''
@@ -60,21 +58,15 @@ const profileReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case ADD_POST: {
-            let message = state.newPostField;
-            return {
+
+            let message = action.text;
+                        return {
                 ...state,
-                newPostField: '',
                 postsData: [
                     ...state.postsData,
                     {message: message, dislikes: '0', likes: '0', id: '3'}],
 
             };
-        }
-        case CHANGE_POST_FIELD: {
-            return  {
-                ...state,
-                newPostField: action.post
-            }
         }
         case SETUSERPROFILE: {
             return {...state,

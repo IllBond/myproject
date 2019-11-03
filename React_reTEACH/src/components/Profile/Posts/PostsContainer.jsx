@@ -13,11 +13,8 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
     return {
-        showValTextArea: () => {
-            dispatch(addPostActionCreator())
-        },
-        ChangePostField: (text) => {
-            dispatch(updateNewPostText(text))
+        showValTextArea: (text) => {
+            dispatch(addPostActionCreator(text))
         }
     }
 }

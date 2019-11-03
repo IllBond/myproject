@@ -3,9 +3,7 @@ const CHANGE_MESSAGE_FIELD = 'CHANGE_MESSAGE_FIELD';
 const CHANGE_NAME_MESSAGE_FIELD = 'CHANGE_NAME_MESSAGE_FIELD';
 
 
-export const addMessageActionCreator = () => ({type: ADD_MESSAGE});
-export const updateNewMessageText = (text) => ({type: CHANGE_MESSAGE_FIELD, post: text});
-export const updateNewMessageNameText = (text) => ({type: CHANGE_NAME_MESSAGE_FIELD, post: text});
+export const addMessageActionCreator = (MessageNameField,MessageField) => ({type: ADD_MESSAGE, MessageNameField:MessageNameField, MessageField:MessageField});
 
 let initialState = {
     dialogsData: [
@@ -23,17 +21,15 @@ let initialState = {
         {id: '4', message: 'Столовка', sost: true},
         {id: '5', message: 'Ну и ладно до свидос!', sost: false},
         {id: '6', message: '...', sost: true},
-    ],
-    newMessageField: '',
-    newMessageNameField: '',
+    ]
 }
 
 const dialogReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case ADD_MESSAGE: {
-            let newMessageFieldName = state.newMessageNameField;
-            let newMessageField = state.newMessageField;
+            let newMessageFieldName = action.MessageNameField;
+            let newMessageField = action.MessageField;
             return {
                 ...state,
                 dialogsData: [...state.dialogsData, {
@@ -45,22 +41,7 @@ const dialogReducer = (state = initialState, action) => {
                     id: 6,
                     message: newMessageField,
                     sost: false
-                }],
-                newMessageField: '',
-                newMessageNameField: ''
-            }
-        }
-        case CHANGE_MESSAGE_FIELD: {
-            return {
-                ...state,
-                newMessageField: action.post
-            }
-
-        }
-        case CHANGE_NAME_MESSAGE_FIELD: {
-            return {
-                ...state,
-                newMessageNameField: action.post
+                }]
             }
         }
         default:
