@@ -11,7 +11,7 @@ import {
 import {withRouter} from "react-router-dom";
 import {withAuthRedirect} from "../HOC/withAuthReirect";
 import {compose} from "redux";
-import {AuthReducerSelector, profileReducerSelector} from "../../redux/profile-selector";
+import {AuthReducer, AuthReducerSelector, profileReducer, profileReducerSelector} from "../../redux/profile-selector";
 
 
 class ProfileAPI extends React.Component {
@@ -36,8 +36,9 @@ class ProfileAPI extends React.Component {
 }
 
 let mapStateToProps = (state) => {return {
-    data: profileReducerSelector(state),
-    AuthReducerID: AuthReducerSelector(state)
+
+    data: profileReducer(state),
+    AuthReducerID: AuthReducer(state)
 }};
 
 export default compose(
