@@ -19,7 +19,6 @@ class ProfileStatus extends React.Component {
     onChangeStatus = (e) => {
         this.setState({
             status: e.currentTarget.value
-
         })
     };
 
@@ -29,7 +28,6 @@ class ProfileStatus extends React.Component {
                 status: this.props.status
             })
         }
-
     }
 
     render() {

@@ -2,6 +2,7 @@ import React from 'react';
 import s from './Profile_Info.module.css'
 import Prelaoder from "../../Preloader/Preloader";
 import ProfileStatus from "./../ProfileStatus";
+import ProfileStatusHook from "../ProfileStatusHook";
 
 
 let Profile_Info = (props) => {
@@ -17,7 +18,7 @@ let Profile_Info = (props) => {
             </div>
             <div className={s.citata}>
                 <div><strong>Вы говорите</strong>, <div>{props.data.aboutMe ? props.data.aboutMe : 'Ничего вы не говорите...'}</div></div>
-                    <ProfileStatus status={props.status} updateStatusThunk={props.updateStatusThunk}/>
+                    <ProfileStatusHook status={props.status} updateStatusThunk={props.updateStatusThunk}/>
             </div>
             <Prelaoder ToglePreloader={props.ToglePreloader}/>
         </div>
