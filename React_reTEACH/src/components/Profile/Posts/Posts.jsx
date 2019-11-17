@@ -22,7 +22,7 @@ let PostsForm = (props) => {
 let ReduxLoginForm = reduxForm({form: 'PostForm'})(PostsForm)
 
 
-let Posts = (props) => {
+let Posts = React.memo((props) => {
 
     let onsubmit = (formData)=>{
         showValTextArea(formData.text)
@@ -32,7 +32,6 @@ let Posts = (props) => {
         props.showValTextArea(text)
 
     };
-
 
     let new_postData = props.postsDate.map((element)=>{
         return <MyPosts id={element.id} dislikes={element.dislikes} key={element.id} likes={element.likes} message={element.message}/>
@@ -44,8 +43,35 @@ let Posts = (props) => {
         </div>
         {new_postData}
     </div>
-};
+});
 
+
+// class Posts extends React.PureComponent {
+//     render() {
+//         console.log('test')
+//         let onsubmit = (formData) => {
+//             showValTextArea(formData.text)
+//         };
+//
+//         let showValTextArea = (text) => {
+//             this.props.showValTextArea(text)
+//
+//         };
+//
+//
+//         let new_postData = this.props.postsDate.map((element) => {
+//             return <MyPosts id={element.id} dislikes={element.dislikes} key={element.id} likes={element.likes}
+//                             message={element.message}/>
+//         });
+//         return <div className={s.posts}>
+//             <div className={s.form}>
+//                 <h4>А тут можно написать пост</h4>
+//                 <ReduxLoginForm onSubmit={onsubmit}/>
+//             </div>
+//             {new_postData}
+//         </div>
+//     }
+// }
 
 
 

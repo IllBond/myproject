@@ -15,7 +15,6 @@ import {
     unfollowThunk,
     followThunk
 } from "../../redux/UsersReducer";
-import {withAuthRedirect} from "../HOC/withAuthReirect";
 import {compose} from "redux";
 
 

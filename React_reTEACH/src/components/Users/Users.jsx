@@ -8,6 +8,7 @@ let Users = (props) => {
 
     return <div>
         <Prelaoder ToglePreloader={props.ToglePreloader}/>
+
         <div className={s.page}>
             {
                 props.page.map((p) => {
@@ -21,6 +22,7 @@ let Users = (props) => {
                 })
             }
         </div>
+
         {props.UsersDate.map((d) => {
             return <div key={d.id} className={s.user}>
                     <NavLink to={'profile/' + d.id}>
@@ -33,9 +35,6 @@ let Users = (props) => {
                     </div>
                     <div>
                         {d.status}
-                    </div>
-                    <div>
-                        {/*{d.location.country} / {d.location.city}*/}
                     </div>
                     <div>
                         {d.followed ?
