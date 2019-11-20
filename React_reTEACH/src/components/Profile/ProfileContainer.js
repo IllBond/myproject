@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 import Profile from "./Profile";
 import {
-    getProfileDataThunk,
+    getProfileDataThunk, savePhoto, savePhotoThunk,
     setProfile,
     setStatusThunk,
     ToglePreloader,
@@ -31,7 +31,7 @@ class ProfileAPI extends React.Component {
 
 
     render() {
-        return <Profile {...this.props.data} updateStatusThunk={this.props.updateStatusThunk} />
+        return <Profile {...this.props.data} savePhoto={this.props.savePhotoThunk} isYou={!!this.props.match.params.profileID} updateStatusThunk={this.props.updateStatusThunk} />
     } 
 }
 
@@ -42,7 +42,7 @@ let mapStateToProps = (state) => {return {
 }};
 
 export default compose(
-    connect(mapStateToProps, {setProfile, ToglePreloader, getProfileDataThunk, setStatusThunk, updateStatusThunk}),
+    connect(mapStateToProps, {setProfile, ToglePreloader, getProfileDataThunk, setStatusThunk, updateStatusThunk, savePhotoThunk}),
     //withAuthRedirect,    // withAuthRedirect // Наш хок который редиректит на страницу логина
     withRouter
 )(ProfileAPI)

@@ -2,17 +2,19 @@ import {profileAPI} from "../API/API";
 
 
 const ADD_POST = 'ADD_POST';
-const SETUSERPROFILE =  'SETUSERPROFILE'
+const SETUSERPROFILE = 'SETUSERPROFILE'
 const TOGLEPRELOADER = 'TOGLEPRELOADER';
 const SET_STATUS = 'SET_STATUS'
+const SET_PHOTO = 'SET_PHOTO'
 
-export const addPostActionCreator = (text) => ({type: ADD_POST,text: text});
+export const addPostActionCreator = (text) => ({type: ADD_POST, text: text});
 export const setProfile = (data) => ({type: SETUSERPROFILE, post: data});
 export const ToglePreloader = (boolean) => ({type: TOGLEPRELOADER, boolean});
 export const setStatus = (status) => ({type: SET_STATUS, status});
+export const setPhoto = (file) => ({type: SET_PHOTO, file});
 
 export let getProfileDataThunk = (userID) => {
-    return (dispatch)=>{
+    return (dispatch) => {
         dispatch(ToglePreloader(true));
         profileAPI.setProfileData(userID).then(
             response => {
@@ -24,7 +26,7 @@ export let getProfileDataThunk = (userID) => {
 }
 
 export let setStatusThunk = (userID) => {
-    return (dispatch)=>{
+    return (dispatch) => {
         profileAPI.getStatus(userID).then(
             response => {
                 dispatch(setStatus(response.data));
@@ -33,11 +35,21 @@ export let setStatusThunk = (userID) => {
     }
 }
 
+export let savePhotoThunk = (file) => {
+    return (dispatch) => {
+        profileAPI.loadPhoto(file).then(
+            response => {
+                dispatch(setPhoto(response.data.data));
+            }
+        )
+    }
+}
+
 export let updateStatusThunk = (status) => {
-    return (dispatch)=>{
+    return (dispatch) => {
         profileAPI.updateStatus(status).then(
             response => {
-                if (response.data.resultCode ===0) {
+                if (response.data.resultCode === 0) {
                     dispatch(setStatus(status))
                 }
             }
@@ -60,7 +72,7 @@ const profileReducer = (state = initialState, action) => {
         case ADD_POST: {
 
             let message = action.text;
-                        return {
+            return {
                 ...state,
                 postsData: [
                     ...state.postsData,
@@ -69,20 +81,27 @@ const profileReducer = (state = initialState, action) => {
             };
         }
         case SETUSERPROFILE: {
-            return {...state,
+            return {
+                ...state,
                 data: action.post
             }
         }
         case TOGLEPRELOADER: {
             return {
                 ...state,
-                ToglePreloader:  action.boolean
+                ToglePreloader: action.boolean
             }
         }
         case SET_STATUS: {
             return {
                 ...state,
-                status:  action.status
+                status: action.status
+            }
+        }
+        case SET_PHOTO: {
+            return {
+                ...state,
+                data: {...state.data, photos: action.file.photos}
             }
         }
         default:
