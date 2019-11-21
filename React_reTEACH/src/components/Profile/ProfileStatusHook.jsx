@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-
+import s from './Profile.module.css'
 
 const ProfileStatusHook = (props) => {
 
@@ -22,9 +22,9 @@ const ProfileStatusHook = (props) => {
     };
 
     return <div>
-        <b>Статус</b> (<i>двойной клик что бы изменить</i>):
+        <b>Статус</b>:
         {!variableEditModeWithHook &&
-            <div onDoubleClick={activateEditMode}>{props.status || 'нет статуса'}</div>}
+            <span className={s.status} onDoubleClick={activateEditMode}>{' '+ props.status || 'нет статуса'}</span>}
         {variableEditModeWithHook &&
             <div>
                 <input onChange={onStatusChange}

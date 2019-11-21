@@ -1,4 +1,10 @@
 .item {
     margin-bottom: 20px;
 }
+.status {
+    font-size: inherit;
+}
 
+.statusContact {
+    margin-left: 50px;
+}
