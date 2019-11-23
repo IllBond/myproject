@@ -3,10 +3,13 @@ import s from './Profile_Info.module.css'
 import x from './../Profile.module.css'
 import Prelaoder from "../../Preloader/Preloader";
 import ProfileStatusHook from "../ProfileStatusHook";
+import {Field, reduxForm} from "redux-form";
 
 
 
 let Profile_Info = (props) => {
+
+    let showFormData = (formData)=> {console.log(formData)}
 
     let [editMode, ToggleEditMode] = useState(false)
     const loadFile = (e) => {
@@ -30,7 +33,7 @@ let Profile_Info = (props) => {
             </div>
             <ProfileStatusHook status={props.status} updateStatusThunk={props.updateStatusThunk}/>
 
-            {editMode ? <AllProfileInfo_EditMode ToggleEditMode={ToggleEditMode} isYou={props.isYou}  data={props.data}/> : <AllProfileInfo isYou={props.isYou}  ToggleEditMode={ToggleEditMode} data={props.data} />}
+            {editMode ? <AllProfileInfo_EditMode_ReduxForm ToggleEditMode={ToggleEditMode} isYou={props.isYou} onSubmit={showFormData} data={props.data}/> : <AllProfileInfo isYou={props.isYou}  ToggleEditMode={ToggleEditMode} data={props.data} />}
 
         </div>
     }
@@ -62,24 +65,30 @@ let AllProfileInfo = (props) => {
 
 let AllProfileInfo_EditMode = (props) => {
 
+
+
     return <div>
         <h3>Информация обо мне</h3>
-        {props.isYou || <button onClick={()=>{props.ToggleEditMode(false)}}>Сохранить</button>}
 
 
-        <form className={s.citata}>
-            <div><strong>Меня зовут</strong>, <input type="text" value={props.data.fullName}/></div>
-            <div><strong>Обо мне</strong>, <input type="text" value={props.data.aboutMe}/></div>
-            <div>>Ищу работу? <input type="checkbox" checked={props.data.lookingForAJob}/></div>
-            <div><strong>Мои нвыки</strong>, <input type="text" value={props.data.lookingForAJobDescription}/></div>
+        <form className={s.citata} onSubmit={props.handleSubmit}>
+            <div><strong>Меня зовут</strong>, <Field component={'input'} type="text" placeholder={'name'} name={'name'}/></div>
+            <div><strong>Обо мне</strong>, <Field component={'input'} type="text" placeholder={'anoutMe'} name={'anoutMe'}/></div>
+            <div>>Ищу работу? <Field component={'input'} type="checkbox" name={'lookingForAJob'}/></div>
+            <div><strong>Мои нвыки</strong>, <Field component={'input'} type="text" placeholder={'lookingForAJobDescription'} name={'lookingForAJobDescription'}/></div>
             <div className={x.statusContact}>
                 <b>Мои контакты:</b>
                 <ContactEdit contacts={props.data.contacts} />
             </div>
+            {props.isYou || <button type={'submit'}>Сохранить</button>}
+            {/*{()=>{props.ToggleEditMode(false)}}  -  ВЫКЛЮЧИТЬ РЕДАКИРВРООАЕЕ*/}
+
         </form>
     </div>
 };
 
+
+let AllProfileInfo_EditMode_ReduxForm = reduxForm({form:'AllProfileInfo'})(AllProfileInfo_EditMode)
 
 let Contact = (props) => {
     return <div>
@@ -89,7 +98,7 @@ let Contact = (props) => {
 
 let ContactEdit = (props) => {
     return <div>
-        {Object.keys(props.contacts).map(key => <div key={key}> {key} : <input value={props.contacts[key]}/></div>)}
+        {Object.keys(props.contacts).map(key => <div key={key}> {key} : <Field component={'input'} type={'text'} placeholder={key} name={key}/></div>)}
     </div>
 }
 
