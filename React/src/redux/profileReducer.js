@@ -1,5 +1,5 @@
 import {profileAPI} from "../API/API";
-
+import {stopSubmit} from "redux-form";
 
 const ADD_POST = 'ADD_POST';
 const SETUSERPROFILE = 'SETUSERPROFILE'
@@ -7,11 +7,13 @@ const TOGLEPRELOADER = 'TOGLEPRELOADER';
 const SET_STATUS = 'SET_STATUS'
 const SET_PHOTO = 'SET_PHOTO'
 
+
 export const addPostActionCreator = (text) => ({type: ADD_POST, text: text});
 export const setProfile = (data) => ({type: SETUSERPROFILE, post: data});
 export const ToglePreloader = (boolean) => ({type: TOGLEPRELOADER, boolean});
 export const setStatus = (status) => ({type: SET_STATUS, status});
 export const setPhoto = (file) => ({type: SET_PHOTO, file});
+
 
 export let getProfileDataThunk = (userID) => {
     return (dispatch) => {
@@ -57,6 +59,22 @@ export let updateStatusThunk = (status) => {
     }
 }
 
+
+export let setNewProfileDataThunk = (data) => async (dispatch,getState) => {
+        const userId = getState().AuthReducer.id
+        const response = await profileAPI.setNewProfileData(data)
+                if (response.data.resultCode === 0) {
+                    dispatch(getProfileDataThunk(userId))
+                } else {
+                    dispatch(stopSubmit('AllProfileInfo', {_error: response.data.messages[0]}))
+                    return Promise.reject(response.data.messages[0]);
+
+                }
+
+
+    }
+
+
 let initialState = {
     postsData: [
         {message: '', dislikes: '', likes: '', id: ''}
@@ -67,17 +85,14 @@ let initialState = {
 }
 
 const profileReducer = (state = initialState, action) => {
-
     switch (action.type) {
         case ADD_POST: {
-
             let message = action.text;
             return {
                 ...state,
                 postsData: [
                     ...state.postsData,
                     {message: message, dislikes: '0', likes: '0', id: '3'}],
-
             };
         }
         case SETUSERPROFILE: {

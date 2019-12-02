@@ -2,16 +2,17 @@ import React from 'react';
 import {connect} from "react-redux";
 import Profile from "./Profile";
 import {
-    getProfileDataThunk, savePhoto, savePhotoThunk,
+    getProfileDataThunk, savePhotoThunk, setNewProfileDataThunk,
     setProfile,
     setStatusThunk,
     ToglePreloader,
     updateStatusThunk
 } from "../../redux/profileReducer";
 import {withRouter} from "react-router-dom";
-import {withAuthRedirect} from "../HOC/withAuthReirect";
 import {compose} from "redux";
-import {AuthReducer, AuthReducerSelector, profileReducer, profileReducerSelector} from "../../redux/profile-selector";
+import {AuthReducer, profileReducer} from "../../redux/profile-selector";
+//AuthReducerSelector - удалил из импорта выше
+//profileReducerSelector  - удалил из импорта выше
 
 
 class ProfileAPI extends React.Component {
@@ -23,26 +24,24 @@ class ProfileAPI extends React.Component {
             userID = this.props.AuthReducerID
             if (!userID) {
                 this.props.history.push('/users') //редирект на юсерс
-            };
-        };
+            }
+        }
         this.props.getProfileDataThunk(userID);
         this.props.setStatusThunk(userID);
     }
 
-
     render() {
-        return <Profile {...this.props.data} savePhoto={this.props.savePhotoThunk} isYou={!!this.props.match.params.profileID} updateStatusThunk={this.props.updateStatusThunk} />
+        return <Profile {...this.props.data} setNewProfileDataThunk={this.props.setNewProfileDataThunk} savePhoto={this.props.savePhotoThunk} isYou={!!this.props.match.params.profileID} updateStatusThunk={this.props.updateStatusThunk} />
     } 
 }
 
 let mapStateToProps = (state) => {return {
-
     data: profileReducer(state),
     AuthReducerID: AuthReducer(state)
 }};
 
 export default compose(
-    connect(mapStateToProps, {setProfile, ToglePreloader, getProfileDataThunk, setStatusThunk, updateStatusThunk, savePhotoThunk}),
+    connect(mapStateToProps, {setProfile, ToglePreloader, getProfileDataThunk, setStatusThunk, updateStatusThunk, savePhotoThunk, setNewProfileDataThunk}),
     //withAuthRedirect,    // withAuthRedirect // Наш хок который редиректит на страницу логина
     withRouter
 )(ProfileAPI)

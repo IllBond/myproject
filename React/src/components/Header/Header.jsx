@@ -12,7 +12,6 @@ let Header = (props) => {
             <Prelaoder ToglePreloader={props.ToglePreloader}/>
             {props.isAuth === true ? props.login : <NavLink to='/login'>Авторизация</NavLink>}
             {props.isAuth === true ? <a onClick={props.LogOutThunk}> Выход</a> : ''}
-
         </div>
     </header>
 }

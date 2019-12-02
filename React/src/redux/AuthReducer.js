@@ -1,13 +1,15 @@
-import {authAPI} from "../API/API";
-import {stopSubmit} from "redux-form";
+import {authAPI, captchaAPI} from "../API/API";
+import {untouch,resetSection, stopSubmit} from "redux-form";
 
 const SETAUTH = 'SETAUTH';
 const LOGOUT = 'LOGOUT';
 const TOGLEPRELOADER = 'TOGLEPRELOADER';
+const SETCAPTCHAURL = 'SETCAPTCHAURL'
 
 export const setAuth = (data) => ({type: SETAUTH, data: data});
 export const LogOut = () => ({type: LOGOUT});
 export const ToglePreloader = (boolean) => ({type: TOGLEPRELOADER, boolean});
+export const SetCaptchaUrl = (url) => ({type: SETCAPTCHAURL, url});
 
 export const authThunk = () => {
     return (dispatch) => {
@@ -45,9 +47,26 @@ export const LoginingThunk = (data) => {
                 if (response.resultCode === 0) {
                     dispatch(authThunk())
                 } else {
+                    if (response.resultCode === 10) {
+                        dispatch(GetCaptchaUrlThunk())
+                    }
                     dispatch(stopSubmit('login',{_error: response.messages}))
                 }
                 dispatch(ToglePreloader(false))
+            }
+        )
+    }
+}
+
+export const GetCaptchaUrlThunk = () => {
+    return (dispatch) => {
+        captchaAPI.getCaptcha().then(
+            response => {
+               // dispatch(change('login', 'captcha', '')) // Установить у формы конкретного Field конкретное значение
+               // dispatch(reset('login','captcha')) // Сброс формы
+                dispatch(resetSection('login','captcha')) // Сброс конкретного ield
+                dispatch(untouch('login','captcha')) // Убрать отметку что форму трогали
+                dispatch(SetCaptchaUrl(response))
             }
         )
     }
@@ -58,11 +77,10 @@ let initialState = {
     login: null,
     email: null,
     isAuth: false,
-    ToglePreloader: true
+    ToglePreloader: true,
 };
 
 const AuthReducer = (state = initialState, action) => {
-
     switch (action.type) {
         case SETAUTH: {
             return {
@@ -88,6 +106,13 @@ const AuthReducer = (state = initialState, action) => {
                 ToglePreloader: action.boolean
             }
         }
+        case SETCAPTCHAURL: {
+            return {
+                ...state,
+                captcha: action.url
+            }
+        }
+
         default:
             return state
     }

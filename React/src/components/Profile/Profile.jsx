@@ -7,7 +7,7 @@ import {updateStatusThunk} from "../../redux/profileReducer";
 let Profile = (props) => {
 
         return <div className={s.profile}>
-        <Profile_Info {...props} updateStatusThunk={props.updateStatusThunk}/>
+        <Profile_Info {...props} setNewProfileDataThunk={props.setNewProfileDataThunk} updateStatusThunk={props.updateStatusThunk}/>
         <PostsContainer />
     </div>
 }

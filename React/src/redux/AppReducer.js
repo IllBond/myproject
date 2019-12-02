@@ -24,7 +24,7 @@ export const initialSuccess = () => ({type: INITIALIZED_SUCCESS});
 export const initialazeAPP = () => {
     return (dispatch) => {
         let promise = dispatch(authThunk())
-        Promise.all([promise]).then(()=>{
+        Promise.all([promise]).then(()=>{ // когда выполняться все обещания. Их можнт быть много в квадратных скобках
                 dispatch(initialSuccess())
             }
         )

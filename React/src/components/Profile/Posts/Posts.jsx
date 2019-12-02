@@ -24,13 +24,14 @@ let ReduxLoginForm = reduxForm({form: 'PostForm'})(PostsForm)
 
 let Posts = React.memo((props) => {
 
+    //memo значит, что React будет использовать результат последнего рендера, избегая повторного рендеринга.
+
     let onsubmit = (formData)=>{
         showValTextArea(formData.text)
     };
 
     let showValTextArea = (text) => {
         props.showValTextArea(text)
-
     };
 
     let new_postData = props.postsDate.map((element)=>{

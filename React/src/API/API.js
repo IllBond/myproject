@@ -35,6 +35,7 @@ export const authAPI = {
         return instance.get(`auth/me`)
             .then(
                 response => {
+
                     return response.data
                 }
             )
@@ -80,6 +81,19 @@ export const profileAPI = {
         let formData = new FormData()
         formData.append('image',file)
         return instance.put(`profile/photo`, formData, {headers: {'Content-Type':'multipart/form-data'}})
+    },
+    setNewProfileData(data){
+        return instance.put(`profile`, data)
+    }
+}
+
+export const captchaAPI = {
+    getCaptcha() {
+        return instance.get(`security/get-captcha-url`)
+            .then(response => {
+                return response.data.url
+
+            })
     }
 }
 

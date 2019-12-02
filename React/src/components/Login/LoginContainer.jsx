@@ -5,9 +5,8 @@ import {connect} from "react-redux";
 
 
 class AuthContainer extends React.Component{
-
     render(){
-       return <Login isAuth={this.props.data.isAuth} LoginingThunk={this.props.LoginingThunk}/>
+       return <Login isAuth={this.props.data.isAuth} captcha={this.props.data.captcha} LoginingThunk={this.props.LoginingThunk}/>
     }
 }
 

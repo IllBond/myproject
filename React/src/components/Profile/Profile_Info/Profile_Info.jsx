@@ -1,4 +1,4 @@
-import React,  {useState} from 'react';
+import React, {useState} from 'react';
 import s from './Profile_Info.module.css'
 import x from './../Profile.module.css'
 import Prelaoder from "../../Preloader/Preloader";
@@ -6,18 +6,22 @@ import ProfileStatusHook from "../ProfileStatusHook";
 import {Field, reduxForm} from "redux-form";
 
 
-
 let Profile_Info = (props) => {
 
-    let showFormData = (formData)=> {console.log(formData)}
-
     let [editMode, ToggleEditMode] = useState(false)
-    const loadFile = (e) => {
 
+    let showFormData = (formData) => {
+        props.setNewProfileDataThunk(formData).then(
+            ()=>{ToggleEditMode(false)}
+        )
+    };
+
+    const loadFile = (e) => {
         if (e.target.files.length) {
             props.savePhoto(e.target.files[0])
         }
     };
+
 
     if (props.data === null || props.data === undefined) {
         return <Prelaoder ToglePreloader={props.ToglePreloader}/>
@@ -33,7 +37,10 @@ let Profile_Info = (props) => {
             </div>
             <ProfileStatusHook status={props.status} updateStatusThunk={props.updateStatusThunk}/>
 
-            {editMode ? <AllProfileInfo_EditMode_ReduxForm ToggleEditMode={ToggleEditMode} isYou={props.isYou} onSubmit={showFormData} data={props.data}/> : <AllProfileInfo isYou={props.isYou}  ToggleEditMode={ToggleEditMode} data={props.data} />}
+            {editMode ? <AllProfileInfo_EditMode_ReduxForm initialValues={props.data} ToggleEditMode={ToggleEditMode}
+                                                           isYou={props.isYou} onSubmit={showFormData}
+                                                           data={props.data}/> :
+                <AllProfileInfo isYou={props.isYou} ToggleEditMode={ToggleEditMode} data={props.data}/>}
 
         </div>
     }
@@ -43,7 +50,9 @@ let AllProfileInfo = (props) => {
 
     return <div>
         <h3>Информация обо мне</h3>
-        {props.isYou || <button onClick={()=>{props.ToggleEditMode(true)}}>Редактировать</button> }
+        {props.isYou || <button onClick={() => {
+            props.ToggleEditMode(true)
+        }}>Редактировать</button>}
         <div className={s.citata}>
             <div><strong>Меня зовут</strong>, <span
                 className={x.status}>{props.data.fullName ? props.data.fullName : 'Тайна'}</span></div>
@@ -57,49 +66,55 @@ let AllProfileInfo = (props) => {
             </div>
             <div className={x.statusContact}>
                 <b>Мои контакты:</b>
-                <Contact contacts={props.data.contacts} />
+                <Contact contacts={props.data.contacts}/>
             </div>
         </div>
     </div>
 };
 
 let AllProfileInfo_EditMode = (props) => {
-
-
-
+debugger
     return <div>
         <h3>Информация обо мне</h3>
-
-
         <form className={s.citata} onSubmit={props.handleSubmit}>
-            <div><strong>Меня зовут</strong>, <Field component={'input'} type="text" placeholder={'name'} name={'name'}/></div>
-            <div><strong>Обо мне</strong>, <Field component={'input'} type="text" placeholder={'anoutMe'} name={'anoutMe'}/></div>
-            <div>>Ищу работу? <Field component={'input'} type="checkbox" name={'lookingForAJob'}/></div>
-            <div><strong>Мои нвыки</strong>, <Field component={'input'} type="text" placeholder={'lookingForAJobDescription'} name={'lookingForAJobDescription'}/></div>
+            <div><strong>Меня зовут</strong>, <Field component={'input'} type="text" placeholder={'name'}
+                                                     name={'fullName'}/></div>
+            <div><strong>Обо мне</strong>, <Field component={'input'} type="text" placeholder={'aboutMe'}
+                                                  name={'aboutMe'}/></div>
+            <div>>Если у вас уже есть работа поставьте галочку <Field component={'input'} type="checkbox"
+                                                                      name={'lookingForAJob'}/></div>
+            <div><strong>Мои нвыки</strong>, <Field component={'input'} type="text"
+                                                    placeholder={'lookingForAJobDescription'}
+                                                    name={'lookingForAJobDescription'}/></div>
             <div className={x.statusContact}>
                 <b>Мои контакты:</b>
-                <ContactEdit contacts={props.data.contacts} />
+                <ContactEdit contacts={props.data.contacts}/>
             </div>
             {props.isYou || <button type={'submit'}>Сохранить</button>}
-            {/*{()=>{props.ToggleEditMode(false)}}  -  ВЫКЛЮЧИТЬ РЕДАКИРВРООАЕЕ*/}
-
+            <h1 className={s.error}>
+                {props.error}
+            </h1>
         </form>
     </div>
 };
 
 
-let AllProfileInfo_EditMode_ReduxForm = reduxForm({form:'AllProfileInfo'})(AllProfileInfo_EditMode)
+let AllProfileInfo_EditMode_ReduxForm = reduxForm({form: 'AllProfileInfo'})(AllProfileInfo_EditMode)
 
 let Contact = (props) => {
+
     return <div>
-        {Object.keys(props.contacts).map(key => <div key={key}> {key} : {props.contacts[key]?props.contacts[key]:'пусто'}</div>)}
+        {Object.keys(props.contacts).map(key => <div
+            key={key}> {key} : {props.contacts[key] ? props.contacts[key] : 'пусто'}</div>)}
     </div>
-}
+};
 
 let ContactEdit = (props) => {
     return <div>
-        {Object.keys(props.contacts).map(key => <div key={key}> {key} : <Field component={'input'} type={'text'} placeholder={key} name={key}/></div>)}
+        {Object.keys(props.contacts).map(key => <div key={key}> {key} : <Field component={'input'} type={'text'}
+                                                                               placeholder={key}
+                                                                               name={'contacts.' + key}/></div>)}
     </div>
-}
+};
 
 export default Profile_Info;

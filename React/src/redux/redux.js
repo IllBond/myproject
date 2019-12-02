@@ -9,8 +9,6 @@ import thunkMiddleware from 'redux-thunk'
 import appReducer from "./AppReducer";
 
 
-
-
 let reducer = combineReducers({
     dialogReducer: dialogReducer,
     profileReducer: profileReducer,

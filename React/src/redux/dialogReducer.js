@@ -1,7 +1,4 @@
 const ADD_MESSAGE = 'ADD_MESSAGE';
-const CHANGE_MESSAGE_FIELD = 'CHANGE_MESSAGE_FIELD';
-const CHANGE_NAME_MESSAGE_FIELD = 'CHANGE_NAME_MESSAGE_FIELD';
-
 
 export const addMessageActionCreator = (MessageNameField,MessageField) => ({type: ADD_MESSAGE, MessageNameField:MessageNameField, MessageField:MessageField});
 

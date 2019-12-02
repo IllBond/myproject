@@ -1,8 +1,9 @@
 import React from 'react';
 import {Field, reduxForm} from 'redux-form';
-import {Input} from "../FormControl/FormControl";
+import {Captcha, Input} from "../FormControl/FormControl";
 import {maxLength, required} from "../../Utilites/ValidateForm";
 import {Redirect} from "react-router-dom";
+
 
 const Login = (props) => {
 
@@ -13,14 +14,14 @@ const Login = (props) => {
         props.LoginingThunk(formData)
             }
         return <div>
-        <LoginReduxForm onSubmit={onSubmit} />
+        <LoginReduxForm onSubmit={onSubmit} captcha={props.captcha}/>
     </div>
 }
 
 const maxLength1 = maxLength(50)
 const LoginForm = (props) => {
-
-   return (
+debugger
+       return (
        <form onSubmit={props.handleSubmit}>
        <div>
            <Field type="text" placeholder={'Логин'}  validate={[required,maxLength1]} component={Input} name={'email'}/>
@@ -34,6 +35,13 @@ const LoginForm = (props) => {
        <div>
            <Field type='checkbox' component={'input'} name={'checkbox'}/> Запомнить?
        </div>
+           <div>
+               {props.captcha ? <div>
+                   <img src={props.captcha} alt=""/>
+                   <Field type="text" placeholder={'введите проверочный код'}  validate={[required]} component={Captcha} name={'captcha'}/>
+               </div>: ''}
+
+           </div>
        <div>
            <button>
                Залогиниться

@@ -17,7 +17,6 @@ export let TextArea = ({input, meta, ...props}) => {
 
 export let Input = ({input, meta, ...props}) => {
     const error = meta.touched && meta.error;
-
     return (<div>
        <span className={s.FormControl + ' ' + (error ? s.error : '')}>
            <input {...input} {...props} ></input>
@@ -25,7 +24,20 @@ export let Input = ({input, meta, ...props}) => {
         <span className={s.FormControl + ' ' + (error ? s.error : '')}>
             {error && <span >{meta.error}</span>}
         </span>
-
     </div>)
 }
+
+
+export let Captcha = ({input, meta, ...props}) => {
+    const error = meta.touched && meta.error;
+    return (<div>
+       <span className={s.FormControl + ' ' + (error ? s.error : '')}>
+           <input {...input} {...props} ></input>
+       </span>
+        <span className={s.FormControl + ' ' + (error ? s.error : '')}>
+            {error && <span >{meta.error}</span>}
+        </span>
+    </div>)
+}
+
 

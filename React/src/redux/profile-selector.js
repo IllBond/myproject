@@ -10,7 +10,6 @@ export let profileReducer = createSelector(profileReducerSelector,(profileReduce
 });
 
 
-
 let AuthReducerSelector = (state)=>{
     return state.AuthReducer.id
 };
