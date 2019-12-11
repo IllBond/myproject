@@ -2,20 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8467abc0-1556-49dc-bb39-b87c78d0db23" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/Gallery.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AwesomeProject/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../AwesomeProject/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AwesomeProject/Component/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/../AwesomeProject/Component/Header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AwesomeProject/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../AwesomeProject/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AwesomeProject/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../AwesomeProject/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
@@ -49,7 +52,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1576069006873</updated>
-      <workItem from="1576069008090" duration="1335000" />
+      <workItem from="1576069008090" duration="4530000" />
     </task>
     <servers />
   </component>
