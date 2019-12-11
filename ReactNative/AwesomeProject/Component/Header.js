@@ -2,13 +2,13 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native';
 
 
-const Header = ({data}) => {
+const Header = () => {
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>{data[0]?data[0].name:''}</Text>
+            <Text style={styles.text}>Галерея</Text>
         </View>
     )
-}
+};
 
 const styles = StyleSheet.create({
     container: {
