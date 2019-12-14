@@ -18,11 +18,14 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
     },
     "assetBundlePatterns": [
       "**/*"
     ],
+    "android": {
+      "package": "com.yourcompany.yourappname"
+    },
     "ios": {
       "supportsTablet": true
     }
