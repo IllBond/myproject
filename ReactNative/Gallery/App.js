@@ -1,64 +1,46 @@
-import React, {Component} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {createStackNavigator} from 'react-navigation'
+import React from 'react';
+import {StyleSheet} from 'react-native';
 import {connect, Provider} from "react-redux";
+
+import {HOME, DETAIL} from "./Common/variable";
 
 import {getDataThunk} from "./redux/commonReduxer";
 import store from "./redux/redux";
 
-let Header = () => {
-  return <View>
-    <Text>Шапка</Text>
-  </View>
-};
-
-let Gallery = () => {
-  return <View>
-    <Text>Элемент 1</Text>
-    <Text>Элемент 2</Text>
-    <Text>Элемент 3</Text>
-  </View>
-};
-let Detail = () => {
-  return <View>
-    <Text>Детали</Text>
-  </View>
-};
-
-class AppNew extends Component {
-  componentDidMount = () => {
-    this.props.getDataThunk()
-  };
-
-  render() {
-    return (
-        <View>
-          <Header/>
-          <Gallery/>
-          <Detail/>
-        </View>
-    );
-  }
-}
-
-let mapStateToProps = (state) => {
-  return {}
-}
-
-let AppContainer = connect(mapStateToProps, {getDataThunk})(AppNew)
-
-let App = () => {
-  return <Provider store={store}>
-    <AppContainer/>
-  </Provider>
-};
-
-export default App
+import Gallery from "./component/gallery";
+import Detail from "./component/detail";
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 });
+
+
+let mapStateToProps = (state) => {
+    return {data:state}
+};
+
+let GalleryContainer = connect(mapStateToProps, {getDataThunk})(Gallery);
+
+let AppNavigator = createStackNavigator(
+    {
+        [HOME]: GalleryContainer,
+        [DETAIL]: Detail
+    }, {
+        headerMode: 'none'
+    });
+
+let AppGallery = () => {
+    return <Provider store={store}>
+        <AppNavigator/>
+    </Provider>
+};
+
+export default AppGallery
+
+
