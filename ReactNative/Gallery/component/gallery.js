@@ -26,6 +26,7 @@ class Gallery extends Component {
     };
 
     render() {
+
         let GalleryData = this.props.data.commonReducer.data;
         let mapGalleryData = GalleryData.map(key => <ElementOfGallery
             details={this.props.navigation}
@@ -37,7 +38,7 @@ class Gallery extends Component {
             key={key.id}/>);
         return (
             <View>
-                <Header />
+                <Header nav={this.props.navigation}/>
                 <ScrollView >
                     <View style={styles.mainWrapperContent}>
                         {mapGalleryData}

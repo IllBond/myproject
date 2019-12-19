@@ -4,11 +4,9 @@
     <list default="true" id="8467abc0-1556-49dc-bb39-b87c78d0db23" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/variable.js" beforeDir="false" afterPath="$PROJECT_DIR$/Common/variable.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/component/elementOfGallery.js" beforeDir="false" afterPath="$PROJECT_DIR$/component/elementOfGallery.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/redux/commonReduxer.js" beforeDir="false" afterPath="$PROJECT_DIR$/redux/commonReduxer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/component/detail.js" beforeDir="false" afterPath="$PROJECT_DIR$/component/detail.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/component/gallery.js" beforeDir="false" afterPath="$PROJECT_DIR$/component/gallery.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/component/header.js" beforeDir="false" afterPath="$PROJECT_DIR$/component/header.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -79,7 +77,7 @@
       <workItem from="1576159374668" duration="7402000" />
       <workItem from="1576254004951" duration="34436000" />
       <workItem from="1576618972781" duration="4682000" />
-      <workItem from="1576787967191" duration="6467000" />
+      <workItem from="1576787967191" duration="6686000" />
     </task>
     <servers />
   </component>

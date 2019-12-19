@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
 });
 
 let Detail = (props) => {
+
     return <View>
         {/*<Header navigation = {props.navigation} goBack={true}/>*/}
         <ImageZoom cropWidth={w}

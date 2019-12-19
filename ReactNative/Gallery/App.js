@@ -1,4 +1,5 @@
-import {createBottomTabNavigator, createStackNavigator, createDrawerNavigator} from 'react-navigation'
+import {createBottomTabNavigator, createStackNavigator} from 'react-navigation'
+import {createDrawerNavigator} from 'react-navigation'
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {connect, Provider} from "react-redux";
@@ -13,7 +14,6 @@ import Gallery from "./component/gallery";
 import Detail from "./component/detail";
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const styles = StyleSheet.create({
     container: {
@@ -40,54 +40,44 @@ let AppNavigator = createStackNavigator(
     });
 
 
-let NavigationTab = createBottomTabNavigator(
+const NavigationDraw = createDrawerNavigator (
     {
-        One: AppNavigator,
-        Two: AppNavigator,
-        Three: AppNavigator
-    },
-    {
-        navigationOptions: ({navigation}) => ({
-            tabBarIcon: ({focused, tintColor}) => {
-                const {routeName} = navigation.state;
-                let iconName;
-                if (routeName === 'One') {
-                    iconName = focused ? 'ios-videocam' : 'ios-play'
-                } else if (routeName === 'Two') {
-                    iconName = focused ? 'ios-videocam' : 'ios-play'
-                } else if (routeName === 'Three') {
-                    iconName = focused ? 'ios-videocam' : 'ios-play'
-                }
-                return <Ionicons name={iconName} color={tintColor} size={25}/>
-            }
-        }),
-        tabBarOptions: {
-            activeTintColor: 'red',
-            inactiveTintColor: 'grey'
-        }
-    }
-)
-
-let NavigationDraw = createDrawerNavigator = (
-    {
-        One: {
+        Screen1: {
             screen: AppNavigator,
             navigationOptions: {
                 drawerLabel: 'One',
                 drawerIcon: ({tintColor}) => {
-                    <MaterialIcons />
+                    <Ionicons name={'grade'} size={24} style={{color: tintColor}}/>
                 }
             }
         },
-        Two: AppNavigator,
-        Three: AppNavigator
+        Screen2: {
+            screen: AppNavigator,
+            navigationOptions: {
+                drawerLabel: 'Two',
+                drawerIcon: ({tintColor}) => {
+                    <Ionicons name={'grade'} size={24} style={{color: tintColor}}/>
+                }
+            }
+        },
+        Screen3: {
+            screen: AppNavigator,
+            navigationOptions: {
+                drawerLabel: 'Three',
+                drawerIcon: ({tintColor}) => {
+                    <Ionicons name={'grade'} size={24} style={{color: tintColor}}/>
+                }
+            }
+        }
+    },{
+        initialRouteName: 'Screen1'
     }
 )
 
 
 let AppGallery = () => {
     return <Provider store={store}>
-        <NavigationTab/>
+        <NavigationDraw/>
     </Provider>
 };
 

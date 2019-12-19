@@ -24,12 +24,15 @@ const styles = StyleSheet.create({
         }
 });
 
-let Header = ({goBack,navigation}) => {
+let Header = ({goBack,navigation,nav}) => {
+
     return <View style={styles.container}>
         <TouchableOpacity onPress={() => {
             if (navigation) {
                 return navigation.goBack()
-            } else {return null}
+            } else {
+                return nav.openDrawer()
+            }
         }}>
             <Text  style={styles.txt}>{goBack ? '< Назад' : 'Главная'}</Text>
         </TouchableOpacity>
