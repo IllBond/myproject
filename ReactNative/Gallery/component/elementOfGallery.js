@@ -40,7 +40,6 @@ const style = StyleSheet.create({
 });
 
 const ElementOfGallery = (props) => {
-    console.log(props.author)
     return (
         <TouchableOpacity onPress={() => {
             props.details.navigate(DETAIL, ({image: props.image, imageF:props.imageF}))
