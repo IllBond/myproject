@@ -3,9 +3,10 @@ const config = {
 
 	dotMin: 6,
 	dotMax: 20,
+	sphereRad: 1000,
 	massFactor : 0.002,
 	defColor: 'rgba(250, 10, 30, 0.9)',
-	smooth: 0.95, 
+	smooth: 0.95, // 
 
 }
 
@@ -43,7 +44,7 @@ function updateDots () {
 			let [a, b] = [dots[i], dots[j]]
 			let delta = {x: b.pos.x - a.pos.x, y: b.pos.y - a.pos.y}
 			let dist = Math.sqrt(delta.x * delta.x + delta.y * delta.y)
-			let force = b.mass;
+			let force = (dist - config.sphereRad) / dist * b.mass;
 
 			acc.x += delta.x * force 
 			acc.y += delta.y * force
