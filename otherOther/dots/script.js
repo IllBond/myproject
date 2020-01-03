@@ -3,11 +3,12 @@ const config = {
 
 	dotMin: 6,
 	dotMax: 20,
-	sphereRad: 1000,
+	sphereRad: 300,
+	bigDotRad: 35,
 	massFactor : 0.002,
-	defColor: 'rgba(250, 10, 30, 0.9)',
-	smooth: 0.95, // 
-
+	defColor: 'rgba(250, 10, 30, 0.54)',
+	smooth: 0.65, // 
+	mouseSize: 120,
 }
 
 
@@ -18,17 +19,17 @@ let w, h, mouse, dots
 
 
 class Dot {
-	constructor(){
+	constructor(r){
 		this.pos = {x: mouse.x, y: mouse.y}
 		this.vel = {x: 0, y: 0} //скорость по x и  y 
-		this.rad = random(config.dotMin, config.dotMax)
+		this.rad = r || random(config.dotMin, config.dotMax)
 		this.mass = this.rad * config.massFactor
 		this.color = config.defColor
 	}
 
-	draw() {
-		this.pos.x += this.vel.x
-		this.pos.y += this.vel.y
+	draw(x,y) {
+		this.pos.x = x || this.pos.x + this.vel.x
+		this.pos.y = y || this.pos.y + this.vel.y
 		createCircle(this.pos.x, this.pos.y, this.rad, true, this.color)
 		createCircle(this.pos.x, this.pos.y, this.rad, false, config.defColor)
 	}
@@ -37,14 +38,21 @@ class Dot {
 
 // Движение и отталкивание частиц
 function updateDots () {
-	for ( let i = 0; i < dots.length; i++) {
+	for ( let i = 1; i < dots.length; i++) {
 		let acc = {x: 0, y: 0}
 		for(let j = 0; j < dots.length; j++){
 			if (i == j ) continue
 			let [a, b] = [dots[i], dots[j]]
 			let delta = {x: b.pos.x - a.pos.x, y: b.pos.y - a.pos.y}
-			let dist = Math.sqrt(delta.x * delta.x + delta.y * delta.y)
+			let dist = Math.sqrt(delta.x * delta.x + delta.y * delta.y) || 1
 			let force = (dist - config.sphereRad) / dist * b.mass;
+
+
+			if (j == 0) {
+				let alpha = config.mouseSize / dist;
+				a.color = `rgba(250, 10, 30, ${alpha})`
+				dist < config.mouseSize ? force = (dist - config.mouseSize) * b.mass : force = a.mass // сюда можно поставить 1 или 0 будет прикорльно
+			}
 
 			acc.x += delta.x * force 
 			acc.y += delta.y * force
@@ -53,6 +61,8 @@ function updateDots () {
 		dots[i].vel.x = dots[i].vel.x * config.smooth+ acc.x  * dots[i].mass
 		dots[i].vel.y = dots[i].vel.y * config.smooth+ acc.y  * dots[i].mass
 	}
+
+	dots.map(val => val == dots[0] ? val.draw(mouse.x, mouse.y) : val.draw())
 }
 
 function createCircle(x,y,rad,fill,color) {
@@ -74,6 +84,8 @@ function init () {
 
 	mouse = {x: w/2, y: h/2, down: false}
 	dots = []
+
+	dots.push(new Dot(config.bigDotRad))
 }
 
 function loop () {
@@ -84,7 +96,7 @@ function loop () {
 	}
 	console.log(dots)
 	updateDots()
-	dots.map(val => val.draw())
+	
 	
 	window.requestAnimationFrame(loop) // постоянный перевызов себя же
 }
