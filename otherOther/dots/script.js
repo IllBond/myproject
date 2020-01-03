@@ -4,7 +4,9 @@ const config = {
 	dotMin: 6,
 	dotMax: 20,
 	massFactor : 0.002,
-	defColor: 'rgba(250, 10, 30, 0.9)'
+	defColor: 'rgba(250, 10, 30, 0.9)',
+	smooth: 0.95, 
+
 }
 
 
@@ -31,6 +33,8 @@ class Dot {
 	}
 }
 
+
+// Движение и отталкивание частиц
 function updateDots () {
 	for ( let i = 0; i < dots.length; i++) {
 		let acc = {x: 0, y: 0}
@@ -41,12 +45,12 @@ function updateDots () {
 			let dist = Math.sqrt(delta.x * delta.x + delta.y * delta.y)
 			let force = b.mass;
 
-			acc.x += delta.x * force
+			acc.x += delta.x * force 
 			acc.y += delta.y * force
 		}
 
-		dots[i].vel.x = dots[i].vel.x + acc.x * dots[i].mass
-		dots[i].vel.y = dots[i].vel.y + acc.y * dots[i].mass
+		dots[i].vel.x = dots[i].vel.x * config.smooth+ acc.x  * dots[i].mass
+		dots[i].vel.y = dots[i].vel.y * config.smooth+ acc.y  * dots[i].mass
 	}
 }
 
@@ -77,10 +81,10 @@ function loop () {
 	if (mouse.down) {
 		dots.push(new Dot())
 	}
-
-	
+	console.log(dots)
+	updateDots()
 	dots.map(val => val.draw())
-updateDots()
+	
 	window.requestAnimationFrame(loop) // постоянный перевызов себя же
 }
 
