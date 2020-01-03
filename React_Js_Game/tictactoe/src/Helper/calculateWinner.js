@@ -1,4 +1,6 @@
-export default function calculateWiner(squares) {
+//Сюда отправляем 9 значений из текущего поля
+export default function calculateWinner(squares) {
+
     const lines = [
         [0, 1, 2],
         [3, 4, 5],
