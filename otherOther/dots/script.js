@@ -3,7 +3,7 @@ const config = {
 
 	dotMin: 6,
 	dotMax: 20,
-	massFactor : 0.022,
+	massFactor : 0.002,
 	defColor: 'rgba(250, 10, 30, 0.9)'
 }
 
@@ -24,8 +24,29 @@ class Dot {
 	}
 
 	draw() {
+		this.pos.x += this.vel.x
+		this.pos.y += this.vel.y
 		createCircle(this.pos.x, this.pos.y, this.rad, true, this.color)
 		createCircle(this.pos.x, this.pos.y, this.rad, false, config.defColor)
+	}
+}
+
+function updateDots () {
+	for ( let i = 0; i < dots.length; i++) {
+		let acc = {x: 0, y: 0}
+		for(let j = 0; j < dots.length; j++){
+			if (i == j ) continue
+			let [a, b] = [dots[i], dots[j]]
+			let delta = {x: b.pos.x - a.pos.x, y: b.pos.y - a.pos.y}
+			let dist = Math.sqrt(delta.x * delta.x + delta.y * delta.y)
+			let force = b.mass;
+
+			acc.x += delta.x * force
+			acc.y += delta.y * force
+		}
+
+		dots[i].vel.x = dots[i].vel.x + acc.x * dots[i].mass
+		dots[i].vel.y = dots[i].vel.y + acc.y * dots[i].mass
 	}
 }
 
@@ -56,9 +77,10 @@ function loop () {
 	if (mouse.down) {
 		dots.push(new Dot())
 	}
+
+	
 	dots.map(val => val.draw())
-
-
+updateDots()
 	window.requestAnimationFrame(loop) // постоянный перевызов себя же
 }
 
