@@ -87,38 +87,92 @@ function Option(props) {
         props.hideOption(x)
     };
 
+    // switch (true) {
+    //     case true:
+    //         alert('1');
+    //     // break;
+    //
+    //     case false:
+    //         alert('2');
+    //     // break;
+    //
+    //     default:
+    //         alert('3');
+    //     // break
+    // }
 
     return <div>
 
         {/*Отрисовываем игровые опции*/}
         {props.level.map(item =>
-            // Первая проверка
-            // Решаем будет поле серым или обычным
-            // item[0] содержит массив необходимый
+            // #1 Решаем будет поле активным, или сначала нужно раздобыть предмет
+            // Если в рюкзаке есть хотя бы один предмет из тех что лежат в массиве например ['flashlight','sword']
+            // Если нет предметов проверяем игровой опыт по тому же учсловию
+            // Если и этого нет смотрим что бы было true
             (props.bag.some(x => item[0].some(y => y === x)) || props.expItem.some(x => item[0].some(y => y === x)) || item[0].some(y => y === true))
-                ? (!(props.hide.some(x => x === item[1]) && item[10]) ? (props.bag.some(x => item[0].some(y => y === x)) || props.expItem.some(x => item[0].some(y => y === x)) || !item[9] ?
-                ((props.bag.some(x => item[11].some(y => y === x)) || props.expItem.some(x => item[11].some(y => y === x))) ? '' :
-                    <div key={'key' + Math.random()}>
-                        <button className={
-                            // Если кнопка нажималась то станет красным
-                            (props.hide.some(x => x === item[1]) ? 'clicked' : '')
-                        }
-                                onClick={() => {
-                                    hide(item[1]); /*Добавить элемент в спсиок нажимаемых*/
-                                    newMind(item[2]);/*Установить новую мысль*/
-                                    getOption(item[4], props.bag) /*Добавить предмет*/
-                                    get_exp(item[5], props.expItem) /*Получить опыт*/
-                                    use_Item(item[6]); /*Использовать предмет*/
-                                    dmg(item[7]); /*Получить урон*/
-                                    newLevel(item[8]) /* Перейти на уровень #*/
+                // Если условие #1 соблюдено
+                ?
+                (
+                    // #2 Решаем будет ли поле скрыто при услвоии что его уже нажимали ?
+                    // Массив props.hide , сюда попадают те item[1] которые уже нажимались
+                    // Если в props.hide есть item[1] и при этом поле требует скрытия то его скрываем
+                    (props.hide.some(x => x === item[1]) && item[10]) === false
+                        // Если условие #2 соблюдено
+                        ?
+                        // #3 Решаем будет ли поле скрыто пока не найдешь предмет ?
+                        // Один из требуемых предметов должен содержаться в рюкзаке
+                        // Или один из тербуемых опытов должен сожержаться
+                        // Или item[9] должен быть false
+                        (props.bag.some(x => item[0].some(y => y === x)) || props.expItem.some(x => item[0].some(y => y === x)) || item[9] === false
+                            // Если условие #3 соблюдено
+                            ?
+                            // #4 Сравнивает предметы в рюкзаке с теми что нужно для скрытия. Если предмет есть в рюказке не покажет поле
+                            (props.bag.some(x => item[11].some(y => y === x)) || props.expItem.some(x => item[11].some(y => y === x))
+                                // Если условие #4 соблюдено
+                                ?
+                                ''
+                                // Если условие #4 не соблюдено
+                                :
+                                <div key={'key' + Math.random()}>
+                                    {/*Если кнопка нажималась то станет красным*/}
+                                    <button className={(props.hide.some(x => x === item[1]) ? 'clicked' : '')}
+                                            onClick={() => {
+                                                hide(item[1]); /*Добавить элемент в спсиок нажимаемых*/
+                                                newMind(item[2]); /*Установить новую мысль*/
+                                                getOption(item[4], props.bag); /*Добавить предмет*/
+                                                get_exp(item[5], props.expItem); /*Получить опыт*/
+                                                use_Item(item[6]); /*Использовать предмет*/
+                                                dmg(item[7]); /*Получить урон*/
+                                                newLevel(item[8]) /* Перейти на уровень #*/
+                                            }}>{item[1]}</button>
+                                </div>)
+                            // Если условие #3 не соблюдено нчиего не вернем
+                            :
+                            '')
+                        // Если условие #2 не соблюдено нчиего не вернем
+                        :
+                        '')
+                // Если условие #1 не соблюдено
+                :
+                (
+                    // #2.1 Решаем будет ли поле скрыто при услвоии что его уже нажимали ?
+                    (props.hide.some(x => x === item[1]) && item[10]) === false
+                        // Если условие #2.1  соблюдено
+                        ?
+                        // #3.1 Решаем будет ли поле скрыто пока не найдешь предмет ?
+                        (props.bag.some(x => item[0].some(y => y === x)) || props.expItem.some(x => item[0].some(y => y === x)) || item[9] === false
+                            // Если условие #3.1  соблюдено
+                            ?
+                            <div key={'key' + Math.random()}>
+                                <button className={"grey"} onClick={() => {
+                                    newMind(item[3]) /*Установить новую мысль*/
                                 }}>{item[1]}</button>
-                    </div>)
-                : true) : '') : (!(props.hide.some(x => x === item[1]) && item[10]) ? (props.bag.some(x => item[0].some(y => y === x)) || props.expItem.some(x => item[0].some(y => y === x)) || !item[9] ?
-                <div key={'key' + Math.random()}>
-                    <button className={"grey"} onClick={() => {
-                        newMind(item[3]) /*Установить новую мысль*/
-                    }}>{item[1]}</button>
-                </div> : '') : '')
+                            </div>
+                            // Если условие #3.1  не соблюдено
+                            : '')
+                        // Если условие #2.1 не соблюдено
+                        :
+                        '')
         )}
     </div>
 }
