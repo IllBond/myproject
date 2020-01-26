@@ -1,18 +1,20 @@
+@import url('https://fonts.googleapis.com/css?family=Neucha&display=swap');
+
 * {
     box-sizing: border-box;
+    font-family: 'Neucha', cursive;
+
 }
 
-body {
-  background: #282c34;
-}
-
+/* Игра*/
+/* Игра*/
+/* Игра*/
 #flex-container {
     display: flex;
     flex-wrap: wrap;
 }
 
 #flex-container > div {
-    border: 1px solid;
     width: 20%;
     margin: 0px;
     padding: 0px;
@@ -34,12 +36,183 @@ body {
     width: 33%;
 }
 
-.game {
-    background: #242424;
+/* Игра*/
+/* Игра*/
+/* Игра*/
+
+
+/* Рюкзак тест*/
+/* Рюкзак тест*/
+/* Рюкзак тест*/
+#flex-container-forTest {
+    display: flex;
+    flex-wrap: wrap;
 }
 
-.heart {
-    color: red;
+#flex-container-forTest > div {
+    border: 1px solid;
+    width: 70%;
+    margin: 0px;
+    padding: 5px;
+}
+
+#flex-container-forTest > div:nth-of-type(2) {
+    width: 30%;
+}
+/* Рюкзак тест*/
+/* Рюкзак тест*/
+/* Рюкзак тест*/
+
+
+/* Редактор уровней  */
+/* Редактор уровней  */
+/* Редактор уровней  */
+/* Редактор уровней  */
+#flex-container-forTestlvl {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#flex-container-forTestlvl > div {
+
+    width: 80%;
+    margin: 0px;
+    padding: 0px;
+}
+
+#flex-container-forTestlvl > div:nth-of-type(2) {
+    width: 20%;
+}
+/* Редактор уровней  */
+/* Редактор уровней  */
+/* Редактор уровней  */
+/* Редактор уровней  */
+
+
+
+/* Редактор опций  */
+/* Редактор опций  */
+/* Редактор опций  */
+#flex-container-forTestopton {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+#flex-container-forTestopton  > .option1 {
+    width: 40%;
+    margin: 0px;
+    padding: 0px;
+}
+
+#flex-container-forTestopton  > .option2 {
+    width: 60%;
+}
+
+
+#flex-container-forTestopton  > .option3 {
+    width: 100%;
+}
+.xxx {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.xxx > .width25 {
+    padding: 5px;
+    width: 25%;
+}
+
+.xxx > .width30 {
+    padding: 5px;
+    width: 33.33%;
+}
+
+.xxx > .width20 {
+    padding: 5px;
+    width: 30%;
+}
+
+.xxx > .width80 {
+    padding: 5px;
+    width: 70%;
+}
+
+
+/* Редактор опций  */
+/* Редактор опций  */
+/* Редактор опций  */
+
+.border {
+    border: 1px solid grey;
+}
+
+.borderRed {
+    border: 1px solid crimson;
+}
+
+
+/* ОПЦИИ*/
+/* ОПЦИИ*/
+/* ОПЦИИ*/
+.bgRed {
+    background-color: crimson;
+}
+.bgGreen{
+    background-color: #26dc1c;
+}
+.bgBlue {
+    background-color: #00d3dc;
+}
+
+.bgYellow {
+    background-color: #d5dc00;
+}
+
+/* ОПЦИИ*/
+/* ОПЦИИ*/
+/* ОПЦИИ*/
+
+
+
+.text {
+    padding: 5px;
+    font-size: 24px;
+    font-weight: 900;
+    text-align: justify;
+}
+
+.mind {
+    padding: 5px;
+    padding-top: 30px;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 900;
+}
+
+.pad .border{
+    padding: 10px;
+}
+
+.razdelitel {
+    height: 20px;
+    background: #6b0f18;
+}
+
+.razdelitel2 {
+    height: 5px;
+    background: rgba(61, 177, 220, 0.85);
+}
+
+.razdelitel2:last-child {
+    height: 0px;
+    background: rgba(16, 220, 0, 0);
+}
+
+.borderMarginPadding {
+    border: 3px solid rgb(0, 0, 0);
+    margin: 15px;
+    padding: 15px;
 }
 
 .padding {
@@ -52,22 +225,51 @@ body {
     float: left;
 }
 
-.bag {
-    border: #282c34 1px solid;
-    width: 100%;
-    float: left;
+.rouse {
+    color: #622b48;
 }
 
-.clicked {
-    color: #ff7fbf;
+.altMind {
+    color: #6b0f18;
 }
 
-.heart {
-    color: red;
+.text_decor {
+    text-decoration: underline ;
+    color: #b5536b;
 }
 
 .grey {
     color: grey;
+}
+
+.borderSH {
+    border: 2px dashed rgba(0, 0, 0, 0.45);
+    padding: 5px;
+    margin: 5px;
+    border-radius: 8px;
+}
+
+.borderOB {
+    /*border: 2px solid rgba(0, 0, 0, 0.45);*/
+    padding: 5px;
+    margin: 5px;
+    border-radius: 8px;
+}
+
+.borderOB_name {
+   text-align: right;
+    color: darkred;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 8px;
+    font-weight: 900;
+    text-decoration: underline;
+}
+
+.borderExp {
+    display: inline-block;
+    border: 1px solid black;
+    padding: 3px;
 }
 
 .white {
@@ -79,14 +281,65 @@ body {
 }
 
 .items {
-    height: 100px;
+    min-height: 100px;
 }
+.m5 {
+    margin-left: 5px;
+    border-radius: 25px;
+    border: 3px solid black;
+}
+
+
 
 .bigFont {
     font-size: 50px;
 }
 
 button {
+    font-size: 22px;
+    margin-top: 5px;
+    display: block;
+    text-align: left;
     width: 100%;
-    min-height: 40px;
+    padding: 15px;
+    text-decoration: none;
+    color: #000;
+    border-radius: 5px;
+    box-shadow: 0 0 0 1px #ddd inset, 0 1px 1px #fff;
 }
+button:hover {
+    background: #dcdcdc linear-gradient(#fff, #dcdcdc);
+    box-shadow: 0 0 0 1px #aaa inset, 0 1px 1px #aaa;
+}
+button:active {
+    background: none;
+    box-shadow: 0 0 0 1px #bbb inset, 0 1px 3px rgba(0,0,0,.5) inset, 0 1px 2px #fff;
+}
+
+.menuLevel {
+    font-size: 22px;
+    margin-top: 5px;
+    background: rgba(200, 220, 255, 0.83);
+    border: black 1px solid;
+    text-align: left;
+    padding: 15px;
+    text-decoration: none;
+    color: #000;
+    border-radius: 5px;
+    float: left;
+
+}
+menuLevel:hover {
+    background: #dcdcdc linear-gradient(#fff, #dcdcdc);
+    box-shadow: 0 0 0 1px #aaa inset, 0 1px 1px #aaa;
+}
+menuLevel:active {
+    background: none;
+    box-shadow: 0 0 0 1px #bbb inset, 0 1px 3px rgba(0,0,0,.5) inset, 0 1px 2px #fff;
+}
+
+.menuLevel_fixed {
+    position: fixed;
+    top: 0;
+}
+

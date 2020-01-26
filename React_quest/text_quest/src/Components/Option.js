@@ -1,7 +1,11 @@
 import React from 'react';
+import VARIBLES from "../Components/VARIBLE";
+
+const v = VARIBLES.if;
+const i = VARIBLES.items;
+
 
 function Option(props) {
-
     /*
     Добавить предмет
     Принимает массив подобраных предметов
@@ -18,33 +22,38 @@ function Option(props) {
                 alert('Закончилось место')
             } else {
                 for (let i = 0; i < item.length; i++) {
-                    if (lng.some(x => x === item[i])) {
+                    if (lng.some(x => x === item[i][0])) {
                         console.log('Такой предмет уже есть, зачем мне еще один')
                     } else {
-                        props.item(item[i])
+                        props.item(item[i][0])
                     }
                 }
             }
         }
     };
 
-
     //Нанести урон или отхилить в зависимости от значения damage
     let dmg = (damage) => {
+
         if (damage) {
             props.damage(damage)
         }
+    };
+
+    let StepCollab = () => {
+            props.stepCollab()
     };
 
     /*Использоваьть предмет*/
     /*Или несколкьо предметов мы передаем массив и перебераем их через map*/
     let use_Item = (item) => {
         if (item) {
-            item.map(x => props.useItem(x))
-
+            item.map(x => {
+                    props.useItem(x[0])
+                }
+            )
         }
     };
-
 
     /* Поставить новую мысль*/
     let newMind = (mind) => {
@@ -75,7 +84,7 @@ function Option(props) {
                 if (lng.some(x => x === exp[i])) {
                     console.log('Такой опыт уже есть, зачем мне еще один')
                 } else {
-                    props.exp(exp[i])
+                    props.exp(exp[i][0])
                 }
             }
 
@@ -87,92 +96,104 @@ function Option(props) {
         props.hideOption(x)
     };
 
-    // switch (true) {
-    //     case true:
-    //         alert('1');
-    //     // break;
-    //
-    //     case false:
-    //         alert('2');
-    //     // break;
-    //
-    //     default:
-    //         alert('3');
-    //     // break
-    // }
-
     return <div>
-
         {/*Отрисовываем игровые опции*/}
-        {props.level.map(item =>
-            // #1 Решаем будет поле активным, или сначала нужно раздобыть предмет
-            // Если в рюкзаке есть хотя бы один предмет из тех что лежат в массиве например ['flashlight','sword']
-            // Если нет предметов проверяем игровой опыт по тому же учсловию
-            // Если и этого нет смотрим что бы было true
-            (props.bag.some(x => item[0].some(y => y === x)) || props.expItem.some(x => item[0].some(y => y === x)) || item[0].some(y => y === true))
-                // Если условие #1 соблюдено
-                ?
-                (
-                    // #2 Решаем будет ли поле скрыто при услвоии что его уже нажимали ?
-                    // Массив props.hide , сюда попадают те item[1] которые уже нажимались
-                    // Если в props.hide есть item[1] и при этом поле требует скрытия то его скрываем
-                    (props.hide.some(x => x === item[1]) && item[10]) === false
-                        // Если условие #2 соблюдено
-                        ?
-                        // #3 Решаем будет ли поле скрыто пока не найдешь предмет ?
-                        // Один из требуемых предметов должен содержаться в рюкзаке
-                        // Или один из тербуемых опытов должен сожержаться
-                        // Или item[9] должен быть false
-                        (props.bag.some(x => item[0].some(y => y === x)) || props.expItem.some(x => item[0].some(y => y === x)) || item[9] === false
-                            // Если условие #3 соблюдено
-                            ?
-                            // #4 Сравнивает предметы в рюкзаке с теми что нужно для скрытия. Если предмет есть в рюказке не покажет поле
-                            (props.bag.some(x => item[11].some(y => y === x)) || props.expItem.some(x => item[11].some(y => y === x))
-                                // Если условие #4 соблюдено
-                                ?
-                                ''
-                                // Если условие #4 не соблюдено
-                                :
-                                <div key={'key' + Math.random()}>
-                                    {/*Если кнопка нажималась то станет красным*/}
-                                    <button className={(props.hide.some(x => x === item[1]) ? 'clicked' : '')}
-                                            onClick={() => {
-                                                hide(item[1]); /*Добавить элемент в спсиок нажимаемых*/
-                                                newMind(item[2]); /*Установить новую мысль*/
-                                                getOption(item[4], props.bag); /*Добавить предмет*/
-                                                get_exp(item[5], props.expItem); /*Получить опыт*/
-                                                use_Item(item[6]); /*Использовать предмет*/
-                                                dmg(item[7]); /*Получить урон*/
-                                                newLevel(item[8]) /* Перейти на уровень #*/
-                                            }}>{item[1]}</button>
-                                </div>)
-                            // Если условие #3 не соблюдено нчиего не вернем
-                            :
-                            '')
-                        // Если условие #2 не соблюдено нчиего не вернем
-                        :
-                        '')
-                // Если условие #1 не соблюдено
-                :
-                (
-                    // #2.1 Решаем будет ли поле скрыто при услвоии что его уже нажимали ?
-                    (props.hide.some(x => x === item[1]) && item[10]) === false
-                        // Если условие #2.1  соблюдено
-                        ?
-                        // #3.1 Решаем будет ли поле скрыто пока не найдешь предмет ?
-                        (props.bag.some(x => item[0].some(y => y === x)) || props.expItem.some(x => item[0].some(y => y === x)) || item[9] === false
-                            // Если условие #3.1  соблюдено
-                            ?
-                            <div key={'key' + Math.random()}>
-                                <button className={"grey"} onClick={() => {
-                                    newMind(item[3]) /*Установить новую мысль*/
-                                }}>{item[1]}</button>
-                            </div>
-                            // Если условие #3.1  не соблюдено
-                            : '')
-                        // Если условие #2.1 не соблюдено
-                        :
-                        '')
+        {props.level.map(item => {
+
+                let click = () => {
+                    hide(item[1][0]); /*Добавить элемент в спсиок нажимаемых*/
+                    newMind(item[1][1]); /*Установить новую мысль*/
+                    getOption(item[2][0], props.bag); /*Добавить предмет*/
+                    get_exp(item[2][1], props.expItem); /*Получить опыт*/
+                    use_Item(item[2][2]); /*Использовать предмет*/
+                    dmg(item[3]); /*Получить урон*/
+                    newLevel(item[4]); /* Перейти на уровень #*/
+                    StepCollab()
+                };
+
+                let clickTwoMind = () => {
+                    newMind(item[1][2]); /*Установить новую мысль*/
+                    dmg(item[3]); /*Получить урон*/
+                };
+
+                // Первая проверка часть 1
+                let show = item[0][0] === v.TRUE; // Отрисовывать?
+                let oneOfBag = item[0][0] === v.ONCE && props.bag.some(x => item[0][1].some(y => y[0] === x));
+                let oneOfExp = item[0][0] === v.ONCE && props.expItem.some(x => item[0][1].some(y => y[0] === x));
+                let ONCE = show || oneOfBag || oneOfExp; // Если есть один из предметов
+                // Первая проверка часть 1
+
+
+                // Первая проверка часть 2
+                let arrBagExp = []; // пустой вспомогательный массив. Нужен для наполнения его true И false для дальнейшего взаимодействия. А именно нам нужно что бы все элементы были true
+                // склеиваем содержиаое рюкзака и опыта
+                // каждый требуемы элемент сравниваем с тем что есть в рюкзаке. Если есть то добавляем true или нет то false
+                if (item[0][0] === v.ALL) {
+                    let bagAndExp = props.bag.concat(props.expItem);
+                    item[0][1].map(x => arrBagExp.push(
+                        bagAndExp.some(y => y === x)
+                    ));
+                }
+                // Ищем хотя бы один false если его нет то значит все отлично результат вернуться FALSE и мы его перевернем для того что бы вернулось true
+                // в результате если все требуемы предметы есть в рюкзаке условие авпоняется
+                let AllInBag = !(arrBagExp.length > 0 ? arrBagExp.some(x => x === false) : true);
+                let ALL = show || AllInBag; // Если есть все предметы
+                // Первая проверка часть 2
+
+                //Вторая проверка
+                let touched = props.hide.some(x => x === item[1][0]); // Отслеживает нажата ли?
+                //Вторая проверка
+
+                //Третья проверка
+                let defaultHide = item[5] && !(ALL || ONCE); // Скрыть по умолчанию?
+                //Третья проверка
+
+                //Четвертая проверка
+                let touchedHide = props.hide.some(x => x === item[1][0]) && item[6]; // Скрывать навсегда нажатия?
+                //Четвертая проверка
+
+                // Пятая проверка Часть 1
+                let haveOnceItem = item[7][0] === v.ONCE && (props.bag.some(x => item[7][1].some(y => y[0] === x)) || props.expItem.some(x => item[7][1].some(y => y[0] === x)));
+                // Пятая проверка Часть 1
+
+                // Пятая проверка Часть 2
+                let arrhaveOfItem = []
+                    if (item[7][0] === v.ALL) {
+                    let bagAndExp = props.bag.concat(props.expItem);
+                    item[7][1].map(x => arrhaveOfItem.push(
+                        bagAndExp.some(y => y === x)
+                    ));
+                }
+                let haveAllItem = !(arrhaveOfItem.length > 0 ? arrhaveOfItem.some(x => x === false) : true);
+
+                switch (true) {
+                    //Обычеая отрисовка
+                    case (haveOnceItem || haveAllItem):
+                        return <div key={'id' + Math.random()}></div>;
+                        break;
+                    case (defaultHide):
+                        return <div key={'id' + Math.random()}></div>;
+                        break;
+                    case (touchedHide):
+                        return <div key={'id' + Math.random()}></div>;
+                        break;
+                    case (touched):
+                        return <button className={'grey'}  key={'id' + Math.random()} onClick={click}>
+                            {item[1][0]}
+                        </button>
+                        break;
+                    case (ALL || ONCE):
+                        return <button onClick={click} key={'id' + Math.random()}>
+                            {item[1][0]}
+                        </button>;
+                        break;
+                    default:
+                        return <button onClick={clickTwoMind} className={'rouse'} key={'id' + Math.random()}>
+                            {item[1][0]}
+                        </button>;
+                        break
+                }
+            }
         )}
     </div>
 }

@@ -5,10 +5,13 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {Provider} from "react-redux";
 import store from './redux/redux'
+import App2 from "./App2";
 
 ReactDOM.render(
     <Provider store={store}>
         <App />
+
+        {/*<App2 />*/}
     </Provider>
     , document.getElementById('root'));
 

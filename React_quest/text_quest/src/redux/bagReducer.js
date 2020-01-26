@@ -19,7 +19,7 @@ const bagReducer = (state = initialState, action) => {
         }
         case USEITEM: {
             return {
-                ...state, bag: state.bag.filter(x=>x!=action.item)
+                ...state, bag: state.bag.filter(x =>x !=action.item)
             }
         }
         default:

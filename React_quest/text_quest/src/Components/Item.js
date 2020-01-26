@@ -10,7 +10,7 @@ function Item(props) {
      }
  }
 
-    return <img onClick={()=>{del()}} width='10%' height='100%' src={props.img}/>
+    return <img onClick={()=>{del()}} width='100' className={'m5'} height='100' src={props.img}/>
 }
 
 
