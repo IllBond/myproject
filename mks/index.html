@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+
+	<title>МКС</title>
+	<style>
+		.main {
+			  display: grid;
+			   grid-template-columns: 5fr 2fr 
+		}
+		
+		.profile {
+			display: grid;
+			 grid-template-columns: 1fr 5fr 
+		}
+
+		.main > div {
+			margin: 5px;
+			border: 1px solid #000000 
+		}
+		
+
+		.block1 > div, .block2 > div {
+			margin: 10px
+		}
+		
+		.block3 {
+		
+		}
+
+		.block4 > .profiles {
+			margin: 10px	
+		}
+
+		.block4 > .people {
+			 border-top: 1px solid #000000
+		}
+		
+		.block3 {
+			display: grid;
+		}
+
+		.block4 h3 {
+			text-align: center;
+		}
+
+
+		.people > div {
+			margin: 10px
+		}
+
+		.profile {
+			border: 1px solid #000000;
+			border-radius: 20px;
+			margin: 5px 0 5px 0; 
+			padding: 5px
+		}
+
+		.photo img {
+			height: 50px;
+
+		}
+
+		#map {
+			 grid-template-columns: 1fr  
+		}
+	
+	</style>
+ <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1dVUizyqVQnOHhcBgieXR1S_cChyPzyk&callback=initMap">
+    </script>
+</head>
+<body>
+	<div class="main">
+		<div class="block1">
+			<div>
+				<div>
+					<strong>
+					Текущие координаты МКС
+					</strong>
+				</div>
+				<div>
+					Ширина: <span class="lat">...</span>,
+					Долгота: <span class="long">...</span>
+				</div>
+			</div>
+		</div>
+		<div class="block2">
+			<div>
+				<div>
+					<strong>
+					Время и дата получения координат:
+					</strong>
+				</div>
+				<div>
+					<div>Время - <span class="time">...</span></div>
+					<div>Дата - <span class="date">...</span></div>
+				</div>
+			</div>
+		</div>
+		<div class="block3">
+		
+				<div id="map"></div>
+			
+		</div>
+		<div class="block4">
+			<div>
+				<h3>Члены экипажа МКС</h3>
+			</div>
+			<div class="profiles">
+				
+			</div>
+			<div class="people">
+				<div>
+					Всего человек <span class="total">2</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+
+		let coorLong = -25.363
+		let coorLat  = 131.044
+		let poople = {}
+		let peopleDOM = ''
+		
+		let time = ''
+		let date = ''
+
+		let render = (() => {
+			async function getData () {
+
+				try {
+					let response = await fetch('http://api.open-notify.org/iss-now.json')
+					let data = await response.json()
+					coorLat = data.iss_position.latitude
+					coorLong = data.iss_position.longitude
+					setCoor()
+					initMap()
+				} catch (error) {
+					throw new Error('Не удалось получить ответ с координатами мкс')
+				}
+
+				try {
+					let response = await fetch('http://api.open-notify.org/astros.json')
+					let data = await response.json()
+					poople = data.people
+					setPeople()
+				} catch (error) {
+					throw new Error('Не удалось получить ответ о членах комнанды мкс ')
+				}
+
+				setDate()
+			}
+			
+			
+			getData()
+
+			setInterval(()=>{
+				getData()
+			}, 5000)			
+		})()
+
+
+		let setDate = () => {
+			let t = new Date();
+			time = `${t.getUTCHours()}:${t.getUTCMinutes()}:${t.getUTCSeconds()}`
+			date = `${t.getUTCDate()}.${t.getUTCMonth()+1}.${t.getUTCFullYear()}`
+			document.getElementsByClassName('time')[0].innerHTML = time
+			document.getElementsByClassName('date')[0].innerHTML = date
+		}
+
+		let setCoor = () => {
+			document.getElementsByClassName('lat')[0].innerHTML = coorLat
+			document.getElementsByClassName('long')[0].innerHTML = coorLong
+		}
+
+		let setPeople = () => {
+			poople.map((item)=>{
+				peopleDOM = peopleDOM + `
+				<div class="profile">
+					<div class="photo">
+						<img src="https://upload.wikimedia.org/wikipedia/commons/8/8e/ISS_Expedition_14_patch.svg" alt="">
+					</div>
+					<div class="name">${item.name}</div>
+				</div>
+				`
+			})
+
+			document.getElementsByClassName('profiles')[0].innerHTML = peopleDOM
+			document.getElementsByClassName('total')[0].innerHTML = poople.length
+			peopleDOM = ''
+		}
+
+		function initMap() {
+		 	var myLatLng = {lat: +coorLat, lng: +coorLong};
+		 	var map = new google.maps.Map(document.getElementById('map'), {
+		 	  zoom: 4,
+		 	  center: myLatLng
+		 	});
+		 	var marker = new google.maps.Marker({
+		 	  position: myLatLng,
+		 	  map: map,
+		 	  title: 'Hello World!'
+		 	});
+		}
+	</script>
+
+    
+</body>
+</html>
