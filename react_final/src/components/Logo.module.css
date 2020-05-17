@@ -1,0 +1,8 @@
+.mainLogo {
+    border-left: black 1px solid;
+}
+
+.mainLogo img{
+    width: 100px;
+    height: 100px;
+}
