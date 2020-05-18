@@ -1,14 +1,8 @@
 .mainHeader {
-  
     display: grid;
     align-items: center;
-
 }
 
-.item {
-    display: inline-block;
-    margin: 0px 10px;
-}
 
 .content {
     text-align: center;
