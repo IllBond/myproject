@@ -4,13 +4,13 @@ import Link from "./Link/Link";
 
 const Header = (props) => {
     return (
-        <div className={`${style.mainHeader} ${style.content}` }>
-           <div>
+        <>
+           <div className={`${style.content}` }>
                {props.links.map(item => {
                    return <Link link={item}/>
                })}
            </div>
-        </div>
+        </>
     );
 }
 

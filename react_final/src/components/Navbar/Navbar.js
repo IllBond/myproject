@@ -1,14 +1,15 @@
 import React from 'react';
 import style from './Navbar.module.css'
+import {NavLink} from "react-router-dom";
 
-const Logo = () => {
+const Navbar = () => {
     return (
-        <div className={`${style.mainNavbar}`}>
+        <>
             <div>
-                <a href='#'>Профиль</a>
+                <NavLink  to='/profile'>Профиль</NavLink>
             </div>
             <div>
-                <a href='#'>Сообщения</a>
+                <NavLink  to='/dialogs'>Сообщения</NavLink>
             </div>
             <div>
                 <a href='#'>Новости</a>
@@ -19,8 +20,8 @@ const Logo = () => {
             <div>
                 <a href='#'>Настрйоки</a>
             </div>
-        </div>
+        </>
     );
 }
 
-export default Logo;
+export default Navbar;
