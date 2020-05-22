@@ -7,10 +7,10 @@ const Dialogs = () => {
     return (
         <div className={style.dialogs}>
             <div>
-                <User/>
-                <User/>
-                <User/>
-                <User/>
+                <User id='1' name='Лера'/>
+                <User id='2' name='Валера'/>
+                <User id='3' name='Иброгим'/>
+                <User id='4' name='Стас'/>
             </div>
                 <Message/>
 
