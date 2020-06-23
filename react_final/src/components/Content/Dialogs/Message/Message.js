@@ -3,8 +3,6 @@ import style from './Message.module.css'
 
 
 const Message = (props) => {
-
-
     let mapMessages = props.message.map((item) => {
         return <div className={style.dialog + ' ' + (item.address ? '' : style.dialogYou)}>
             <div className={style.dialogPhoto}><img src={item.photo}/></div>

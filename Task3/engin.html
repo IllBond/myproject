@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Ионный двигатель.</title>
+</head>
+<body>
+
+	<form method="post" action="#sim" onsubmit="" style="text-align: center;">
+		<input style="height: 50px;" type="button"  value="Начать естественный отбор" onclick="time();"/>
+	</form>
+
+	
+
+	<div>
+		<div>
+			<div>
+				<h3>Алгоритм</h3>
+				<li>Пробуем создать первую популяцию</li>
+				<li>Популяция должна удовлетворять условиям 1. Не использовать один и тот же топлевный бак 2. Ускорение должно быть равным или меньше скорости маневра. Иначе отчищаем и содаем новую популяцю</li>
+				<li>Если слишком много особей выжило мы убираем половину для того что бы остальные могли мутировать</li>
+				<li>Если особей больше 2 и меньше 5 мы мутируем их или спариваем друг с другом</li>
+				<li>Снова сортируем и если потомки более сильное чем предки, то первые вытеснят вторых и более слабые погибнут</li>
+				<li>Критерий силы это максимальная скорость вместе с удовлетворенными условиями</li>
+			</div>
+			<div>
+				<h3>Входящие параметры</h3>
+					<pre id='data'></pre>
+			</div>
+			<h3>Выполнение</h3>
+			
+			<div>Попыток родить жизнь  - <span id="initialTired">0</span></div>
+			<div>Ген (Попыток решить задачу) - <span id="burnTired">0</span></div>
+			<div>Статус - <span id="status">Пока ничего не началось</span></div>
+
+			<div>
+				<h3>Результат</h3>
+					<pre id='result'></pre>
+			</div>
+			<div>
+				<h3>Информация</h3>
+					<li>Чем больше позволено развивать скорость на маневре тем скорее получится результат [1, 12, 7, 1] > [12, 12, 7, 12]</li>
+					<li>При текущей конфигурации параметров среднее число попыток родить жизнь 15000</li>
+			</div>
+			
+		
+		</div>
+		<div>
+			<canvas id="can" width="400" height="400"></canvas>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+
+		//Входящие данные
+		let data = { corrections:[1, 12, 7, 1], cells: [8, 4, 6, 2, 2]}
+		var dataelement = document.getElementById('data')
+		dataelement.innerText =JSON.stringify( data)
+		let population = [] // Популяция. Здесь варианты решения задачи
+		let maxPopultion = 10 // Максимальная велчина популяции. Сколько вариантов решения задачи может быть максимум
+		let notUse = 0  // Всопомгательная переменная. С ней будем сравнивать в тех случаях когда не используем топливный бак
+		let initial = 0 // вспомогательный показа сообщения
+		let initialTired = 0 // //вспомогательный показа счета
+		let burn = 0 // вспомогательный показа сообщения
+		let burnTired = 0 //вспомогательный показа счета
+		let gen = 0 // вспомогательный показа сообщения
+		let result1 // вспомогательный для результата
+		let result2// вспомогательный для результата
+		let result3 // вспомогательный для результата
+		let result4 // вспомогательный для результата
+
+		//Входящие данные
+		let init = (data) => {
+			population = []// Сброс популяции на случай если пришлось инициализировать повторно 
+			// Генератор решений
+			let randGen = (data) => {	
+				//Генирируем j значений. Величная их юудет равна количеству топливных капусл. Это есть индексы топливны капсул (но не значения ускорения топливной капсулы) 
+				let unit = []
+				for (let j = 0; j < data.corrections.length; j++) {
+					unit.push(Math.floor(Math.random()*data.cells.length+1))
+				}
+
+				//Эта переменная всопомгательная. В ней хранится не индекс топлаиной капсулы, а отказ дивгателя использовать топлевную капусул
+				notUse = data.cells.length
+				return unit
+			}
+
+			// Добавляем в population варианты решения задачи. 
+			let AddNewUnit = (data) => {
+				let firstEng  = randGen(data) //значения для двигателя 1
+				let secondEng  = randGen(data) //значения для двигателя 2
+				population = [...population, {
+					firstEng: firstEng,
+					secondEng: secondEng
+				}]
+			}
+
+			// Добавляем столько решений сколько разрешено
+			for (let i = 0; i < maxPopultion; i++) {
+				AddNewUnit(data)
+			}			
+		}
+
+
+		//Естественный отбор который уберет неудачные решения или тех кто не способен жить
+		let naturalSelection = () => {
+
+			firstSelection() // УБирет те решения котоыре в сумме привышает допустимую скорость
+			secondSelection() // убивает те ррешения котоыре одновременно пробую использовать одну и туже топлевную капсулу
+
+			//Если все вымерли или остался 1 решение не способное размножатся снова инициализируем решения
+			if (population.length<2) {
+				if (initial<1) {
+					initial++
+					var el2 = document.getElementById('status')
+					el2.innerText = 'Попытка зародить жизнь. '
+				}
+
+				initialTired++
+				var initialTiredelement = document.getElementById('initialTired')
+				initialTiredelement.innerText = initialTired
+
+				init(data)
+			} else {
+				if (burn<1) {
+					gen++
+					var el2 = document.getElementById('status')
+					el2.innerText = 'Жизнь родилась'
+				}
+				var burnTiredelement = document.getElementById('burnTired')
+					burnTiredelement.innerText = burnTired
+				burnTired++
+				//Сортируем решения что бы в начале были самые сильыне - с самоой большой результирующей скоростью
+				sort()
+
+				// Катаклизм запускается в том случае если осталость слишком много вариантов решения, что бы появилась возможно спаривать самые сильные решения или мутировать их
+				cataclysm()
+
+				// Мутируем сильыне или спариваем сильные с сильными решения
+				crossMut()
+			}
+			result() //Вывод результатов
+		}
+
+
+		let result = () => {
+			var el1 = document.getElementById('result')
+
+			result1 = []
+			result2 = []
+			result3 = 0
+			result4 = {}
+
+			population[0].firstEng.map(key=>{
+				result1.push( key == notUse ? 0 : data.cells[key] )
+			})
+
+			population[0].secondEng.map(key=>{
+				result2.push(key == notUse ? 0 : data.cells[key])
+			})
+
+			for (o = 0; o < population[0].firstEng.length; o++) {
+					result3 = result3 + ((data.cells[population[0].firstEng[o]] === undefined) ? 0 : data.cells[population[0].firstEng[o]])  + 
+					((data.cells[population[0].secondEng[o]] === undefined) ? 0 : data.cells[population[0].secondEng[o]]/2)
+				}	
+
+			result4 = { main_thruster : result1 , 
+				secondary_thruster : result2 , 
+				delta_velocity: result3}
+
+
+			el1.innerText = JSON.stringify(result4)
+
+
+
+		}
+		// Первая проверка уБирет те решения котоыре в сумме привышает допустимую скорость
+		let firstSelection = () => {
+			let nd = [] // те элементы которые удалим
+			
+				for (k=0; k<population.length; k++) {
+					for (l=0; l<data.corrections.length; l++) {
+						if (
+
+							//Проверка на undefined. Если значения не найдено то это значение не использует топливную капсулу и прирост усорения будет 0
+							((data.cells[population[k].firstEng[l]] === undefined) ? 0 : data.cells[population[k].firstEng[l]])  + 
+							((data.cells[population[k].secondEng[l]] === undefined) ? 0 : data.cells[population[k].secondEng[l]]/2)  >
+							data.corrections[l]) {
+							// Добавляем в начало индекс решения которе нужно удалить
+							nd.unshift(k)
+						break
+					}
+				}
+
+			}
+		
+		// Удаляем те значения котороые не подходят нам
+		nd.map(key => {
+			new_population = population.filter((item, index) => index != key)
+			population = new_population
+			
+		})
+	}
+	let secondSelection = () => {
+		let nd = []// те элементы которые удалим
+	
+		for (k=0; k < population.length; k++) {
+			//Склеиваем значения из двигателя 1 и 2 
+			// Затем проверяем по очереди значения со слудющим и так до конца. Исклчюая само себя.
+			//Если такое значение есть то решение нам не подходит. Останавливаем цикл переходим к следующей проверке 
+			let concatEng = population[k].firstEng.concat(population[k].secondEng)
+			outer:for (p = 0; p < concatEng.length; p++) {
+				if (concatEng[p]!=notUse) {
+					for (r = p+1; r<concatEng.length; r++) {
+						if (concatEng[p]===concatEng[r]) {
+							// Добавляем в начало
+							nd.unshift(k)
+							break outer
+						}
+					}
+				}
+			}
+		}
+
+		// Удаляем те значения котороые не подходят нам
+		nd.map(key => {
+			new_population = population.filter((item, index) => index != key)
+			population = new_population
+			
+		})
+
+
+	}
+
+	let time = () => {
+		// Каждые 0,02 сек рождается новое поколение
+		setInterval(naturalSelection,1)
+	}
+
+	let cataclysm = () => {
+	// Удаляет половину
+		while(population.length > 5) {
+			population.pop()
+		}
+	}
+
+	let sort = () => {
+		// Если есть что сортировать сортируем
+		if (population.length>1) {
+			//сравниваются скорости каждого решения
+			population.sort((a,b) => {
+
+				let aa = 0
+				let bb = 0
+			
+				// Считается скорость n-решения
+				for (l=0; l<a.firstEng.length; l++) {
+					aa = aa +((data.cells[a.firstEng[l]] === undefined) ? 0 : data.cells[a.firstEng[l]])  + 
+					((data.cells[a.secondEng[l]] === undefined) ? 0 : data.cells[a.secondEng[l]]/2)
+				}
+
+			// Считается скорость (n+1)-решения
+				for (l=0; l<b.firstEng.length; l++) {
+					bb = bb +((data.cells[b.firstEng[l]] === undefined) ? 0 : data.cells[b.firstEng[l]])  + 
+					((data.cells[b.secondEng[l]] === undefined) ? 0 : data.cells[b.secondEng[l]]/2)
+				}
+
+				// То которое больше отправляется в начало
+				return bb - aa
+
+
+			});
+
+		}
+	}
+
+
+	//или мутация или спаривание
+	let crossMut = () => {
+		while (population.length < maxPopultion) {
+			if (Math.random() > 0.5) {
+				cross()
+			} else {
+				mut()
+			}
+		}
+	}
+
+
+	//Мутация
+	let mut = () => {
+		//Копируем одно из решений
+		let mutUnit = JSON.parse(JSON.stringify(population[Math.floor(Math.random()*population.length)]));
+
+		// Рандомное количество генов будут изменены на рандомные значения из списока допустимых
+		for ( i = 0; i < Math.ceil(Math.random() * data.corrections.length); i++) {
+			if (Math.random() > 0.5) {
+				mutUnit.firstEng[Math.floor(Math.random()*mutUnit.firstEng.length)] = Math.floor(Math.random()*(data.cells.length+1))
+			} else {
+				mutUnit.secondEng[Math.floor(Math.random()*mutUnit.secondEng.length)] = Math.floor(Math.random()*(data.cells.length+1))
+			}
+
+		}
+
+		population.push(mutUnit)
+	}
+
+
+	//Спаривание
+	let cross = () => {
+		//Копируем  первый ранжомный эл-т
+		let motherUnit = JSON.parse(JSON.stringify(population[Math.floor(Math.random()*population.length)]));
+
+		//копируем второй рандомный эл-т
+		let fatherUnit =  JSON.parse(JSON.stringify(population[Math.floor(Math.random()*population.length)]));
+
+
+		// Произойдет попытка заменить каждый ген матери на такой любой рандомный ген отца
+		for (i=0; i < fatherUnit.firstEng.length; i++) {
+
+			//В половине случаем произойдет попытка замена гена у двигателя 1
+			if (Math.random() > 0.5) {
+
+				if (Math.random() > 0.5) {
+			
+					motherUnit.firstEng[i] = fatherUnit.firstEng[Math.random() * fatherUnit.firstEng.length]
+				} else {
+					motherUnit.firstEng[i] = fatherUnit.secondEng[Math.random() * fatherUnit.firstEng.length]
+				}
+			}
+			
+			//В половине случаем произойдет попытка замена гена у двигателя 1
+			if (Math.random() > 0.5) {
+				if (Math.random() > 0.5) {
+					motherUnit.secondEng[i] = fatherUnit.firstEng[Math.random() * fatherUnit.firstEng.length]
+				} else {
+					motherUnit.secondEng[i] = fatherUnit.secondEng[Math.random() * fatherUnit.firstEng.length]
+				}
+			}
+		}
+		population.push(motherUnit)
+	}
+
+	let render = () => {
+
+	}
+
+	init(data)
+
+
+</script>
+
+</script>
+</body>
+</html>

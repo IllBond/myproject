@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>throw catch finaly try</title>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+<body>
+	<script>
+		let calculate = (n) => {
+			if (n > 10) throw new Error('Ошибка. Число не должна быть больше 10')
+				console.log(n)
+		}
+		
+		try {
+			calculate(20)
+		} catch (e) {
+			console.log(e.message)
+		}
+	</script>
+</body>
+</html>

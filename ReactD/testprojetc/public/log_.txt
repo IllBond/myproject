@@ -1,0 +1,29 @@
+npm create-react-app НАЗВАНИЕ
+npm start
+
+npm install node-sass react-router-dom bootstrap axios - устанавливает
+    node-sass - (гуглить что это)
+    react-router-dom - (гуглить что это)
+    bootstrap
+    axios
+
+
+Переименуем - index.css -> index.scss
+
+внутри index.scss
+    @import "~bootstrap/scss/bootstrap"
+
+Создаем компоненты и подключаем их
+    import {Home} from "./pages/home";
+    import {About} from "./pages/about";
+
+Подключаем BrowserRout, route и switch
+    import {BrowserRouter, Route, Switch} from "react-router-dom";
+
+Делаем на главной странице
+    <Route path={"/"} exact component={Home}/>
+    <Route path={"/about"} component={About}/>
+        exact - (в точности)
+
+Создаем навигацию
+    Navbar

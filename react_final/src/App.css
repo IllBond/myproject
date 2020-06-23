@@ -31,7 +31,7 @@
 .mainContent {
     border-top: black 1px solid;
 }
-.mainContent > div {
+.mainContent  > div {
     margin: 0 15px;
     padding: 10px;
     border-left: black 1px solid;

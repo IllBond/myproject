@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>async</title>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+<body>
+	<script>
+		// let getUser = (id) => {
+		// 	return {id: 1}
+		// }
+		// let user = getUser(1)
+		// console.log(user)
+
+
+
+		// async function getUser (id) {
+		// 	return {id: 1} 
+		// }
+		// let user = getUser(1) // возвращзает промис
+		// getUser(1).then(user => console.log(user)) // ВОзарвщает обьект 
+
+
+
+		// async function getUser(id) {
+		// 	return {id: 1}
+		// }
+		// async function main() {
+		// 	let user = await getUser(1) // Вместо обещания подожди пока не выполниться функция затем выведи ее в console 
+		// 	console.log(user)
+		// }
+		// main()
+
+
+		
+
+		// function getUser (id) {
+		// 	return axios.get('https://jsonplaceholder.typicode.com/posts/2')
+		// 	.then(response => response) //обещание 
+		// }
+		// async function main () {
+		// 	let user = await getUser(1) //жди пока данные не будут получены а потом жухай
+		// 	console.log(user.data)
+		// }
+		// main()
+
+
+
+		// async function getUser (id) {
+		// 	let response = await fetch('https://jsonplaceholder.typicode.com/posts/2')
+		// 	let data = await response.json()
+		// 	return data
+		// }
+		// async function main () {
+		// 	let user = await getUser(1)
+		// 	console.log(user)
+		// }
+		// main()
+
+
+
+		// async function getUser (id) {
+		// 	let response = await fetch('https://jsonplaceholder.typwicode.com/posts/2')
+		// 	let data = await response.json()
+		// 	return data
+		// }
+		// async function main () {
+		// 	try {
+		// 		let user = await getUser(1)
+		// 		console.log(user)
+		// 	} catch (error) {
+		// 		console.error(error)
+		// 	}
+		// }
+		// main()
+
+
+
+		// // Идентично версии на уровень ниже
+		// async function getUser (id) {
+		// 	try {
+		// 		let response = await fetch('https://jsonplaceholder.typicode.com/posts/1')
+		// 		let data = await response.json()
+		// 		return data
+		// 	} catch (error) {
+		// 		throw new Error('Не получаю данных по какой то причине ек макарек')
+		// 	}
+		// }
+		// (async function main () {
+		// 	try {
+		// 		let user = await getUser(1)
+		// 		console.log(user)
+		// 	} catch (error) {
+		// 		console.error(error)
+		// 	}
+		// })()
+
+
+		// Идентично версии на уровень выше
+		class DataService {
+			async getUser(id) {
+				try {
+					let response = await fetch('https://jsonplaceholder.typicode.com/posts/1')
+					let data = await response.json()
+					return data
+				} catch (error) {
+					throw new Error('Не получаю данных по какой то причине ек макарек')
+				}
+			}
+		}
+
+		(async () => {
+			let dataSercive = new DataService
+
+			try {
+				let user = await dataSercive.getUser(1)
+				console.log(user)
+			} catch (error) {
+				console.error(eror)
+			}
+		})()
+	</script>
+</body>
+</html>

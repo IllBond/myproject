@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type='text/javascript' src='https://shra.ru/wp-includes/js/jquery/jquery.js?ver=1.12.4-wp'></script>
+	<script type='text/javascript' src='https://shra.ru/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+</head>
+<body>
+
+	<form method="post" action="#sim" onsubmit="">
+		<input type="button" name="op" value="Запуск" onclick="runGA();"/>
+		<input type="button" name="op" value="Стоп" onclick="stopGA();"/>
+	</form>
+	<canvas id="GAcanvas" width="200" height="200"></canvas>
+	<script>
+		var GAS = new GASIMLINE(7, "GAcanvas");
+		GAS.init();
+		GAS.step();
+		GAS.render();
+		var exec = false;
+
+		function runGA() {
+			exec = true;
+			setTimeout(onGA, 40);
+		}
+
+		function onGA() {
+			GAS.step();
+			GAS.render();
+			if (exec) {
+				setTimeout(onGA, 100);
+			}
+		}
+
+		function stopGA() {
+			exec = false;
+		}
+
+function GASIMLINE(N, canvasID) {
+
+	this.A = [0.2, 0.5];
+	this.B = [0.8, 0.5];
+	this.N = N;
+	this.popMaxSize = 10;
+	this.agents = [];
+	this.numGn = 0;
+	
+	this.canvas = document.getElementById(canvasID);
+	if (this.canvas != null) {
+		this.w = jQuery(this.canvas).width();
+		this.h = jQuery(this.canvas).height();
+	}	
+	
+	//create start agents
+	this.init = function() {
+		while (this.agents.length < this.popMaxSize) {
+			var pts = [];
+			while (pts.length < this.N) 
+				pts.push([Math.random(), Math.random()]);
+			this.agents.push({p:pts, size: 0});
+		}
+	}
+
+
+	//Подсчет size внутрь агента с соответствующим индексом будет добавлено значение size 
+	this.measure = function(agentIndex) {
+		var size = 0;
+		lp = this.A;
+		pts = this.agents[agentIndex].p;
+		for (var k=0; k < this.N; k++) {
+			size += Math.sqrt(Math.pow(lp[0] - pts[k][0], 2) + Math.pow(lp[1] - pts[k][1], 2));
+			lp = pts[k];
+		}
+		//last point
+		size += Math.sqrt(Math.pow(lp[0] - this.B[0], 2) + Math.pow(lp[1] - this.B[1], 2));
+		this.agents[agentIndex].size = size;
+	}
+
+	// Поочередное добавление размера кажому агенту
+	this.measureAll = function() {
+		for (var k=0; k < this.agents.length; k++) 
+			this.measure(k);
+	}
+	
+	//Удаляем агенты с большой длиной
+	this.removeWeakest = function(WN) {
+		// WN индекс середины
+		// Поочередное добавление размера кажому агенту
+		this.measureAll();
+		//Сортируем по индексу
+		this.agents.sort(function (a,b) { return a.size - b.size; });
+
+		// Пока в агентах что то есть. И пока мы ен убрали больше половины агентов отнимаем из массива по одному агенту
+		while (this.agents.length > 0 && WN > 0) {
+			WN --;
+			this.agents.pop();
+		}
+	}
+	
+	//добавить мутацию
+	this.addMutant = function(agentIndex) {
+		var newAgent = JSON.parse(JSON.stringify(this.agents[agentIndex])); // делаем копию одного из сильных агентов
+		for (k = 0; k < Math.floor(1 + Math.random() * Math.sqrt(this.N)); k++ ) { // Делаем нескольько переборов 1-4 при 10popMaxSize и 1-5 при 25popMaxSize
+			var mutPosIndex = Math.floor(Math.random() * this.N); // 0-9 при 10popMaxSize
+			var rMut = 0.10 * Math.random(); // вспомогательный коэфициент от 0.1-0.01
+			var alphaMut = 2 * Math.PI * Math.random(); // от 0 до 3,14
+			newAgent.p[mutPosIndex][0] += rMut * Math.sin(alphaMut); // 0.01 * 0 или 0,1 * 0,14
+			newAgent.p[mutPosIndex][1] += rMut * Math.cos(alphaMut);  // 0.01 * 0 или 0,1 * 0,14
+		}
+		this.agents.push(newAgent); // в конец добавляем нового агента (ранее мы убирали часть слабых агентов)
+	}
+
+	//Скрестить
+	this.addCrossOver = function (agentIndex1, agentIndex2) {
+		var mutPosIndex = Math.floor(Math.random() * this.N);
+		var newAgent = JSON.parse(JSON.stringify(this.agents[agentIndex1]));
+		for (z = 0; z < this.N/2; z++) {
+			newAgent.p[mutPosIndex][0] = this.agents[agentIndex2].p[mutPosIndex][0];
+			newAgent.p[mutPosIndex][1] = this.agents[agentIndex2].p[mutPosIndex][1];
+		}
+		this.agents.push(newAgent);
+	}
+	
+
+	this.step = function () {
+		this.removeWeakest(Math.ceil(this.popMaxSize / 2)); //5
+		this.numGn ++;
+
+		while (this.agents.length < this.popMaxSize) {
+			
+			if (Math.random() < 0.5) {
+				//mutation
+				var index1 = Math.floor(Math.random() * this.popMaxSize / 2);
+				this.addMutant(index1);
+
+			} else {
+				//crossover
+				var index1 = Math.floor(Math.random() * this.popMaxSize / 2);
+				var index2 = Math.floor(Math.random() * this.popMaxSize / 2);
+				this.addCrossOver(index1,index2);
+			}
+		}
+	}
+	
+	//show picture
+	this.render = function () {
+		var w = this.w;
+		var h = this.h;
+		var ctx = this.canvas.getContext("2d");
+		ctx.beginPath();
+		ctx.font="10px Arial";
+		//clear
+		ctx.fillStyle = "#FeFeFF";
+		ctx.lineWidth=1;
+		ctx.shadowBlur=0;
+		ctx.strokeStyle="#000000";
+		ctx.shadowOffsetX=0;
+		ctx.shadowOffsetY=0;
+		ctx.scale(1, 1);
+		ctx.rect(0, 0, w, h);
+		ctx.fill();	ctx.stroke();
+
+		//draw best way
+		ctx.lineWidth=1;
+		ctx.strokeStyle="#0000FF";
+		for (var k = 0; k < this.popMaxSize ; k ++) {
+			ctx.beginPath();
+			if (k > 0) {
+				ctx.lineWidth=0.25;
+			} else {
+				ctx.lineWidth=1;
+			}
+			ctx.moveTo(this.A[0] * w, this.A[1] * h);
+			for (var j = 0; j < this.N; j++) {
+				ctx.lineTo(this.agents[k].p[j][0] * w, this.agents[k].p[j][1] * h);
+			}
+			ctx.lineTo(this.B[0] * w, this.B[1] * h);
+			ctx.stroke();
+		}
+		//legend output
+		ctx.fillStyle = "#FF0000";
+		ctx.strokeStyle="#FF0000";
+		ctx.fillText("GEN: " + this.numGn,5,15);
+		var f = this.agents[0].size / 0.6 * 100;
+		ctx.fillText("LEN: " + f.toFixed(3) + "%",5,25);
+		ctx.fillText("N: " + this.N,5,35);
+		ctx.fillText("popSize: " + this.popMaxSize,5,45);
+		//point A
+		ctx.beginPath();
+		ctx.arc(this.A[0] * w, this.A[1] * h, 2, 0, 2 * Math.PI);
+		ctx.fill();	ctx.stroke();
+		ctx.fillText("A", this.A[0] * w - 4, this.A[1] * h - 4);
+		//point B
+		ctx.beginPath();
+		ctx.arc(this.B[0] * w, this.B[1] * h, 2, 0, 2 * Math.PI);
+		ctx.fill();	ctx.stroke();
+		ctx.fillText("B", this.B[0] * w - 4, this.B[1] * h - 4);
+	}
+}
+
+
+</script>
+</body>
+</html>

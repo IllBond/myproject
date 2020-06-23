@@ -1,6 +1,6 @@
 const ADD_MESSAGE = 'ADD_MESSAGE';
 const CHANGE_TEXT = 'CHANGE_TEXT';
-
+const SETPRELOADER = "SETPRELOADER"
 
 let initialState = {
     message: [
