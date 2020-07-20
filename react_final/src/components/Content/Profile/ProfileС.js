@@ -1,10 +1,9 @@
 import React from 'react';
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {setProfile} from "../../../Redux/ProfileReducer";
-import * as axios from "axios";
-import {setPreloader} from "../../../Redux/usersReducer";
+import {setProfile, setPreloader, THUNK_getUser} from "../../../Redux/ProfileReducer";
 import {withRouter} from "react-router-dom";
+import {APIGetUser} from "../../../API/api";
 
 
 class ProfileС extends React.Component {
@@ -13,11 +12,7 @@ class ProfileС extends React.Component {
     if (!this.props.match.params.userID) {
         this.props.match.params.userID = 2
     }
-        this.props.setPreloader(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/`+this.props.match.params.userID).then(responce =>{
-            this.props.setProfile(responce.data)
-            this.props.setPreloader(false)
-        })
+        this.props.THUNK_getUser(this.props.match.params.userID)
 
     }
 
@@ -36,8 +31,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setProfile: (id) => {
-            dispatch(setProfile(id))
+        THUNK_getUser: (id) => {
+            dispatch(THUNK_getUser(id))
         },
         setPreloader: (id) => {
             dispatch(setPreloader(id))

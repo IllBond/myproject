@@ -1,20 +1,23 @@
-import {APIGetUser} from "../API/api";
+import {APIAuth} from "../API/api";
 
-const SETPROFILE = 'SETPROFILE';
+const GETAUTHDATA = 'GETAUTHDATA';
 const TEST = 'TEST';
 const SETPRELOADER = "SETPRELOADER"
 
-
 let initialState = {
-    message: [],
+    id: null,
+    email: null,
+    login: null,
+    isAuth: false,
     isPreloader: false
+
 };
 
-export let profileReducer = (state = initialState, action) => {
+export let authReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SETPROFILE:
+        case GETAUTHDATA:
             return {
-                ...state, message: action.data
+                ...state, id: action.data.id, login: action.data.login, email: action.data.email, isAuth: true
             };
         case SETPRELOADER:
             return {...state, isPreloader: action.state};
@@ -25,9 +28,9 @@ export let profileReducer = (state = initialState, action) => {
     }
 };
 
-export const setProfile = (data) => {
+export const getAuthData = (data) => {
     return {
-        type: SETPROFILE,
+        type: GETAUTHDATA,
         data: data
     }
 };
@@ -43,11 +46,14 @@ export const setPreloader = (state) =>
         state: state
     });
 
-export const THUNK_getUser = (id) => (dispatch) => {
+
+export const THUNK_auth = () => (dispatch) => {
     dispatch(setPreloader(true))
-    APIGetUser(id)
-        .then(responce =>{
-            dispatch(setProfile(responce.data))
+    APIAuth()
+        .then(responce => {
+            if (responce.data.resultCode === 0) {
+                dispatch(getAuthData(responce.data.data))
+            }
             dispatch(setPreloader(false))
         })
-}
+};
