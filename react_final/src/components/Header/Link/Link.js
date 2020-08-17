@@ -1,11 +1,12 @@
 import React from 'react';
 import style from './Link.module.css'
+import {NavLink} from "react-router-dom";
 
 const Link = (props) => {
     return (
         <div
             className={`${style.item}`}>
-            <a href='#'>{props.link}</a>
+            <NavLink to='google.com'>{props.link}</NavLink>
         </div>
     );
 }

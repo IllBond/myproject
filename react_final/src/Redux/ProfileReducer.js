@@ -1,25 +1,29 @@
-import {APIGetUser} from "../API/api";
+import {APIGetStatus, APIGetUser, APISetStatus} from "../API/api";
 
 const SETPROFILE = 'SETPROFILE';
-const TEST = 'TEST';
-const SETPRELOADER = "SETPRELOADER"
+const SETPRELOADER = "SETPRELOADER";
+const GETSTATUS = "GETSTATUS";
 
 
 let initialState = {
-    message: [],
-    isPreloader: false
+    userData: [],
+    status: null,
+    isPreloader: false,
+
 };
 
 export let profileReducer = (state = initialState, action) => {
     switch (action.type) {
         case SETPROFILE:
             return {
-                ...state, message: action.data
+                ...state, userData: action.data
             };
         case SETPRELOADER:
             return {...state, isPreloader: action.state};
-        case TEST:
-            return {...state};
+
+        case GETSTATUS:
+            return {...state, status: action.status};
+
         default:
             return state
     }
@@ -32,10 +36,12 @@ export const setProfile = (data) => {
     }
 };
 
-export const test = () =>
-    ({
-        type: TEST
-    });
+export const getStatus = (status) => {
+    return {
+        type: GETSTATUS,
+        status: status
+    }
+};
 
 export const setPreloader = (state) =>
     ({
@@ -43,11 +49,25 @@ export const setPreloader = (state) =>
         state: state
     });
 
-export const THUNK_getUser = (id) => (dispatch) => {
+export const THUNK_getUser = (id) => async (dispatch) => {
+
+    let responce = await APIGetUser(id)
+    dispatch(setProfile(responce.data))
+
+};
+
+export const THUNK_setStatus = (status) => async (dispatch) => {
+
+    let responce = await APISetStatus(status)
+    if (responce.data.resultCode === 0) {
+        dispatch(getStatus(status))
+    }
+};
+
+export const THUNK_GetUserStatus = (status) => async (dispatch) => {
     dispatch(setPreloader(true))
-    APIGetUser(id)
-        .then(responce =>{
-            dispatch(setProfile(responce.data))
-            dispatch(setPreloader(false))
-        })
-}
+    let responce = await APIGetStatus(status)
+    dispatch(getStatus(responce.data))
+    dispatch(setPreloader(false))
+
+};

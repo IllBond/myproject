@@ -9,7 +9,7 @@ const Header = (props) => {
           <div className={style.grid}>
               <div className={`${style.content}` }>
                   {props.links.map(item => {
-                      return <Link link={item}/>
+                      return <Link key={item} link={item}/>
                   })}
 
               </div>

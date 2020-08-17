@@ -1,6 +1,8 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
 import Preloader from "../../Common/Preloader";
+import {connect} from "react-redux";
+import {THUNK_auth_logOut} from "../../../Redux/authReducer";
 
 
 const Auth = (props) => {
@@ -10,9 +12,10 @@ const Auth = (props) => {
             <div>
                 {props.isPreloader?<Preloader/>:null}
             </div>
-            {!props.isAuth?<NavLink to={'authorized'}>Авторизоваться</NavLink>:<span>Привет {props.login}</span>}
+            {!props.isAuth?<NavLink to={'/authorized'}>Авторизоваться</NavLink>:<span>Привет {props.login} | <span onClick={props.THUNK_auth_logOut}>X</span></span>}
         </div>
     );
 }
 
-export default Auth;
+
+export default connect(null,{THUNK_auth_logOut})(Auth);

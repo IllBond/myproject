@@ -1,4 +1,5 @@
-import {APIAuth} from "../API/api";
+import {APIAuth, APIAuth_login, APIAuth_logOut} from "../API/api";
+import {stopSubmit} from "redux-form";
 
 const GETAUTHDATA = 'GETAUTHDATA';
 const TEST = 'TEST';
@@ -15,9 +16,11 @@ let initialState = {
 
 export let authReducer = (state = initialState, action) => {
     switch (action.type) {
+
         case GETAUTHDATA:
+
             return {
-                ...state, id: action.data.id, login: action.data.login, email: action.data.email, isAuth: true
+                ...state, id: action.id, login: action.login, email: action.email, isAuth: action.isAuth
             };
         case SETPRELOADER:
             return {...state, isPreloader: action.state};
@@ -28,10 +31,13 @@ export let authReducer = (state = initialState, action) => {
     }
 };
 
-export const getAuthData = (data) => {
+export const getAuthData = (id, login, email, isAuth) => {
     return {
         type: GETAUTHDATA,
-        data: data
+        id,
+        login,
+        email,
+        isAuth
     }
 };
 
@@ -47,13 +53,36 @@ export const setPreloader = (state) =>
     });
 
 
-export const THUNK_auth = () => (dispatch) => {
+export const THUNK_auth = () => async (dispatch) => {
     dispatch(setPreloader(true))
-    APIAuth()
-        .then(responce => {
+    let responce = await APIAuth()
+    if (responce.data.resultCode === 0) {
+        let data = responce.data.data
+        dispatch(getAuthData(data.id, data.login, data.email, true))
+    }
+    dispatch(stopSubmit('login', {_error: null}))
+    dispatch(setPreloader(false))
+
+};
+
+export const THUNK_auth_login = (email, password, rememberMe, captcha) => async (dispatch) => {
+    dispatch(setPreloader(true))
+    let responce = await APIAuth_login(email, password, rememberMe, captcha)
+    if (responce.data.resultCode === 0) {
+        dispatch(THUNK_auth())
+    } else {
+        let message = responce.data.messages.length > 0 ? responce.data.messages[0] : 'Неизвестная ошибка';
+        dispatch(stopSubmit('login', {_error: message}))
+    }
+    dispatch(setPreloader(false))
+
+};
+
+export const THUNK_auth_logOut = () => async (dispatch) => {
+    dispatch(setPreloader(true))
+    let responce = await APIAuth_logOut()
             if (responce.data.resultCode === 0) {
-                dispatch(getAuthData(responce.data.data))
+                dispatch(getAuthData(null, null, null, false))
             }
             dispatch(setPreloader(false))
-        })
 };

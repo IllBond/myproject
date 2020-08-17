@@ -1,31 +1,47 @@
 import React from 'react';
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {setProfile, setPreloader, THUNK_getUser} from "../../../Redux/ProfileReducer";
+import {setPreloader, THUNK_getUser, THUNK_GetUserStatus, THUNK_setStatus} from "../../../Redux/ProfileReducer";
 import {withRouter} from "react-router-dom";
-import {APIGetUser} from "../../../API/api";
+import {
+    getAuthId,
+    getUserData,
+    getUserStatus,
+    isPreloaderProfile
+} from "../../../selectors/selectors";
 
 
 class ProfileС extends React.Component {
 
     componentDidMount() {
-    if (!this.props.match.params.userID) {
-        this.props.match.params.userID = 2
-    }
-        this.props.THUNK_getUser(this.props.match.params.userID)
 
+    if (!this.props.match.params.userID) {
+        let id = this.props.id;
+        if (id) {
+            this.props.match.params.userID = id
+        } else {
+            this.props.history.push('/users')
+        }
+
+
+    }
+
+        this.props.THUNK_getUser(this.props.match.params.userID)
+        this.props.THUNK_GetUserStatus(this.props.match.params.userID)
     }
 
     render () {
 
-        return <Profile state={this.props.message} isPreloader={this.props.isPreloader}/>
+        return <Profile THUNK_setStatus={this.props.THUNK_setStatus} status={this.props.status} state={this.props.userData} isPreloader={this.props.isPreloader}/>
     };
 }
 
 const mapStateToProps = (state) => {
     return {
-        message: state.profile.message,
-        isPreloader: state.profile.isPreloader,
+        userData: getUserData(state),
+        status: getUserStatus(state),
+        isPreloader: isPreloaderProfile(state),
+        id: getAuthId(state),
     }
 };
 
@@ -36,6 +52,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         setPreloader: (id) => {
             dispatch(setPreloader(id))
+        },
+        THUNK_setStatus: (status) => {
+            dispatch(THUNK_setStatus(status))
+        },
+        THUNK_GetUserStatus: (status) => {
+            dispatch(THUNK_GetUserStatus(status))
         }
     }
 }

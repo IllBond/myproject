@@ -6,6 +6,9 @@
     margin-top: 10px;
     margin-bottom: 10px;
     text-align: center;
+    display: grid;
+
+    margin: 0 auto;
 }
 
 .pages .to {
@@ -28,4 +31,8 @@
 
 .pages .to:hover {
     text-decoration: underline;
+}
+
+.range{
+    width: 100%;
 }

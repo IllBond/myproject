@@ -25,10 +25,26 @@ export let APIGetUsers = (count, number) => {
 }
 
 export let APIGetUser = (id) => {
-    return instance.get(`https://social-network.samuraijs.com/api/1.0/profile/` + id)
+    return instance.get(`profile/` + id)
+}
+
+export let APISetStatus = (status) => {
+    return instance.put(`profile/status/`, {status:status})
+}
+
+export let APIGetStatus = (id) => {
+    return instance.get(`profile/status/${id}`)
 }
 
 export let APIAuth = () => {
-    return instance.get(`https://social-network.samuraijs.com/api/1.0/auth/me`)
+    return instance.get(`auth/me`)
+}
+
+export let APIAuth_login = (email, password, rememberMe, captcha) => {
+    return instance.post(`/auth/login`,{email, password, rememberMe, captcha})
+}
+
+export let APIAuth_logOut = () => {
+    return instance.delete(`/auth/login`)
 }
 

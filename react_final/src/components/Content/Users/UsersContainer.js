@@ -7,7 +7,9 @@ import {
     setPreloader, THUNK_APIFistGetUsers, THUNK_APIGetUsers, THUNK_follow, THUNK_unfollow,
     unfollow
 } from "../../../Redux/usersReducer";
-import {withAuthRedirect} from "../../HOC/isAuthRedirect";
+import style from "./Users.module.css";
+import Paginator from "../../Common/Paginator";
+
 
 
 class UsersContainer extends React.Component {
@@ -22,14 +24,21 @@ class UsersContainer extends React.Component {
 
     render() {
 
-        let pagesCount = Math.ceil(this.props.totalCount / this.props.count);
-        let page = [];
-        for (let i = 1; i <= pagesCount; i++) {
-            page.push(i)
-        }
-        return <Users
-            page={page}
+
+        return <>
+            <div className={style.pages}>
+                <Paginator
+                    totalCount={this.props.totalCount} // Сколько всего пользователей
+                    count={this.props.count}  // Сколько пользователей выдавать в порции
+                    currentPage={this.props.currentPage} //текущая страница
+                    setNewCurrentPage={this.setNewCurrentPage} //Колбек по установке новой текущей страницы
+                />
+            </div>
+
+            <Users
+
             setNewCurrentPage={this.setNewCurrentPage}
+            currentPage={this.props.currentPage}
             users={this.props.users}
             unfollow={this.props.unfollow}
             follow={this.props.follow}
@@ -41,6 +50,7 @@ class UsersContainer extends React.Component {
             THUNK_follow={this.props.THUNK_follow}
 
         />
+        </>
     }
 }
 
@@ -88,6 +98,6 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-let MessageContainer = withAuthRedirect(connect(mapStateToProps, mapDispatchToProps)(UsersContainer))
+let MessageContainer = connect(mapStateToProps, mapDispatchToProps)(UsersContainer)
 
 export default MessageContainer;

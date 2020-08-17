@@ -1,27 +1,21 @@
 import React from 'react';
 import style from './Users.module.css'
-import {NavLink, Redirect} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import SmallPreloader from "../../Common/smallPreloader";
+
 
 
 let Users = (props) => {
 
     return <>
         <div>
-            <div className={style.pages}>
-                {
-                    props.page.map(p => (p === props.currentPage) ? <span className={style.selected}>{p}</span> :
-                        <NavLink className={style.to} to={`/users/${p}`} onClick={() => {
-                            props.setNewCurrentPage(p)
-                        }}>{p}</NavLink>)
-                }
-            </div>
-            {props.users.map(u => {
+         {props.users.map(u => {
                 return <div key={u.id}>
                     <div>
                         <NavLink to={`/profile/${u.id}`}><img
+                            alt='изображение пользователя'
                             src={u.photos.small ? u.photos.small : 'http://dl4.joxi.net/drive/2020/05/24/0028/3272/1866952/52/6f84020ab1.jpg'}
-                            width='50' alt=""/></NavLink></div>
+                            width='50'/></NavLink></div>
                     <div>{u.name}</div>
                     <div>{u.status ? u.status : 'Нет статуса'}</div>
                     <div>
