@@ -1,18 +1,20 @@
-import {APIGetStatus, APIGetUser, APISetStatus} from "../API/api";
+import {APIGetStatus, APIGetUser, APILoadIMG, APISetStatus, APIUpdatae_users_data} from "../API/api";
+import {stopSubmit} from "redux-form";
 
 const SETPROFILE = 'SETPROFILE';
 const SETPRELOADER = "SETPRELOADER";
 const GETSTATUS = "GETSTATUS";
+const LOADIMG = "LOADIMG";
+
 
 
 let initialState = {
     userData: [],
     status: null,
     isPreloader: false,
-
 };
 
-export let profileReducer = (state = initialState, action) => {
+let profileReducer = (state = initialState, action) => {
     switch (action.type) {
         case SETPROFILE:
             return {
@@ -24,6 +26,8 @@ export let profileReducer = (state = initialState, action) => {
         case GETSTATUS:
             return {...state, status: action.status};
 
+        case LOADIMG:
+            return {...state, userData: {...state.userData, photos: action.data}};
         default:
             return state
     }
@@ -49,11 +53,20 @@ export const setPreloader = (state) =>
         state: state
     });
 
-export const THUNK_getUser = (id) => async (dispatch) => {
+export const loadIMG_AC = (data) =>
+    ({
+        type: LOADIMG,
+        data: data
+    });
 
+export const THUNK_getUser = (id) => async (dispatch) => {
     let responce = await APIGetUser(id)
     dispatch(setProfile(responce.data))
+};
 
+export const THUNK_loadIMG = (data) => async (dispatch) => {
+    let responce = await APILoadIMG(data);
+    dispatch(loadIMG_AC(responce.data.data.photos))
 };
 
 export const THUNK_setStatus = (status) => async (dispatch) => {
@@ -71,3 +84,17 @@ export const THUNK_GetUserStatus = (status) => async (dispatch) => {
     dispatch(setPreloader(false))
 
 };
+
+export const THUNK_Updatae_users_data = (data) => async (dispatch,getState) => {
+    const userId = getState().auth.id;
+    const responce = await APIUpdatae_users_data(data);
+
+    if (responce.data.resultCode===0) {
+        dispatch(THUNK_getUser(userId));
+    } else {
+        dispatch(stopSubmit('ProfileEditData', {_error: responce.data.messages[0]}));
+        return Promise.reject(responce.data.messages[0]);
+    }
+};
+
+export default profileReducer;

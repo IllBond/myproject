@@ -78,11 +78,13 @@ export const THUNK_auth_login = (email, password, rememberMe, captcha) => async 
 
 };
 
-export const THUNK_auth_logOut = () => async (dispatch) => {
-    dispatch(setPreloader(true))
-    let responce = await APIAuth_logOut()
-            if (responce.data.resultCode === 0) {
-                dispatch(getAuthData(null, null, null, false))
-            }
-            dispatch(setPreloader(false))
+export const THUNK_auth_logOut = () => (dispatch) => {
+    dispatch(setPreloader(true));
+    let responce = APIAuth_logOut().then(()=>{
+        if (responce.data.resultCode === 0) {
+            dispatch(getAuthData(null, null, null, false))
+        }
+        dispatch(setPreloader(false))
+    })
+
 };

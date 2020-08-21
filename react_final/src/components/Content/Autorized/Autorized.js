@@ -34,6 +34,7 @@ class Autorized extends Component {
         return (
             <div>
                 <LoginReduxForm onSubmit={(formData) => {
+                    debugger
                     this.props.THUNK_auth_login(formData.login, formData.password, formData.remember, true)
                 }}/>
             </div>

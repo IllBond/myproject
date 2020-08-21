@@ -1,7 +1,14 @@
 import React from 'react';
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {setPreloader, THUNK_getUser, THUNK_GetUserStatus, THUNK_setStatus} from "../../../Redux/ProfileReducer";
+import {
+    setPreloader,
+    THUNK_getUser,
+    THUNK_GetUserStatus,
+    THUNK_loadIMG,
+    THUNK_setStatus,
+    THUNK_Updatae_users_data
+} from "../../../Redux/ProfileReducer";
 import {withRouter} from "react-router-dom";
 import {
     getAuthId,
@@ -14,25 +21,45 @@ import {
 class ProfileС extends React.Component {
 
     componentDidMount() {
-
-    if (!this.props.match.params.userID) {
-        let id = this.props.id;
-        if (id) {
-            this.props.match.params.userID = id
-        } else {
-            this.props.history.push('/users')
+        if (!this.props.match.params.userID) {
+            let id = this.props.id;
+            if (id) {
+                this.props.match.params.userID = id
+            } else {
+                this.props.history.push('/users')
+            }
         }
-
-
-    }
-
         this.props.THUNK_getUser(this.props.match.params.userID)
         this.props.THUNK_GetUserStatus(this.props.match.params.userID)
     }
 
-    render () {
 
-        return <Profile THUNK_setStatus={this.props.THUNK_setStatus} status={this.props.status} state={this.props.userData} isPreloader={this.props.isPreloader}/>
+    componentDidUpdate(prevProps) {
+        if (this.props.match.params.userID !== prevProps.match.params.userID) {
+            if (!this.props.match.params.userID) {
+                let id = this.props.id;
+                if (id) {
+                    this.props.match.params.userID = id
+                } else {
+                    this.props.history.push('/users')
+                }
+            }
+            this.props.THUNK_getUser(this.props.match.params.userID)
+            this.props.THUNK_GetUserStatus(this.props.match.params.userID)
+        }
+    }
+
+    render() {
+        let isOwner = this.props.match.params.userID === this.props.id
+        return <Profile
+            isOwner={isOwner}
+            THUNK_setStatus={this.props.THUNK_setStatus}
+            THUNK_loadIMG={this.props.THUNK_loadIMG}
+            THUNK_Updatae_users_data={this.props.THUNK_Updatae_users_data}
+            status={this.props.status}
+            state={this.props.userData}
+            isPreloader={this.props.isPreloader}/>
+
     };
 }
 
@@ -45,21 +72,11 @@ const mapStateToProps = (state) => {
     }
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        THUNK_getUser: (id) => {
-            dispatch(THUNK_getUser(id))
-        },
-        setPreloader: (id) => {
-            dispatch(setPreloader(id))
-        },
-        THUNK_setStatus: (status) => {
-            dispatch(THUNK_setStatus(status))
-        },
-        THUNK_GetUserStatus: (status) => {
-            dispatch(THUNK_GetUserStatus(status))
-        }
-    }
-}
 
-export default connect(mapStateToProps,mapDispatchToProps)(withRouter(ProfileС));
+export default connect(mapStateToProps, {
+    THUNK_getUser,
+    setPreloader,
+    THUNK_setStatus,
+    THUNK_GetUserStatus,
+    THUNK_loadIMG,
+    THUNK_Updatae_users_data})(withRouter(ProfileС));
