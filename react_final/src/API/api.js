@@ -64,4 +64,9 @@ export let APIUpdatae_users_data = (data) => {
     return instance.put(`profile`, data)
 };
 
+export let APIGet_Captcha = () => {
+
+    return instance.get(`security/get-captcha-url`)
+};
+
 

@@ -18,6 +18,12 @@ let LoginRedux = (props) => {
                     {props.error}
                 </div>}
             </div>
+            <div>
+                {props.captchaIMG ? <div>
+                    <img src={props.captchaIMG} alt="тут должна быть капча"/>
+                    <Field validation={[required]} component={Input_c}  name={'captcha'} placeholder='Капча, введите код'/>
+                </div> : ''}
+            </div>
             <div><button>Залогиниться</button></div>
         </form>
     )
@@ -33,9 +39,9 @@ class Autorized extends Component {
         if (this.props.isAuth) {return <Redirect to={'/profile'}/>}
         return (
             <div>
-                <LoginReduxForm onSubmit={(formData) => {
-                    debugger
-                    this.props.THUNK_auth_login(formData.login, formData.password, formData.remember, true)
+                <LoginReduxForm captchaIMG={this.props.captchaIMG} onSubmit={(formData) => {
+
+                    this.props.THUNK_auth_login(formData.login, formData.password, formData.remember, formData.captcha)
                 }}/>
             </div>
         );
@@ -44,7 +50,8 @@ class Autorized extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        isAuth: state.auth.isAuth
+        isAuth: state.auth.isAuth,
+        captchaIMG: state.auth.captchaIMG,
     }
 }
 export default connect(mapStateToProps,{THUNK_auth_login})(Autorized);

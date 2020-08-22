@@ -1,17 +1,18 @@
-import {APIAuth, APIAuth_login, APIAuth_logOut} from "../API/api";
+import {APIAuth, APIAuth_login, APIAuth_logOut, APIGet_Captcha} from "../API/api";
 import {stopSubmit} from "redux-form";
 
 const GETAUTHDATA = 'GETAUTHDATA';
 const TEST = 'TEST';
 const SETPRELOADER = "SETPRELOADER"
+const SETCAPTCHA = "SETCAPTCHA"
 
 let initialState = {
     id: null,
     email: null,
     login: null,
     isAuth: false,
+    captchaIMG: null,
     isPreloader: false
-
 };
 
 export let authReducer = (state = initialState, action) => {
@@ -23,7 +24,10 @@ export let authReducer = (state = initialState, action) => {
                 ...state, id: action.id, login: action.login, email: action.email, isAuth: action.isAuth
             };
         case SETPRELOADER:
-            return {...state, isPreloader: action.state};
+            return {...state, isPreloader: action.state};;
+        case SETCAPTCHA:
+            debugger
+            return {...state, captchaIMG: action.img};
         case TEST:
             return {...state};
         default:
@@ -53,6 +57,13 @@ export const setPreloader = (state) =>
     });
 
 
+export const setCaptcha = (img) =>
+    ({
+        type: SETCAPTCHA,
+        img: img
+    });
+
+
 export const THUNK_auth = () => async (dispatch) => {
     dispatch(setPreloader(true))
     let responce = await APIAuth()
@@ -65,11 +76,25 @@ export const THUNK_auth = () => async (dispatch) => {
 
 };
 
+export const THUNK_get_captcha = () => async (dispatch) => {
+    dispatch(setPreloader(true))
+
+    let responce = await APIGet_Captcha()
+
+    dispatch(setCaptcha(responce.data.url))
+
+    dispatch(setPreloader(false))
+
+};
+
 export const THUNK_auth_login = (email, password, rememberMe, captcha) => async (dispatch) => {
+    debugger
     dispatch(setPreloader(true))
     let responce = await APIAuth_login(email, password, rememberMe, captcha)
     if (responce.data.resultCode === 0) {
         dispatch(THUNK_auth())
+    } else if (responce.data.resultCode === 10) {
+        dispatch(THUNK_get_captcha())
     } else {
         let message = responce.data.messages.length > 0 ? responce.data.messages[0] : 'Неизвестная ошибка';
         dispatch(stopSubmit('login', {_error: message}))
