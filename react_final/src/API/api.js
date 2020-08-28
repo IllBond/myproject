@@ -5,7 +5,6 @@ let instance = axios.create({
     withCredentials: true,
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     headers: {
-        // "API-KEY": '192cf09d-5510-4760-86aa-64b37abc16c2'
         "API-KEY": '3a590ed1-1993-437f-aa3b-01d103549889'
     }
 });
@@ -65,8 +64,10 @@ export let APIUpdatae_users_data = (data) => {
 };
 
 export let APIGet_Captcha = () => {
-
     return instance.get(`security/get-captcha-url`)
 };
 
+export let API_News = () => {
+    return axios.get('http://newsapi.org/v2/top-headlines?country=ua&apiKey=8fc9533cea184cbd8aca3f63b7d3c68b')
+}
 
