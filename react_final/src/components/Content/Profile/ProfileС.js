@@ -2,8 +2,7 @@ import React from 'react';
 import Profile from "./Profile";
 import {connect} from "react-redux";
 import {
-    setPreloader,
-    THUNK_getUser,
+        THUNK_getUser,
     THUNK_GetUserStatus,
     THUNK_loadIMG,
     THUNK_setStatus,
@@ -13,9 +12,9 @@ import {withRouter} from "react-router-dom";
 import {
     getAuthId,
     getUserData,
-    getUserStatus,
-    isPreloaderProfile
+    getUserStatus
 } from "../../../selectors/selectors";
+import {setNewPreloader} from "../../../Redux/PreloaderReducer";
 
 
 class ProfileС extends React.Component {
@@ -58,7 +57,7 @@ class ProfileС extends React.Component {
             THUNK_Updatae_users_data={this.props.THUNK_Updatae_users_data}
             status={this.props.status}
             state={this.props.userData}
-            isPreloader={this.props.isPreloader}/>
+           />
 
     };
 }
@@ -67,16 +66,16 @@ const mapStateToProps = (state) => {
     return {
         userData: getUserData(state),
         status: getUserStatus(state),
-        isPreloader: isPreloaderProfile(state),
         id: getAuthId(state),
+        isNewPreloader:state.preloaderReducer.isNewPreloader
     }
 };
 
 
 export default connect(mapStateToProps, {
     THUNK_getUser,
-    setPreloader,
     THUNK_setStatus,
     THUNK_GetUserStatus,
     THUNK_loadIMG,
-    THUNK_Updatae_users_data})(withRouter(ProfileС));
+    THUNK_Updatae_users_data,
+    setNewPreloader})(withRouter(ProfileС));

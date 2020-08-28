@@ -3,11 +3,11 @@ import Preloader from "../../Common/Preloader";
 import Status from "./Status/Status";
 import style from "./Profile.module.css";
 import {Field, reduxForm} from "redux-form";
-import {Input_c, Input_profileData} from "../../FORM/ErrorComponent";
+import {Input_c} from "../../FORM/ErrorComponent";
 import {required} from "../../FORM/validate";
 
-const Profile = (props) => {
 
+const Profile = (props) => {
 
     let [editIMG, editMode] = useState(false);
     let editModeOn = () => {
@@ -19,11 +19,10 @@ const Profile = (props) => {
 
     let loadIMG = (e) => {
         if (e.target.files.length) {
-            props.THUNK_loadIMG(e.target.files[0])
+            props.THUNK_loadIMG(e.target.files[0]);
             editMode(false)
         }
     };
-
 
     let [editDataMode, editModeDataMode] = useState(false);
     let editDataModeOn = () => {
@@ -34,19 +33,19 @@ const Profile = (props) => {
     };
 
     const onSubmit = (formData) => {
-        let rs = props.THUNK_Updatae_users_data(formData)
+        let rs = props.THUNK_Updatae_users_data(formData);
 
-            rs.then(
+        rs.then(
             () => {
                 editDataModeOff()
             })
 
-    }
+    };
 
     return (
         <>
             <div>
-                {props.isPreloader ? <Preloader/> : null}
+                {props.isNewPreloader ? <Preloader setNewPreloader={this.props.setNewPreloader}/> : null}
             </div>
             {props.state.userId ?
                 <div>
@@ -77,9 +76,10 @@ const Profile = (props) => {
                     </div>
 
                     <div className={style.data}>
+                        {/* eslint-disable-next-line react/jsx-pascal-case */}
                         {editDataMode ?
-                            <FormEditData_ReduxForm initialValues={props.state} onSubmit={onSubmit} props={props}/>
-                            :
+                            // eslint-disable-next-line react/jsx-pascal-case
+                            <FormEditData_ReduxForm initialValues={props.state} onSubmit={onSubmit} props={props}/> :
                             <div onClick={editDataModeOn}>
                                 <div>ID: {props.state.userId}</div>
                                 <div>Обо мне: {props.state.aboutMe}</div>
@@ -127,14 +127,15 @@ let FormEditData = (props) => {
         <div className={style.contacts}>
             <h3>Контакты</h3>
             {Object.keys(props.props.state.contacts).map(item =>
-                <div>{item + ": "}
-                    <Field name={'contacts.' + item} component={Input_c} type="text" placeholder={item}/>
+                <div key={'contacts.' + item}>{item + ": "}
+                    <Field  name={'contacts.' + item} component={Input_c} type="text" placeholder={item}/>
                 </div>
             )}
         </div>
         <button>Сохранить</button>
     </form>
-}
+};
 
-let FormEditData_ReduxForm = reduxForm({form: 'ProfileEditData'})(FormEditData)
+    let FormEditData_ReduxForm = reduxForm({form: 'ProfileEditData'})(FormEditData);
+
 export default Profile;

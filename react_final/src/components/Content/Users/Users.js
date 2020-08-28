@@ -1,5 +1,5 @@
 import React from 'react';
-import style from './Users.module.css'
+
 import {NavLink} from "react-router-dom";
 import SmallPreloader from "../../Common/smallPreloader";
 

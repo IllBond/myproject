@@ -7,8 +7,6 @@ const GETUSERS = 'GETUSERS';
 const GETUSERSCOUNT = 'GETUSERSCOUNT';
 const SETCURRENTPAGE = 'SETCURRENTPAGE';
 
-const SETPRELOADER = "SETPRELOADER"
-
 const PRELOADERUSERID = "PRELOADERUSERID"
 
 let initialState = {
@@ -16,7 +14,6 @@ let initialState = {
     totalCount: 0,
     count: 5,
     currentPage: 1,
-    isPreloader: false,
     PreloaderUserID: []
 };
 
@@ -53,10 +50,6 @@ export let usersReducer = (state = initialState, action) => {
                 };
             case GETUSERS:
                 return {...state, users: [...action.users]};
-            case SETPRELOADER:
-                return {...state, isPreloader: action.state};
-            // case SETSMALLPRELOADER:
-            //     return {...state, isSmallPreloader: action.state};
             case PRELOADERUSERID:
                 return {...state,  PreloaderUserID: action.ispreload ? [...state.PreloaderUserID, action.id] : state.PreloaderUserID.filter(x=> x!==action.id)};
             default:
@@ -95,17 +88,6 @@ export const setCurrentPage = (currentPage) =>
         currentPage: currentPage
     });
 
-export const setPreloader = (state) =>
-    ({
-        type: SETPRELOADER,
-        state: state
-    });
-
-// export const setSmallPreloader = (state) =>
-//     ({
-//         type: SETSMALLPRELOADER,
-//         state: state
-//     });
 
 export const PreloaderUserIdAC = (id, ispreload) =>
     ({
@@ -115,21 +97,16 @@ export const PreloaderUserIdAC = (id, ispreload) =>
     });
 
 export const THUNK_APIFistGetUsers = (count, currentPage) => async (dispatch) => {
-    dispatch(setPreloader(true));
     let responce = await  APIFistGetUsers(count, currentPage)
         dispatch(getUsers(responce.data.items));
         dispatch(getUsersCount(responce.data.totalCount));
-        dispatch(setPreloader(false));
 }
 
 export const THUNK_APIGetUsers = (count, number) => async (dispatch) => {
-    dispatch(setPreloader(true))
     dispatch(setCurrentPage(number))
     let responce = await APIGetUsers(count, number)
         dispatch(getUsers(responce.data.items))
         dispatch(getUsersCount(responce.data.totalCount))
-        dispatch(setPreloader(false))
-
 }
 
 export const THUNK_unfollow = (id) => async (dispatch) => {

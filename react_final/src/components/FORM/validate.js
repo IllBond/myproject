@@ -6,10 +6,12 @@ export const required = (data) => {
 }
 
 export const mexLength = (max) => (data) => {
-    debugger
-        if (data.length <= max) {
-            return undefined
+
+        if (data) {
+            if (data.length <= max) {
+                return undefined
+            }
+            return `Не должно быть больше ${max} символов. Сейчас у вас введено ${data.length}`
         }
-        return `Не должно быть больше ${max} символов. Сейчас у вас введено ${data.length}`
 }
 

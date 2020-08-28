@@ -16,3 +16,10 @@
     text-decoration: underline;
     color: #1d1d1d;
 }
+
+.error {
+    border: red 1px solid;
+    color: red;
+    margin: 0 25px 0 25px;
+    padding: 5px;
+}

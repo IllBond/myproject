@@ -1,13 +1,8 @@
 import React, {Component} from 'react';
 import Auth from "./Auth";
 import {connect} from "react-redux";
-import {setPreloader} from "../../../Redux/authReducer";
-
 
 class AuthContainer extends Component {
-
-    componentDidMount() {
-    }
 
     render() {
         return (
@@ -22,18 +17,10 @@ const mapStateToProps = (state)=>{
         email: state.auth.email,
         login: state.auth.login,
         isAuth: state.auth.isAuth,
-        isPreloader: state.auth.isPreloader
-    }
-}
-
-const mapDispatchToProps = (dispatch)=>{
-    return {
-
-        setPreloader : (data)=>{
-            dispatch(setPreloader(data))
-        },
-    }
-}
+        }
+};
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(AuthContainer);
+
+
+export default connect(mapStateToProps,null)(AuthContainer);

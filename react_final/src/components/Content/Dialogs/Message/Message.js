@@ -21,16 +21,14 @@ let Reduxform = reduxForm({form:'message'})(Form);
 class Message extends Component {
 
     render() {
-
-
-        let mapMessages = this.props.message.map((item) => {
-            return <div key={item.name} className={style.dialog + ' ' + (item.address ? '' : style.dialogYou)}>
+        let mapMessages = this.props.message.map((item,index) => {
+            return <div key={'ind'+index} className={style.dialog + ' ' + (item.address ? '' : style.dialogYou)}>
                 <div className={style.dialogPhoto}><img alt='изображенеи пользователя' src={item.photo}/></div>
                 <div className={style.dialogName}>{item.name}</div>
                 <div className={style.dialogDate}>{item.time}</div>
                 <div className={style.dialogMessage}>{item.message}</div>
             </div>
-        })
+        });
 
         return (
             <div className={style.message}>

@@ -1,26 +1,28 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import style from './Status.module.css'
 import {Field, reduxForm} from "redux-form";
-import {Input_Status_C} from "../../../FORM/ErrorComponent";
+import {Input_c} from "../../../FORM/ErrorComponent";
 import {mexLength, required} from "../../../FORM/validate";
 
+const mexLength_varrible = mexLength(30);
 
 const InputForm = (props) => {
-    return <form className={style.ib}>
+
+    return <form className={style.ib} onSubmit={props.handleSubmit}>
+
         <Field
-            validate={[required, mexLength_varrible]}
-            component={Input_Status_C}
-            changeStatus={props.changeStatus}
+            component={Input_c}
+            validate={[required,mexLength_varrible]}
             autoFocus={true}
             status={props.status}
-            offEditMode={props.offEditMode}
             name={'status'}/>
+            <button>Отправить</button>
     </form>
 
 }
 
 const InputReduxForm = reduxForm({form: 'status'})(InputForm)
-const mexLength_varrible = mexLength(30)
+
 
 
 let Status = (props) => {
@@ -36,14 +38,11 @@ let Status = (props) => {
         setEditMode(true)
     };
 
-    let offEditMode = () => {
-        setEditMode(false)
+    let offEditMode = (status) => {
+        setEditMode(false);
         props.THUNK_setStatus(status)
     };
 
-    let changeStatus = (value) => {
-        editStatus(value)
-    };
 
     return (
         <>
@@ -67,19 +66,17 @@ let Status = (props) => {
                                                     <span className={style.grey}>статус отсутствует</span>
                                             }</span>
                                     }
-
                                 </>
                             ) :
                             <>
                                 <InputReduxForm
-                                    changeStatus={changeStatus}
-                                    status={status}
-                                    offEditMode={offEditMode}
-                                />
-                                <span
-                                    className={style.grey}> {'  <  '} уберите фокус
-                                </span>
-                            </>
+
+                                    initialValues={{status:status}}
+                                    onSubmit={(data) => {
+                                        offEditMode(data.status)
+
+                                    }}
+                                /></>
 
                     }
                 </div>

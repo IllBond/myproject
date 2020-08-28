@@ -1,8 +1,8 @@
 import {APIGetStatus, APIGetUser, APILoadIMG, APISetStatus, APIUpdatae_users_data} from "../API/api";
 import {stopSubmit} from "redux-form";
+import {setNewPreloader} from "./PreloaderReducer";
 
 const SETPROFILE = 'SETPROFILE';
-const SETPRELOADER = "SETPRELOADER";
 const GETSTATUS = "GETSTATUS";
 const LOADIMG = "LOADIMG";
 
@@ -10,8 +10,7 @@ const LOADIMG = "LOADIMG";
 
 let initialState = {
     userData: [],
-    status: null,
-    isPreloader: false,
+    status: null
 };
 
 let profileReducer = (state = initialState, action) => {
@@ -20,8 +19,6 @@ let profileReducer = (state = initialState, action) => {
             return {
                 ...state, userData: action.data
             };
-        case SETPRELOADER:
-            return {...state, isPreloader: action.state};
 
         case GETSTATUS:
             return {...state, status: action.status};
@@ -47,11 +44,6 @@ export const getStatus = (status) => {
     }
 };
 
-export const setPreloader = (state) =>
-    ({
-        type: SETPRELOADER,
-        state: state
-    });
 
 export const loadIMG_AC = (data) =>
     ({
@@ -60,6 +52,7 @@ export const loadIMG_AC = (data) =>
     });
 
 export const THUNK_getUser = (id) => async (dispatch) => {
+    dispatch(setNewPreloader(true))
     let responce = await APIGetUser(id)
     dispatch(setProfile(responce.data))
 };
@@ -78,11 +71,12 @@ export const THUNK_setStatus = (status) => async (dispatch) => {
 };
 
 export const THUNK_GetUserStatus = (status) => async (dispatch) => {
-    dispatch(setPreloader(true))
-    let responce = await APIGetStatus(status)
-    dispatch(getStatus(responce.data))
-    dispatch(setPreloader(false))
-
+    try {
+        let responce = await APIGetStatus(status)
+        dispatch(getStatus(responce.data))
+    } catch (error) {
+        console.log(error)
+    }
 };
 
 export const THUNK_Updatae_users_data = (data) => async (dispatch,getState) => {

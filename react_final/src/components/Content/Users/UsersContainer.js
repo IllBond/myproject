@@ -4,7 +4,10 @@ import {connect} from "react-redux";
 import {
     follow,
     PreloaderUserIdAC,
-    setPreloader, THUNK_APIFistGetUsers, THUNK_APIGetUsers, THUNK_follow, THUNK_unfollow,
+    THUNK_APIFistGetUsers,
+    THUNK_APIGetUsers,
+    THUNK_follow,
+    THUNK_unfollow,
     unfollow
 } from "../../../Redux/usersReducer";
 import style from "./Users.module.css";
@@ -42,8 +45,6 @@ class UsersContainer extends React.Component {
             users={this.props.users}
             unfollow={this.props.unfollow}
             follow={this.props.follow}
-            setPreloader={this.props.setPreloader}
-            isPreloader={this.props.isPreloader}
             preloaderUserId={this.props.PreloaderUserID}
             PreloaderUserIdAC={this.props.PreloaderUserIdAC}
             THUNK_unfollow={this.props.THUNK_unfollow}
@@ -61,7 +62,6 @@ const mapStateToProps = (state) => {
         totalCount: state.users.totalCount,
         count: state.users.count,
         currentPage: state.users.currentPage,
-        isPreloader: state.users.isPreloader,
         isSmallPreloader: state.users.isSmallPreloader,
         PreloaderUserID: state.users.PreloaderUserID,
         isAuth: state.auth.isAuth,
@@ -76,9 +76,6 @@ const mapDispatchToProps = (dispatch) => {
         },
         unfollow: (id) => {
             dispatch(unfollow(id))
-        },
-        setPreloader: (state) => {
-            dispatch(setPreloader(state))
         },
         PreloaderUserIdAC: (id, ispreload) => {
             dispatch(PreloaderUserIdAC(id, ispreload))
@@ -98,6 +95,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-let MessageContainer = connect(mapStateToProps, mapDispatchToProps)(UsersContainer)
-
-export default MessageContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);

@@ -6,11 +6,15 @@ import {authReducer} from "./authReducer";
 import thunkMiddleware from "redux-thunk";
 import {reducer as formReducer} from "redux-form";
 import {initialaizedReducer} from "./appReducer";
+import {errorReducer} from "./errorReducer";
+import {preloaderReducer} from "./PreloaderReducer";
 
 
 let reducers = combineReducers({
     dialogs: dialogReducer,
     profile: profileReducer,
+    errorReducer: errorReducer,
+    preloaderReducer: preloaderReducer,
     auth: authReducer,
     form: formReducer,
     initial: initialaizedReducer,

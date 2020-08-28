@@ -14,11 +14,12 @@ export let getUserStatus = (state) => {
     return state.profile.status
 };
 
-export let isPreloaderProfile = (state) => {
-    return state.profile.isPreloade
-};
 
 export let getAuthId = (state) => {
     return state.auth.id
+};
+
+export let getIsNewPreloader = (state) => {
+    return state.preloaderReducer.isNewPreloader
 };
 
