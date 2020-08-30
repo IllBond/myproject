@@ -2,12 +2,16 @@ import React from 'react';
 
 import {NavLink} from "react-router-dom";
 import SmallPreloader from "../../Common/smallPreloader";
+import Preloader from "../../Common/Preloader";
 
 
 
 let Users = (props) => {
 
     return <>
+        <div>
+            {props.MainPreloader ? <Preloader descriptionPreloader={props.descriptionPreloader} stopPreloader={props.handleStateMainPreloader}/> : ''}
+        </div>
         <div>
          {props.users.map(u => {
                 return <div key={u.id}>
@@ -39,5 +43,5 @@ let Users = (props) => {
             })}
         </div>
     </>
-}
+};
 export default Users;

@@ -7,11 +7,11 @@ import Navbar from "./components/Navbar/Navbar";
 import Content from "./components/Content/Content";
 import {THUNK_inital} from "./Redux/appReducer";
 import {connect, Provider} from "react-redux";
-import Preloader from "./components/Common/Preloader";
+
 import {BrowserRouter} from "react-router-dom";
 import store from "./Redux/redux-store";
 import {setErrorThunk} from "./Redux/errorReducer";
-import {setNewPreloader} from "./Redux/PreloaderReducer";
+
 
 
 class App extends Component {
@@ -32,16 +32,6 @@ class App extends Component {
     }
 
     render () {
-
-        if (!this.props.isInitialaized) {
-            this.props.setNewPreloader(true)
-        } else {
-            this.props.setNewPreloader(false)
-        }
-
-        if (this.props.isNewPreloader) {
-            return <Preloader setNewPreloader={this.props.setNewPreloader} />
-        }
 
         return (
             <div className='main-wrapper'>
@@ -70,16 +60,14 @@ class App extends Component {
 
 let mapStateToProps = (state) => {
     return {
-        isInitialaized: state.initial.isInitialaized,
-        isNewPreloader: state.preloaderReducer.isNewPreloader
+        isInitialaized: state.initial.isInitialaized
     }
 };
 
 
 let AppContainer = connect(mapStateToProps,{
     THUNK_inital,
-    setErrorThunk,
-    setNewPreloader
+    setErrorThunk
 })(App);
 
 const AppX = (props) => {

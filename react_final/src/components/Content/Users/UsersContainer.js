@@ -2,7 +2,7 @@ import React from 'react';
 import Users from "./Users";
 import {connect} from "react-redux";
 import {
-    follow,
+    follow, handleStateMainPreloader,
     PreloaderUserIdAC,
     THUNK_APIFistGetUsers,
     THUNK_APIGetUsers,
@@ -12,7 +12,6 @@ import {
 } from "../../../Redux/usersReducer";
 import style from "./Users.module.css";
 import Paginator from "../../Common/Paginator";
-
 
 
 class UsersContainer extends React.Component {
@@ -29,6 +28,7 @@ class UsersContainer extends React.Component {
 
 
         return <>
+
             <div className={style.pages}>
                 <Paginator
                     totalCount={this.props.totalCount} // Сколько всего пользователей
@@ -39,22 +39,23 @@ class UsersContainer extends React.Component {
             </div>
 
             <Users
+                setNewCurrentPage={this.setNewCurrentPage}
+                currentPage={this.props.currentPage}
+                users={this.props.users}
+                unfollow={this.props.unfollow}
+                follow={this.props.follow}
+                preloaderUserId={this.props.PreloaderUserID}
+                PreloaderUserIdAC={this.props.PreloaderUserIdAC}
+                THUNK_unfollow={this.props.THUNK_unfollow}
+                THUNK_follow={this.props.THUNK_follow}
+                MainPreloader={this.props.MainPreloader}
+                descriptionPreloader={this.props.descriptionPreloader}
+                handleStateMainPreloader={this.props.handleStateMainPreloader}
 
-            setNewCurrentPage={this.setNewCurrentPage}
-            currentPage={this.props.currentPage}
-            users={this.props.users}
-            unfollow={this.props.unfollow}
-            follow={this.props.follow}
-            preloaderUserId={this.props.PreloaderUserID}
-            PreloaderUserIdAC={this.props.PreloaderUserIdAC}
-            THUNK_unfollow={this.props.THUNK_unfollow}
-            THUNK_follow={this.props.THUNK_follow}
-
-        />
+            />
         </>
     }
 }
-
 
 const mapStateToProps = (state) => {
     return {
@@ -65,7 +66,9 @@ const mapStateToProps = (state) => {
         isSmallPreloader: state.users.isSmallPreloader,
         PreloaderUserID: state.users.PreloaderUserID,
         isAuth: state.auth.isAuth,
-
+        MainPreloader: state.users.MainPreloader,
+        descriptionPreloader: state.users.descriptionPreloader,
+        handleStateMainPreloader: state.users.handleStateMainPreloader,
     }
 };
 
@@ -91,6 +94,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         THUNK_follow: (id) => {
             dispatch(THUNK_follow(id))
+        },
+        handleStateMainPreloader: (state, text) => {
+            dispatch(handleStateMainPreloader(state, text))
         }
     }
 }

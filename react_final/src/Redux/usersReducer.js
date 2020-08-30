@@ -7,61 +7,77 @@ const GETUSERS = 'GETUSERS';
 const GETUSERSCOUNT = 'GETUSERSCOUNT';
 const SETCURRENTPAGE = 'SETCURRENTPAGE';
 
-const PRELOADERUSERID = "PRELOADERUSERID"
+const PRELOADERUSERID = "PRELOADERUSERID";
+const MAIN_PRELOADER = "MAIN_PRELOADER";
+
 
 let initialState = {
     users: [],
     totalCount: 0,
     count: 5,
     currentPage: 1,
-    PreloaderUserID: []
+    PreloaderUserID: [],
+    MainPreloader: false,
+    descriptionPreloader: ''
 };
 
 export let usersReducer = (state = initialState, action) => {
-        switch (action.type) {
-            case FOLLOW:
-                return {
-                    ...state, users: state.users.map(u => {
-                        if (u.id === action.id) {
-                            return {...u, followed: true}
-                        } else {
-                            return u
-                        }
-                    })
-                };
-            case UNFOLLOW:
-
-                return {
-                    ...state, users: state.users.map(u => {
-                        if (u.id === action.id) {
-                            return {...u, followed: false}
-                        } else {
-                            return u
-                        }
-                    })
-                };
-            case GETUSERSCOUNT:
-                return {
-                    ...state, totalCount: action.usersCount
-                };
-            case SETCURRENTPAGE:
-                return {
-                    ...state, currentPage: action.currentPage
-                };
-            case GETUSERS:
-                return {...state, users: [...action.users]};
-            case PRELOADERUSERID:
-                return {...state,  PreloaderUserID: action.ispreload ? [...state.PreloaderUserID, action.id] : state.PreloaderUserID.filter(x=> x!==action.id)};
-            default:
-                return state
-        }
+    switch (action.type) {
+        case FOLLOW:
+            return {
+                ...state, users: state.users.map(u => {
+                    if (u.id === action.id) {
+                        return {...u, followed: true}
+                    } else {
+                        return u
+                    }
+                })
+            };
+        case UNFOLLOW:
+            return {
+                ...state, users: state.users.map(u => {
+                    if (u.id === action.id) {
+                        return {...u, followed: false}
+                    } else {
+                        return u
+                    }
+                })
+            };
+        case GETUSERSCOUNT:
+            return {
+                ...state, totalCount: action.usersCount
+            };
+        case SETCURRENTPAGE:
+            return {
+                ...state, currentPage: action.currentPage
+            };
+        case GETUSERS:
+            return {...state, users: [...action.users]};
+        case MAIN_PRELOADER:
+            return {...state, MainPreloader: action.state, descriptionPreloader: action.text};
+        case PRELOADERUSERID:
+            return {
+                ...state,
+                PreloaderUserID: action.ispreload ?
+                    [...state.PreloaderUserID, action.id] :
+                    state.PreloaderUserID.filter(x => x !== action.id)
+            };
+        default:
+            return state
     }
-;
+};
 
 export const follow = (id) =>
     ({
         type: FOLLOW,
         id: id
+    });
+
+export const handleStateMainPreloader = (state, text = null) =>
+    ({
+        type: MAIN_PRELOADER,
+        state: state,
+        text: text
     });
 
 export const unfollow = (id) =>
@@ -97,33 +113,36 @@ export const PreloaderUserIdAC = (id, ispreload) =>
     });
 
 export const THUNK_APIFistGetUsers = (count, currentPage) => async (dispatch) => {
-    let responce = await  APIFistGetUsers(count, currentPage)
-        dispatch(getUsers(responce.data.items));
-        dispatch(getUsersCount(responce.data.totalCount));
-}
+    dispatch(handleStateMainPreloader(true, 'Загрузка пользователей'));
+    let responce = await APIFistGetUsers(count, currentPage);
+    dispatch(getUsers(responce.data.items));
+    dispatch(getUsersCount(responce.data.totalCount));
+    dispatch(handleStateMainPreloader(false))
+};
 
 export const THUNK_APIGetUsers = (count, number) => async (dispatch) => {
-    dispatch(setCurrentPage(number))
-    let responce = await APIGetUsers(count, number)
-        dispatch(getUsers(responce.data.items))
-        dispatch(getUsersCount(responce.data.totalCount))
-}
+    dispatch(handleStateMainPreloader(true, 'Загрузка новых пользователей'));
+    dispatch(setCurrentPage(number));
+    let responce = await APIGetUsers(count, number);
+    dispatch(getUsers(responce.data.items));
+    dispatch(getUsersCount(responce.data.totalCount))
+    dispatch(handleStateMainPreloader(false))
+};
 
 export const THUNK_unfollow = (id) => async (dispatch) => {
-    dispatch(PreloaderUserIdAC(id, true))
-    let responce = await  APIUnfollow(id)
-            if (responce.data.resultCode === 0) {
-                dispatch(unfollow(id))
-                dispatch(PreloaderUserIdAC(id, false))
-            }
-}
+    dispatch(PreloaderUserIdAC(id, true));
+    let responce = await APIUnfollow(id);
+    if (responce.data.resultCode === 0) {
+        dispatch(unfollow(id));
+        dispatch(PreloaderUserIdAC(id, false))
+    }
+};
 
 export const THUNK_follow = (id) => async (dispatch) => {
-    dispatch(PreloaderUserIdAC(id, true))
-    let responce = await APIFollow(id)
-            if (responce.data.resultCode === 0) {
-                dispatch(follow(id))
-                dispatch(PreloaderUserIdAC(id, false))
-
-            }
-}
+    dispatch(PreloaderUserIdAC(id, true));
+    let responce = await APIFollow(id);
+    if (responce.data.resultCode === 0) {
+        dispatch(follow(id));
+        dispatch(PreloaderUserIdAC(id, false))
+    }
+};

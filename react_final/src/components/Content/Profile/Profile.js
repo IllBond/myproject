@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import Preloader from "../../Common/Preloader";
+
 import Status from "./Status/Status";
 import style from "./Profile.module.css";
 import {Field, reduxForm} from "redux-form";
 import {Input_c} from "../../FORM/ErrorComponent";
 import {required} from "../../FORM/validate";
+import Preloader from "../../Common/Preloader";
 
 
 const Profile = (props) => {
@@ -45,7 +46,7 @@ const Profile = (props) => {
     return (
         <>
             <div>
-                {props.isNewPreloader ? <Preloader setNewPreloader={this.props.setNewPreloader}/> : null}
+                {props.MainPreloader ? <Preloader descriptionPreloader={props.descriptionPreloader} stopPreloader={props.handleStateMainPreloader}/> : ''}
             </div>
             {props.state.userId ?
                 <div>

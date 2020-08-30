@@ -19,7 +19,10 @@ export let getAuthId = (state) => {
     return state.auth.id
 };
 
-export let getIsNewPreloader = (state) => {
-    return state.preloaderReducer.isNewPreloader
+export let MainPreloader = (state) => {
+    return state.profile.MainPreloader
 };
 
+export let descriptionPreloader = (state) => {
+    return state.profile.descriptionPreloader
+};

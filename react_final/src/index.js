@@ -5,8 +5,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import AppX from './App';
 
-
-
     ReactDOM.render(
                     <AppX state={store.getState()} dispatch={store.dispatch.bind(store) }/>,
         document.getElementById('root')

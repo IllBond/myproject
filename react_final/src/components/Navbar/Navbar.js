@@ -17,7 +17,7 @@ const Navbar = () => {
                 <NavLink  to='/news'>Новости</NavLink>
             </div>
             <div>
-                <NavLink  to='/music'>Музыка</NavLink>
+                <NavLink  to='/mks'>МКС</NavLink>
             </div>
             <div>
                 <NavLink  to='/settings'>Настрйоки</NavLink>

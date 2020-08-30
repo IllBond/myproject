@@ -1,6 +1,5 @@
 import {APIAuth, APIAuth_login, APIAuth_logOut, APIGet_Captcha} from "../API/api";
 import {stopSubmit} from "redux-form";
-import {setNewPreloader} from "./PreloaderReducer";
 
 const GETAUTHDATA = 'GETAUTHDATA';
 const TEST = 'TEST';
@@ -12,6 +11,7 @@ let initialState = {
     login: null,
     isAuth: false,
     captchaIMG: null,
+
 };
 
 export let authReducer = (state = initialState, action) => {
@@ -54,14 +54,12 @@ export const setCaptcha = (img) =>
 
 
 export const THUNK_auth = () => async (dispatch) => {
-    dispatch(setNewPreloader(true))
     let responce = await APIAuth()
     if (responce.data.resultCode === 0) {
         let data = responce.data.data
         dispatch(getAuthData(data.id, data.login, data.email, true))
         dispatch(stopSubmit('login', {_error: null}))
     }
-    dispatch(setNewPreloader(false))
 };
 
 export const THUNK_get_captcha = () => async (dispatch) => {

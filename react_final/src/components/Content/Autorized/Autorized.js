@@ -5,8 +5,7 @@ import {connect} from "react-redux";
 import {required} from "../../FORM/validate";
 import {Input_c} from "../../FORM/ErrorComponent";
 import {Redirect} from "react-router-dom";
-import {setNewPreloader} from "../../../Redux/PreloaderReducer";
-import Preloader from "../../Common/Preloader";
+
 
 let LoginRedux = (props) => {
 
@@ -52,9 +51,7 @@ const mapStateToProps = (state) => {
     return {
         isAuth: state.auth.isAuth,
         captchaIMG: state.auth.captchaIMG,
-        isNewPreloader:state.preloaderReducer.isNewPreloader
     }
 }
 export default connect(mapStateToProps,{
-    THUNK_auth_login,
-    setNewPreloader})(Autorized);
+    THUNK_auth_login})(Autorized);

@@ -5,6 +5,7 @@ import UsersContainer from "./Users/UsersContainer";
 import ProfileContainer from "./Profile/ProfileС";
 import Autorized from "./Autorized/Autorized";
 import News from "./News/News";
+import Mks from "../Mks/Mks";
 
 
 const Content = (props) => {
@@ -22,6 +23,7 @@ const Content = (props) => {
                                                                    dispatch={props.dispatch}
                   />}/>
                   <Route path="/news" component={News}/>
+                  <Route path="/mks" component={Mks}/>
                   <Route path="*" component={()=><div>Проверьте адрес, не нахожу таких страницт</div>}/>
               </Switch>
 

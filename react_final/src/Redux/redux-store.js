@@ -7,7 +7,6 @@ import thunkMiddleware from "redux-thunk";
 import {reducer as formReducer} from "redux-form";
 import {initialaizedReducer} from "./appReducer";
 import {errorReducer} from "./errorReducer";
-import {preloaderReducer} from "./PreloaderReducer";
 import {newsReducer} from "./NewsReducer";
 
 
@@ -17,7 +16,6 @@ let reducers = combineReducers({
     dialogs: dialogReducer,
     profile: profileReducer,
     errorReducer: errorReducer,
-    preloaderReducer: preloaderReducer,
     auth: authReducer,
     newsReducer: newsReducer,
     form: formReducer,

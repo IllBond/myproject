@@ -2,7 +2,8 @@ import React from 'react';
 import Profile from "./Profile";
 import {connect} from "react-redux";
 import {
-        THUNK_getUser,
+    handleStateMainPreloader,
+    THUNK_getUser,
     THUNK_GetUserStatus,
     THUNK_loadIMG,
     THUNK_setStatus,
@@ -10,11 +11,12 @@ import {
 } from "../../../Redux/ProfileReducer";
 import {withRouter} from "react-router-dom";
 import {
+    descriptionPreloader,
     getAuthId,
     getUserData,
-    getUserStatus
+    getUserStatus, MainPreloader
 } from "../../../selectors/selectors";
-import {setNewPreloader} from "../../../Redux/PreloaderReducer";
+
 
 
 class ProfileС extends React.Component {
@@ -27,9 +29,12 @@ class ProfileС extends React.Component {
             } else {
                 this.props.history.push('/users')
             }
+        } else {
+            this.props.THUNK_getUser(this.props.match.params.userID);
+            this.props.THUNK_GetUserStatus(this.props.match.params.userID);
         }
-        this.props.THUNK_getUser(this.props.match.params.userID)
-        this.props.THUNK_GetUserStatus(this.props.match.params.userID)
+
+
     }
 
 
@@ -57,6 +62,8 @@ class ProfileС extends React.Component {
             THUNK_Updatae_users_data={this.props.THUNK_Updatae_users_data}
             status={this.props.status}
             state={this.props.userData}
+            MainPreloader={this.props.MainPreloader}
+            descriptionPreloader={this.props.descriptionPreloader}
            />
 
     };
@@ -67,7 +74,8 @@ const mapStateToProps = (state) => {
         userData: getUserData(state),
         status: getUserStatus(state),
         id: getAuthId(state),
-        isNewPreloader:state.preloaderReducer.isNewPreloader
+        MainPreloader: MainPreloader(state),
+        descriptionPreloader: descriptionPreloader(state),
     }
 };
 
@@ -77,5 +85,4 @@ export default connect(mapStateToProps, {
     THUNK_setStatus,
     THUNK_GetUserStatus,
     THUNK_loadIMG,
-    THUNK_Updatae_users_data,
-    setNewPreloader})(withRouter(ProfileС));
+    THUNK_Updatae_users_data,handleStateMainPreloader})(withRouter(ProfileС));
