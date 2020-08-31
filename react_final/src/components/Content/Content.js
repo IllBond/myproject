@@ -6,6 +6,9 @@ import ProfileContainer from "./Profile/ProfileС";
 import Autorized from "./Autorized/Autorized";
 import News from "./News/News";
 import Mks from "../Mks/Mks";
+import Game from "../Game/Game";
+import Calc from "../Calculator/Cal";
+import Gen from "../Gen/Gen";
 
 
 const Content = (props) => {
@@ -23,7 +26,10 @@ const Content = (props) => {
                                                                    dispatch={props.dispatch}
                   />}/>
                   <Route path="/news" component={News}/>
+                  <Route path="/gameSnake" component={Game}/>
                   <Route path="/mks" component={Mks}/>
+                  <Route path="/calculator" component={Calc}/>
+                  <Route path="/gen" component={Gen}/>
                   <Route path="*" component={()=><div>Проверьте адрес, не нахожу таких страницт</div>}/>
               </Switch>
 

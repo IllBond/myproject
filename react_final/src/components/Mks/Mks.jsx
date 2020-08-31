@@ -44,7 +44,10 @@ class Mks extends Component {
                 });
 
             } catch (error) {
-                throw new Error('Не удалось получить ответ с координатами мкс')
+                console.log('Пожалуйста дайте прогармме загрузится')
+                console.log(error)
+
+                // throw new Error(error)
             }
 
             try {
@@ -54,7 +57,9 @@ class Mks extends Component {
                     people: data.people
                 })
             } catch (error) {
-                throw new Error('Не удалось получить ответ о членах комнанды мкс ')
+                console.log('Пожалуйста дайте прогармме загрузится')
+                console.log(error)
+                // throw new Error(error)
             }
             let t = new Date();
             this.setState({
@@ -83,6 +88,7 @@ class Mks extends Component {
 
     componentWillUnmount() {
         clearTimeout(this.state.stop);
+
     }
 
     stop = () => {

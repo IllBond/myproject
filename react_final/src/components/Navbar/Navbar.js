@@ -20,7 +20,13 @@ const Navbar = () => {
                 <NavLink  to='/mks'>МКС</NavLink>
             </div>
             <div>
-                <NavLink  to='/settings'>Настрйоки</NavLink>
+                <NavLink  to='/gameSnake'>Игра</NavLink>
+            </div>
+            <div>
+                <NavLink  to='/calculator'>Калькулятор</NavLink>
+            </div>
+            <div>
+                <NavLink  to='/gen'>Ген.Алгоритм</NavLink>
             </div>
         </>
     );

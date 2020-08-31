@@ -8,7 +8,7 @@ import Content from "./components/Content/Content";
 import {THUNK_inital} from "./Redux/appReducer";
 import {connect, Provider} from "react-redux";
 
-import {BrowserRouter} from "react-router-dom";
+import {BrowserRouter, HashRouter} from "react-router-dom";
 import store from "./Redux/redux-store";
 import {setErrorThunk} from "./Redux/errorReducer";
 
@@ -70,13 +70,14 @@ let AppContainer = connect(mapStateToProps,{
     setErrorThunk
 })(App);
 
+
 const AppX = (props) => {
     return <React.StrictMode>
-        <BrowserRouter>
+        <HashRouter>
             <Provider store={store}>
                 <AppContainer state={props.state}/>
             </Provider>
-        </BrowserRouter>
+        </HashRouter>
     </React.StrictMode>
 }
 

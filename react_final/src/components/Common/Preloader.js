@@ -21,13 +21,13 @@ class Preloader extends Component {
 
 
     render() {
-        debugger
+
         return <div className={style.preloader}>
             <div>
                 {this.props.descriptionPreloader?<div>{this.props.descriptionPreloader}...</div>:''}
                 <div>{this.state.time}
                     <div>Секунд</div>
-                    {this.state.time>2 ?<div>К сожалению сервер долго отвечает или у вас нет интернета. Можете попробовать дождаться конца загрузки или попробовать <button onClick={()=>{
+                    {this.state.time>6 ?<div>К сожалению сервер долго отвечает или у вас нет интернета. Можете попробовать дождаться конца загрузки или попробовать <button onClick={()=>{
                         this.props.stopPreloader(false)}
                     }>закрыть</button> окно с загрузкой и запустить другую страницу</div>:''}
                 </div>
