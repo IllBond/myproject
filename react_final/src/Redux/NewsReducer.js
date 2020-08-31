@@ -1,6 +1,6 @@
 import {API_News} from "../API/api";
 
-const GETNEWS = 'GETNEWS'
+const GETNEWS = 'GETNEWS';
 
 let initialState = {
     news: []
