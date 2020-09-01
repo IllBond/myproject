@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/MyResume/static/css/main.2d8b4c6e.chunk.css",
-    "main.js": "/MyResume/static/js/main.c4b006e3.chunk.js",
-    "main.js.map": "/MyResume/static/js/main.c4b006e3.chunk.js.map",
-    "runtime-main.js": "/MyResume/static/js/runtime-main.65a18e40.js",
-    "runtime-main.js.map": "/MyResume/static/js/runtime-main.65a18e40.js.map",
-    "static/js/2.4ff59bc7.chunk.js": "/MyResume/static/js/2.4ff59bc7.chunk.js",
-    "static/js/2.4ff59bc7.chunk.js.map": "/MyResume/static/js/2.4ff59bc7.chunk.js.map",
-    "index.html": "/MyResume/index.html",
-    "precache-manifest.bdb32ce250dd9be8e944efbf1e559749.js": "/MyResume/precache-manifest.bdb32ce250dd9be8e944efbf1e559749.js",
-    "service-worker.js": "/MyResume/service-worker.js",
-    "static/css/main.2d8b4c6e.chunk.css.map": "/MyResume/static/css/main.2d8b4c6e.chunk.css.map",
-    "static/js/2.4ff59bc7.chunk.js.LICENSE.txt": "/MyResume/static/js/2.4ff59bc7.chunk.js.LICENSE.txt",
-    "static/media/logo.png": "/MyResume/static/media/logo.38ef1c69.png"
+    "main.css": "/MyResumeIB/static/css/main.2d8b4c6e.chunk.css",
+    "main.js": "/MyResumeIB/static/js/main.b57f7687.chunk.js",
+    "main.js.map": "/MyResumeIB/static/js/main.b57f7687.chunk.js.map",
+    "runtime-main.js": "/MyResumeIB/static/js/runtime-main.66bab4f5.js",
+    "runtime-main.js.map": "/MyResumeIB/static/js/runtime-main.66bab4f5.js.map",
+    "static/js/2.4ff59bc7.chunk.js": "/MyResumeIB/static/js/2.4ff59bc7.chunk.js",
+    "static/js/2.4ff59bc7.chunk.js.map": "/MyResumeIB/static/js/2.4ff59bc7.chunk.js.map",
+    "index.html": "/MyResumeIB/index.html",
+    "precache-manifest.50d0aaee277fbd5968d5fda6981eb860.js": "/MyResumeIB/precache-manifest.50d0aaee277fbd5968d5fda6981eb860.js",
+    "service-worker.js": "/MyResumeIB/service-worker.js",
+    "static/css/main.2d8b4c6e.chunk.css.map": "/MyResumeIB/static/css/main.2d8b4c6e.chunk.css.map",
+    "static/js/2.4ff59bc7.chunk.js.LICENSE.txt": "/MyResumeIB/static/js/2.4ff59bc7.chunk.js.LICENSE.txt",
+    "static/media/logo.png": "/MyResumeIB/static/media/logo.38ef1c69.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.65a18e40.js",
+    "static/js/runtime-main.66bab4f5.js",
     "static/js/2.4ff59bc7.chunk.js",
     "static/css/main.2d8b4c6e.chunk.css",
-    "static/js/main.c4b006e3.chunk.js"
+    "static/js/main.b57f7687.chunk.js"
   ]
 }
