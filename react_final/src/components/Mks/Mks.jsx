@@ -51,7 +51,7 @@ class Mks extends Component {
             }
 
             try {
-                let response = await fetch('http://api.open-notify.org/astros.json')
+                let response = await fetch('https://api.open-notify.org/astros.json')
                 let data = await response.json();
                 this.setState({
                     people: data.people

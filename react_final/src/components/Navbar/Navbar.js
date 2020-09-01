@@ -5,7 +5,7 @@ const Navbar = () => {
     return (
         <>
             <div>
-                <NavLink  to='/profile'>Профиль</NavLink>
+                <NavLink  to='/profile'>Профиль!</NavLink>
             </div>
             <div>
                 <NavLink  to='/dialogs'>Сообщения</NavLink>

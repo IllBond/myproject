@@ -58,7 +58,6 @@ export let APILoadIMG = (file) => {
     })
 };
 
-
 export let APIUpdatae_users_data = (data) => {
     return instance.put(`profile`, data)
 };
@@ -68,6 +67,6 @@ export let APIGet_Captcha = () => {
 };
 
 export let API_News = () => {
-    return axios.get('http://newsapi.org/v2/top-headlines?country=ua&apiKey=8fc9533cea184cbd8aca3f63b7d3c68b')
+    return axios.get('https://newsapi.org/v2/top-headlines?country=ua&apiKey=8fc9533cea184cbd8aca3f63b7d3c68b')
 }
 

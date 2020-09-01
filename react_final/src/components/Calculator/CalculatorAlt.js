@@ -38,6 +38,7 @@ class CalculatorAlt extends React.Component {
 
 
     render() {
+
         if (this.state.request) {
             let calculate = () => {
                 let unit = this.state.request.distance.unit
