@@ -171,14 +171,13 @@ class Game extends Component {
                 40: 'down'
             };
 
-            // eslint-disable-next-line no-undef
-            jQuery('body').keydown(function (event) {
+            window.addEventListener('keydown',(function (event) {
                 let newDirection = direction[event.keyCode];
                 // console.log(newDirection)
                 if (newDirection !== undefined) {
                     snake.setDirection(newDirection);
                 }
-            });
+            }));
 
 
             let snake = new Snake();
